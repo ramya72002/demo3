@@ -1,0 +1,127 @@
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  flex: 1;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 70%;
+  background-color: #1a3551;
+  opacity: 0;
+  animation: slideOverlay 2s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.image-gallery {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.slide-from-left {
+  animation: slideInFromLeft 2s ease-in-out forwards;
+  animation-delay: 4s; /* Delayed to start after overlay animation */
+}
+
+.slide-from-right {
+  animation: slideInFromRight 2s ease-in-out forwards;
+  animation-delay: 4s; /* Delayed to start after overlay animation */
+}
+
+.footer {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  background-color: #1a3551;
+  color: gold;
+  padding: 20px 0;
+  opacity: 0;
+  animation: slideUpFooter 2s ease-in-out forwards;
+  animation-delay: 3s;
+}
+
+@keyframes slideOverlay {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpFooter {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.text {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  padding: 0 20px;
+  height: 100%;
+  text-align: left;
+}
+
+h1 {
+  margin: 0;
+  color: gold;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  color: white;
+  text-align: left;
+}
+
+ul li {
+  margin: 0;
+}
