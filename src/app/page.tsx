@@ -53,18 +53,18 @@ const Hero: React.FC = () => {
 
                 {imagesVisible && (
                     <div className="image-gallery">
-                        <div className="slide-from-left">
-                            <Image src="/images/image1.png" alt="Image 1" width={300} height={200} />
+                        <div >
+                            <Image src="/images/image1.png" alt="Image 1" width={400} height={200} />
                         </div>
-                        <div className="slide-from-right">
-                            <Image src="/images/image2.png" alt="Image 2" width={300} height={200} />
+                        <div >
+                            <Image src="/images/image2.png" alt="Image 2" width={400} height={200} />
                         </div>
                     </div>
                 )}
             </div>
 
             <div className="footer">
-                <h2>An elite online marketplace for leading FinCrime professionals in <span>leadership roles</span></h2>
+            <h2>An elite online marketplace for leading<span className="text-white"> FinCrime</span>  professionals in <span className="text-white">leadership</span> roles</h2>
             </div>
         </div>
     );
