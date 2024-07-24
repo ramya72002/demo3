@@ -38,7 +38,13 @@ const Hero: React.FC = () => {
 
                 <div className="overlay">
                     <h2>
+                    
+                       
                         <div className="text">
+                        <div className="image-center-container">
+                            <Image src="/images/logo.png" alt="Image 1" width={400} height={150} />
+                            </div>
+                                        
                             <h1>Discover the Excellence</h1>
                             <ul>
                                 <li>AML</li>
