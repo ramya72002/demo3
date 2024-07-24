@@ -37,32 +37,31 @@ const Hero: React.FC = () => {
                 </div>
 
                 <div className="overlay">
-                    <h2>
-                    
-                       
-                        <div className="text">
-                        <div className="image-center-container">
-                            <Image src="/images/logo.png" alt="Image 1" width={400} height={150} />
-                            </div>
-                                        
-                            <h1>Discover the Excellence</h1>
-                            <ul>
-                                <li>AML</li>
-                                <li>KYC</li>
-                                <li>Sanctions</li>
-                                <li>Anti-Fraud</li>
-                                <li>Anti-Bribery</li>
-                            </ul>
-                        </div>
-                    </h2>
+                    <Image 
+                        src="/images/logo.png" 
+                        alt="Logo" 
+                        className="center-top-image"
+                        width={200}
+                        height={100}
+                    />
+                    <div className="text">
+                        <h1 className="left-text">Discover the Excellence</h1>
+                        <ul className="right-text">
+                            <li>AML</li>
+                            <li>KYC</li>
+                            <li>Sanctions</li>
+                            <li>Anti-Fraud</li>
+                            <li>Anti-Bribery</li>
+                        </ul>
+                    </div>
                 </div>
 
                 {imagesVisible && (
                     <div className="image-gallery">
-                        <div >
+                        <div>
                             <Image src="/images/image1.png" alt="Image 1" width={400} height={200} />
                         </div>
-                        <div >
+                        <div>
                             <Image src="/images/image2.png" alt="Image 2" width={400} height={200} />
                         </div>
                     </div>
@@ -70,7 +69,7 @@ const Hero: React.FC = () => {
             </div>
 
             <div className="footer">
-            <h2>An elite online marketplace for leading<span className="text-white"> FinCrime</span>  professionals in <span className="text-white">leadership</span> roles</h2>
+                <h2>An elite online marketplace for leading<span className="text-white"> FinCrime</span> professionals in <span className="text-white">leadership</span> roles</h2>
             </div>
         </div>
     );
