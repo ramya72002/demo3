@@ -7,22 +7,20 @@ const Hero: React.FC = () => {
     const [visibleTextIndex, setVisibleTextIndex] = useState(0);
     const [imagesVisible, setImagesVisible] = useState(false);
     const texts = ['AML', 'KYC', 'Sanctions', 'Anti-Fraud', 'Anti-Bribery'];
+    const router = useRouter();
 
     useEffect(() => {
-        const initialDelay = setTimeout(() => {
-            const interval = setInterval(() => {
-                setVisibleTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-            }, 2000); // Duration each item is visible
-            return () => clearInterval(interval);
-        }, 1000); // Initial delay before starting the animation
+        const interval = setInterval(() => {
+            setVisibleTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+        }, 1000);
 
-        return () => clearTimeout(initialDelay);
+        return () => clearInterval(interval);
     }, [texts.length]);
 
     useEffect(() => {
         const overlayTimeout = setTimeout(() => {
             setImagesVisible(true);
-        }, 4000); // Matches the duration of the overlay animation
+        }, 4000);
 
         return () => clearTimeout(overlayTimeout);
     }, []);
@@ -35,21 +33,17 @@ const Hero: React.FC = () => {
                 </div>
 
                 <div className="overlay">
-                    <h2>
-                        <div className="text">
-                            <div className="image-center-container">
-                                <Image src="/images/logo.png" alt="Image 1" width={400} height={150} />
-                            </div>
-                            <h1>Discover the Excellence</h1>
-                            <ul>
-                                {texts.map((text, index) => (
-                                    <li key={text} className={visibleTextIndex === index ? 'visible' : 'hidden'}>
-                                        {text}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </h2>
+                    <Image
+                        src="/images/logo.png"
+                        alt="Logo"
+                        className="center-top-image"
+                        width={200}
+                        height={100}
+                    />
+                    <div className="text">
+                        <h1 className="left-text">Discover the Excellence</h1>
+                        <div className="right-text">{texts[visibleTextIndex]}</div>
+                    </div>
                 </div>
 
                 {imagesVisible && (

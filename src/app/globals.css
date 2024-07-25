@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Corben:wght@400;700&display=swap');
 .hero-container {
   position: relative;
   width: 100%;
@@ -21,7 +22,51 @@
   opacity: 0;
   animation: slideOverlay 2s ease-in-out forwards;
   animation-delay: 2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
 }
+
+.center-top-image {
+  width: auto;
+  height: 250px;
+  margin-bottom: 20px;
+}
+
+.text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.left-text {
+  color: #a67c52;
+  font-family: "Corben", serif;
+  font-size: 60px;
+  transform: translateY(-50%);
+  position: relative;
+  margin-left: 140px;
+}
+
+.right-text {
+  color: white;
+  font-family: "Corben", serif;
+  font-weight: 700;
+  font-size: 37px;
+  position: relative;
+  margin-right: 50px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+
+.right-text li {
+  transition: opacity 0.5s ease-in-out;
+}
+
 
 .image-gallery {
   position: absolute;
@@ -32,16 +77,6 @@
   margin: 0;
   padding: 0 20px;
   box-sizing: border-box;
-}
-
-.slide-from-left {
-  animation: slideInFromLeft 2s ease-in-out forwards;
-  animation-delay: 4s; /* Delayed to start after overlay animation */
-}
-
-.slide-from-right {
-  animation: slideInFromRight 2s ease-in-out forwards;
-  animation-delay: 4s; /* Delayed to start after overlay animation */
 }
 
 .footer {
@@ -105,11 +140,12 @@
 
 
 
-h1 {
-  margin: 0;
+h1{
+  display: flex;
   color: #a67c52; 
   transform: translate(-830px, 200px);
-  font-weight:400;
+  font-family: "Corben", serif;
+  font: weight 1000px;
   position:relative;
 }
 .image-center-container {
@@ -141,8 +177,8 @@ ul {
 
 ul li {
   margin: 0;
-  font-weight: 500;
-  margin-bottom: 0px; /* Adjust spacing between items */
+  font-family: "Corben", serif;
+  font-weight: 700;  
 }
 
 /* Show the currently visible item */
