@@ -4,19 +4,17 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 const Hero: React.FC = () => {
-    const [visibleTextIndex, setVisibleTextIndex] = useState(-1);
+    const [visibleTextIndex, setVisibleTextIndex] = useState(0);
     const [imagesVisible, setImagesVisible] = useState(false);
-    const texts = ['About Us', 'Student Login', 'Tournaments', 'Clubs'];
-    const router = useRouter();
+    const texts = ['AML', 'KYC', 'Sanctions', 'Anti-Fraud', 'Anti-Bribery'];
 
     useEffect(() => {
         const initialDelay = setTimeout(() => {
-            setVisibleTextIndex(0);
             const interval = setInterval(() => {
                 setVisibleTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-            }, 1000);
+            }, 2000); // Duration each item is visible
             return () => clearInterval(interval);
-        }, 1000);
+        }, 1000); // Initial delay before starting the animation
 
         return () => clearTimeout(initialDelay);
     }, [texts.length]);
@@ -38,20 +36,17 @@ const Hero: React.FC = () => {
 
                 <div className="overlay">
                     <h2>
-                    
-                       
                         <div className="text">
-                        <div className="image-center-container">
-                            <Image src="/images/logo.png" alt="Image 1" width={400} height={150} />
+                            <div className="image-center-container">
+                                <Image src="/images/logo.png" alt="Image 1" width={400} height={150} />
                             </div>
-                                        
                             <h1>Discover the Excellence</h1>
                             <ul>
-                                <li>AML</li>
-                                <li>KYC</li>
-                                <li>Sanctions</li>
-                                <li>Anti-Fraud</li>
-                                <li>Anti-Bribery</li>
+                                {texts.map((text, index) => (
+                                    <li key={text} className={visibleTextIndex === index ? 'visible' : 'hidden'}>
+                                        {text}
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </h2>
@@ -59,10 +54,10 @@ const Hero: React.FC = () => {
 
                 {imagesVisible && (
                     <div className="image-gallery">
-                        <div >
+                        <div>
                             <Image src="/images/image1.png" alt="Image 1" width={400} height={200} />
                         </div>
-                        <div >
+                        <div>
                             <Image src="/images/image2.png" alt="Image 2" width={400} height={200} />
                         </div>
                     </div>
@@ -70,7 +65,7 @@ const Hero: React.FC = () => {
             </div>
 
             <div className="footer">
-            <h2>An elite online marketplace for leading<span className="text-white"> FinCrime</span>  professionals in <span className="text-white">leadership</span> roles</h2>
+                <h2>An elite online marketplace for leading<span className="text-white"> FinCrime</span> professionals in <span className="text-white">leadership</span> roles</h2>
             </div>
         </div>
     );

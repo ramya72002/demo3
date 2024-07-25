@@ -103,15 +103,7 @@
   }
 }
 
-.text {
-  display: flex;
-  justify-content: space-between;
-  align-items: left;
-  padding: 0 20px;
-  height: 100%;
-  text-align: left;
-  /* font-weight: 100; Add font weight for text */
-}
+
 
 h1 {
   margin: 0;
@@ -130,19 +122,33 @@ h1 {
   box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
+.text {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  padding: 0 20px;
+  height: 100%;
+  text-align: left;
+ }
 ul {
   list-style-type: none;
   transform: translate(-90px, 50px);
   padding: 40px;
   margin: 0;
   color: white;
-  text-align: left;
-  font-weight: 300;  
-  line-height: 1.5;
+  flex-direction: column; /* Display list items in a column */
 }
 
 ul li {
   margin: 0;
-  font-weight: 500;  
+  font-weight: 500;
+  margin-bottom: 0px; /* Adjust spacing between items */
 }
 
+/* Show the currently visible item */
+.visible {
+  opacity: 1;
+}
+.hidden {
+  opacity: 0;
+}
