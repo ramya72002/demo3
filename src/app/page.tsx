@@ -41,8 +41,8 @@ const Hero: React.FC = () => {
                         height={100}
                     />
                     <div className="text">
-                        <h1 className="left-text">Discover the Excellence</h1>
-                        <div className="right-text">{texts[visibleTextIndex]}</div>
+                        <h1 className="left-text">Discover the Excellence <div className="right-text">{texts[visibleTextIndex]}</div></h1>
+
                     </div>
                 </div>
 
