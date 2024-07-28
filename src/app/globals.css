@@ -127,8 +127,8 @@
   .right-text {
     font-size: 30px;
     margin-right: 20px;
-    text-align: center;
-    transform: translate(10px, 4px);
+    text-align: left;
+    transform: translate(30px, 4px);
    }
 
   .image-gallery {
