@@ -1,14 +1,12 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+ import Image from 'next/image';
 
 const Hero: React.FC = () => {
     const [visibleTextIndex, setVisibleTextIndex] = useState(0);
     const [imagesVisible, setImagesVisible] = useState(false);
     const texts = ['AML', 'KYC', 'Sanctions', 'Anti-Fraud', 'Anti-Bribery'];
-    const router = useRouter();
-
+ 
     useEffect(() => {
         const interval = setInterval(() => {
             setVisibleTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
