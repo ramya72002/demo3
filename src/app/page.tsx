@@ -66,7 +66,7 @@ const Hero: React.FC = () => {
                                 alt="Image 1"
                                 width={400}
                                 height={200}
-                                style={isMobile ? { height: '150px',width:'150px' } : {}}
+                                style={isMobile ? { height: '100px',width:'100px' } : {}}
                             />
                         </div>
                         <div className="im2">
@@ -75,7 +75,7 @@ const Hero: React.FC = () => {
                                 alt="Image 2"
                                 width={400}
                                 height={200}
-                                style={isMobile ? { height: '150px',width:'150px' } : {}}
+                                style={isMobile ? { height: '100px',width:'100px' } : {}}
                             />
                         </div>
                     </div>
