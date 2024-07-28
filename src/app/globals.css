@@ -133,7 +133,7 @@
 
   .image-gallery {
     flex-direction: column;
-    transform: translate(-30px, -154px);
+    transform: translate(-30px, -122px);
     height:100px;
 
     width:50px;
@@ -147,7 +147,7 @@
 
   }
   .im2{
-     transform: translate(290px, -104px);
+     transform: translate(200px, 4px);
     
       
   }
