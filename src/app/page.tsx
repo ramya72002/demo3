@@ -1,12 +1,14 @@
 "use client";
 import React, { useEffect, useState } from 'react';
- import Image from 'next/image';
+import Image from 'next/image';
 
 const Hero: React.FC = () => {
     const [visibleTextIndex, setVisibleTextIndex] = useState(0);
     const [imagesVisible, setImagesVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
     const texts = ['AML', 'KYC', 'Sanctions', 'Anti-Fraud', 'Anti-Bribery'];
- 
+
     useEffect(() => {
         const interval = setInterval(() => {
             setVisibleTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
@@ -21,6 +23,19 @@ const Hero: React.FC = () => {
         }, 4000);
 
         return () => clearTimeout(overlayTimeout);
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        handleResize(); // Set initial state
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     return (
@@ -40,17 +55,28 @@ const Hero: React.FC = () => {
                     />
                     <div className="text">
                         <h1 className="left-text">Discover the Excellence <div className="right-text">{texts[visibleTextIndex]}</div></h1>
-
                     </div>
                 </div>
 
                 {imagesVisible && (
                     <div className="image-gallery">
-                        <div>
-                            <Image src="/images/image1.png" alt="Image 1" width={400} height={200} />
+                        <div className="im1">
+                            <Image
+                                src="/images/image1.png"
+                                alt="Image 1"
+                                width={400}
+                                height={200}
+                                style={isMobile ? { height: '150px',width:'160px' } : {}}
+                            />
                         </div>
-                        <div>
-                            <Image src="/images/image2.png" alt="Image 2" width={400} height={200} />
+                        <div className="im2">
+                            <Image
+                                src="/images/image2.png"
+                                alt="Image 2"
+                                width={400}
+                                height={200}
+                                style={isMobile ? { height: '150px',width:'160px' } : {}}
+                            />
                         </div>
                     </div>
                 )}

@@ -72,6 +72,11 @@
   justify-content: space-around;
   padding: 0 20px;
   box-sizing: border-box;
+  
+}
+.im1{
+  width: 20%;
+  height: 200px;
 }
 
 .footer {
@@ -114,24 +119,41 @@
 
 @media (max-width: 768px) {
   .left-text {
-    font-size: 40px;
-    margin-left: 20px;
-    text-align: center;
+    font-size: 30px;
+    margin-left: -90px;
+    /* text-align: center; */
   }
 
   .right-text {
-    font-size: 24px;
+    font-size: 30px;
     margin-right: 20px;
     text-align: center;
-  }
+    transform: translate(10px, 4px);
+   }
 
   .image-gallery {
     flex-direction: column;
-    align-items: center;
+    transform: translate(-30px, -154px);
+    height:100px;
+
+    width:50px;
+    
+  }
+  
+  
+  .im1{
+    
+    transform: translate(50px, 54px);
+
+  }
+  .im2{
+     transform: translate(290px, -104px);
+    
+      
   }
 
   .center-top-image {
-    height: 80px;
+    height: 100px;
   }
 
   .footer {
