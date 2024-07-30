@@ -117,9 +117,9 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   .left-text {
-    font-size: 25px;
+    font-size: 20px;
     margin-left: -90px;
     /* text-align: center; */
   }
@@ -137,13 +137,16 @@
   }
 
   .im1 {
-    transform: translate(80px, 105px);
+    transform: translate(50px, 120px);
   }
 
   .im2 {
-    transform: translate(-31px, -10px);
+    transform: translate(-13px, 5px);
   }
-
+  .overlay img{
+    width: 250px;
+    height: 100px;
+  }
   .im1 img,
   .im2 img {
     width: 200px !important;  /* Increased width */
@@ -152,7 +155,8 @@
 
   .footer {
     font-size: 14px;
-    padding: 10px 0;
+    padding: -20px 0;
+    margin-bottom: 40px;
   }
 
   /* Stop scrolling */
