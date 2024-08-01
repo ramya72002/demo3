@@ -40,11 +40,6 @@ const Hero = () => {
       </div>
       <div className='image-container'>
         <div className="overlay">
-          <div className="hero-content">
-            <div className="logo-image">
-              <Image src="/images/logo.png" alt="Logo" layout="fill" objectFit="cover" />
-            </div>
-          </div>
           <div className="logo-text-container">
             <div className="logo-text">
               Discover the Excellence in
