@@ -25,11 +25,11 @@ const StudentLogin = () => {
       </p>
       <div className="login-options">
         <button className="google-login" onClick={handleGoogleLogin}>
-          <img src="google-logo.png" alt="Google logo" />
+          <img src="/images/google-logo.png" alt="Google logo" />
           Continue with Google
         </button>
         <button className="apple-login">
-          <img src="apple-logo.png" alt="Apple logo" />
+          <img src="/images/apple-logo.png" alt="Apple logo" />
           Continue with Apple
         </button>
         <div className="divider">or</div>
