@@ -1,0 +1,43 @@
+'use client'
+import React, { useState } from 'react';
+import './Opportunities.scss';
+
+const Opportunities = () => {
+  const [activeFilter, setActiveFilter] = useState(null);
+
+  const handleFilterClick = (filter:any) => {
+    setActiveFilter(filter);
+  };
+
+  return (
+    <div className="opportunities">
+      <h1 className="quote">Find the job that fits your life.</h1>
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Job title, keywords, or company"
+          className="search-input"
+        />
+        <input
+          type="text"
+          placeholder="Mumbai, Maharashtra"
+          className="location-input"
+        />
+        <button className="search-button">Find jobs</button>
+      </div>
+      <div className="filters">
+        {['Date posted', 'Remote', 'Within 25 kilometres', 'Pay', 'Job type', 'Skills', 'Occupation', 'Education level', 'Language requirement', 'Location', 'Company', 'Job Language'].map(filter => (
+          <button
+            key={filter}
+            className={activeFilter === filter ? 'active' : ''}
+            onClick={() => handleFilterClick(filter)}
+          >
+            {filter}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Opportunities;
