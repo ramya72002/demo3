@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Corben:wght@400;700&display=swap');
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 70%;
+    background-color: #1a3551;
+    opacity: 0;
+    animation: slideOverlay 1s ease-in-out forwards;
+    animation-delay: 1s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    overflow: visible; // Ensure the image zoom effect is visible
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1; // Ensure the content is above the images
+  }
+
+  .logo-image {
+    position: relative;
+    width: 350px;  // Set the desired width
+    height: 100px; // Set the desired height
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo-text-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; // Add space between the main text and the dynamic text
+    width: 100%; // Ensures the container takes full width
+    max-width: 1200px; // Optional: set a max width for the container
+    margin: 0 auto; // Center align the container
+    text-align: center; // Center text horizontally
+    position: relative; // Ensures the text remains in place
+  }
+
+  .logo-text {
+    color: #a67c52;
+    font-family: "Corben", serif;
+    font-size: 50px;
+    margin-right: 20px;
+  }
+
+  
+  .dynamic-text {
+    font-family: "Corben", serif;
+    font-size: 50px;
+    color: #ffffff; // Adjust color if needed
+  }
+
+  .image-container {
+    display: flex;
+    gap: 20px; // Space between the images
+    width: 100%;
+    height: 50%; // Adjust based on your design
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+
+    .image-item {
+      position: absolute;
+      width: 50%; // Each image takes half of the container width
+      height: 100%;
+      transform: scale(1); // Initial scale
+      transition: transform 0.5s ease-in-out;
+      
+      &:first-of-type {
+        left: 0; // Position first image on the left
+        clip-path: inset(0 50% 0 0); // Clip the right half of the first image
+      }
+      
+      &:last-of-type {
+        right: 0; // Position second image on the right
+        clip-path: inset(0 0 0 50%); // Clip the left half of the second image
+      }
+      
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+
+      &:hover {
+        transform: scale(1.1); // Zoom-in effect
+      }
+    }
+  }
+
+  @keyframes slideOverlay {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Header from './header/page';
-
+ 
 const Hero: React.FC = () => {
     const [visibleTextIndex, setVisibleTextIndex] = useState(0);
     const [imagesVisible, setImagesVisible] = useState(false);
@@ -41,7 +40,7 @@ const Hero: React.FC = () => {
 
     return (
         <div className="hero-container">
-            <Header />
+            <header />
             <div className="image-container">
                 <div className="background-image">
                     <Image src="/images/C1.png" alt="C1" layout="fill" objectFit="cover" />
