@@ -1,88 +1,92 @@
+
 .opportunities {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  .quote {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+
+  .search-bar {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 20px;
-  
-    .quote {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: #333;
-      text-align: center;
-    }
-  
-    .search-bar {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-  
-      .search-input,
-      .location-input {
-        padding: 12px;
-        margin-right: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        width: 300px;
-        font-size: 1rem;
-        background-color: #fff;
-        transition: border-color 0.3s ease;
-  
-        &:focus {
-          border-color: #FFD700; // Gold color on focus
-        }
-      }
-  
-      .search-button {
-        padding: 10px 20px;
-        border: none;
-        background-color: #0073b1;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  
-        &:hover {
-          background-color: #005a8c;
-        }
+    margin-bottom: 20px;
+
+    .search-input,
+    .location-input {
+      padding: 12px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 300px;
+      font-size: 1rem;
+      background-color: #fff;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: #FFD700; // Gold color on focus
       }
     }
-  
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-  
-      select {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #fff;
-        cursor: pointer;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        min-width: 180px; /* Adjust based on content or layout needs */
-  
-        &:hover,
-        &:focus {
-          border-color: #0073b1;
-          box-shadow: 0 0 5px rgba(0, 115, 177, 0.5);
-        }
-  
-        &.active {
-          border-color: #0073b1;
-          background-color: #e6f0fa;
-        }
-  
-        option {
-          padding: 10px; /* Ensure sufficient space for readability */
-          background-color: #fff;
-          color: #333;
-  
-          &:hover {
-            background-color: #f2f2f2;
-          }
-        }
+
+    .search-button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #0073b1;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #005a8c;
       }
     }
   }
-  
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      cursor: pointer;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      min-width: 180px; /* Adjust based on content or layout needs */
+
+      &:hover,
+      &:focus {
+        border-color: #0073b1;
+        box-shadow: 0 0 5px rgba(0, 115, 177, 0.5);
+      }
+
+      &.active {
+        border-color: #0073b1;
+        background-color: #e6f0fa;
+      }
+
+      option {
+        padding: 10px; /* Ensure sufficient space for readability */
+        background-color: #fff;
+        color: #333;
+
+        &:hover {
+          background-color: #f2f2f2;
+        }
+      }
+    }
+
+    .filter-icon {
+      margin-right: 5px;
+    }
+  }
+}

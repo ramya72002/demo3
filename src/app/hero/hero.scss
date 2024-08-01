@@ -1,4 +1,3 @@
-// @import url('https://fonts.googleapis.com/css2?family=Corben:wght@400;700&display=swap');
 .hero-container {
   position: relative;
   width: 100%;
@@ -20,7 +19,7 @@
   .overlay {
     position: absolute;
     width: 100%;
-    height: 70%;
+    height: 100%;
     background-color: #1a3551;
     opacity: 0;
     animation: slideOverlay 1s ease-in-out forwards;
@@ -63,15 +62,12 @@
 
   .logo-text {
     color: #a67c52;
-    font-family: "Corben", serif;
     font-size: 40px;
-    margin-right: 20px;
     font-weight: bold;
   }
 
   .dynamic-text {
-    font-family: "Corben", serif;
-    font-size: 40px;
+     font-size: 40px;
     font-weight: bold;
     color: #ffffff; // Adjust color if needed
   }
@@ -131,8 +127,7 @@
     bottom: 10px;
     padding-left: 10px;
     color: #fff;
-    font-family: "NeueHaasDisplay-Bold", Sans-serif;
-    font-size: 20px;
+     font-size: 20px;
     text-align: left;
     font-weight: 800;
     display: flex; // Ensures the arrow and text are aligned

@@ -47,7 +47,7 @@ const Hero = () => {
           </div>
           <div className="logo-text-container">
             <div className="logo-text">
-              Discover the Excellence
+              Discover the Excellence in
             </div>
             <div className="dynamic-text">
               {texts[visibleTextIndex]}
@@ -60,8 +60,8 @@ const Hero = () => {
               <Image
                 src="/images/image1.png"
                 alt="Image 1"
-                width={400}
-                height={200}
+                width={250}
+                height={250}
               />
               <div className="text-overlay1">OPPORTUNITIES</div> 
             </div>
@@ -69,8 +69,8 @@ const Hero = () => {
               <Image
                 src="/images/image2.png"
                 alt="Image 2"
-                width={400}
-                height={200}
+                width={250}
+                height={250}
               />
               <div className="text-overlay1">HIRE TALENT</div> 
             </div>
