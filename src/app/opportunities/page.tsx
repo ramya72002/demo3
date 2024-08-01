@@ -33,7 +33,7 @@ const Opportunities = () => {
     WorkMode: ['Remote', 'On-site', 'Hybrid'],
     SubDomain: ['Frontend', 'Backend', 'Fullstack'],
     Location: ['Mumbai', 'Pune', 'Bangalore'],
-    Eexperience: ['Fresher', '1-3 years', '3-5 years', '5+ years'],
+    Experience: ['Fresher', '1-3 years', '3-5 years', '5+ years'],
     Sector: ['IT', 'Healthcare', 'Finance'],
     Skills: ['React', 'Node.js', 'Python'],
   };
