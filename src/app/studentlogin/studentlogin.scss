@@ -1,0 +1,84 @@
+.student-login-container {
+    width: 300px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  
+    h2 {
+      margin-bottom: 10px;
+    }
+  
+    p {
+      font-size: 14px;
+      margin-bottom: 10px;
+      a {
+        color: #0073b1;
+        text-decoration: none;
+      }
+    }
+  
+    .login-options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      .google-login, .apple-login, .continue-btn {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+  
+      .google-login {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        color: #444;
+        img {
+          margin-right: 10px;
+        }
+      }
+  
+      .apple-login {
+        background-color: #000;
+        color: #fff;
+        img {
+          margin-right: 10px;
+        }
+      }
+  
+      .divider {
+        margin: 20px 0;
+        font-size: 14px;
+        color: #888;
+      }
+  
+      input {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+  
+      .continue-btn {
+        background-color: #0073b1;
+        color: #fff;
+      }
+    }
+  
+    .footer-text {
+      font-size: 12px;
+      color: #888;
+      margin-top: 20px;
+    }
+  }
+  
