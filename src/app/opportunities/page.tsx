@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import Joblist from '../joblist/page';
 import './opportunities.scss';
 
 const Opportunities = () => {
@@ -36,6 +37,7 @@ const Opportunities = () => {
           </button>
         ))}
       </div>
+      <Joblist />
     </div>
   );
 };
