@@ -1,7 +1,17 @@
+// Ensure this directive is at the top of your component file
+"use client";
+
 import React from 'react';
 import './studentlogin.scss';
 
 const StudentLogin = () => {
+
+  const handleGoogleLogin = () => {
+    // Redirect to the login URL
+    const googleLoginUrl = 'https://demo4-backend.vercel.app/login';
+    window.location.href = googleLoginUrl;
+  };
+
   return (
     <div className="student-login-container">
       <h2>Ready to take the next step?</h2>
@@ -14,7 +24,7 @@ const StudentLogin = () => {
         the unsubscribe link in our messages, or as detailed in our terms.
       </p>
       <div className="login-options">
-        <button className="google-login">
+        <button className="google-login" onClick={handleGoogleLogin}>
           <img src="google-logo.png" alt="Google logo" />
           Continue with Google
         </button>
