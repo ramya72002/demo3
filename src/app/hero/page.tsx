@@ -58,7 +58,7 @@ const Hero = () => {
           <div className="image-gallery">
             <div className="im1" onClick={() => handleImageClick('/opportunities')}>
               <Image
-                src="/images/image1.png"
+                src="/images/image.png"
                 alt="Image 1"
                 width={250}
                 height={250}
@@ -67,7 +67,7 @@ const Hero = () => {
             </div>
             <div className="im2">
               <Image
-                src="/images/image2.png"
+                src="/images/image.png"
                 alt="Image 2"
                 width={250}
                 height={250}
