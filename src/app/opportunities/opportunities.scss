@@ -18,11 +18,18 @@
   
       .search-input,
       .location-input {
-        padding: 10px;
+        padding: 12px;
         margin-right: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         width: 300px;
+        font-size: 1rem;
+        background-color: #fff;
+        transition: border-color 0.3s ease;
+  
+        &:focus {
+          border-color: #FFD700; // Gold color on focus
+        }
       }
   
       .search-button {

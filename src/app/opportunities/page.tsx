@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Joblist from '../joblist/page';
+import LoginHeader from '../loginHeader/page';
 import './opportunities.scss';
 
 type Filters = {
@@ -40,6 +41,7 @@ const Opportunities = () => {
 
   return (
     <div className="opportunities">
+        <LoginHeader />
       <h1 className="quote">Find the job that fits your life.</h1>
       <div className="search-bar">
         <input

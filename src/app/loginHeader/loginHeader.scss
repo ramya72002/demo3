@@ -1,0 +1,38 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+  
+    .login-signin {
+      display: flex;
+      gap: 10px;
+  
+      .login-button,
+      .signin-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #e6f0fa;
+        }
+      }
+  
+      .login-button {
+        background-color: #0073b1;
+        color: white;
+      }
+  
+      .signin-button {
+        background-color: #ffffff;
+        color: #0073b1;
+        border: 1px solid #0073b1;
+      }
+    }
+  }
+  
