@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import './Opportunities.scss';
+import './opportunities.scss';
 
 const Opportunities = () => {
   const [activeFilter, setActiveFilter] = useState(null);
