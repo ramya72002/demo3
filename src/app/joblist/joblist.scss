@@ -1,4 +1,3 @@
-// joblist.scss
 .joblist {
     display: flex;
     flex-direction: column;
@@ -11,44 +10,64 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    padding: 20px;
+    margin-bottom: 10px;  // Reduced margin-bottom to decrease space between cards
+    padding: 15px;       // Reduced padding inside the card
     width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .job-title, .company-name, .location, .experience {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;        // Reduced margin for line spacing
+  }
+  
+  .job-title i, .company-name i, .location i, .experience i {
+    margin-right: 8px;   // Added space between icon and text
   }
   
   .job-title {
     font-size: 1.2em;
-    margin: 0 0 10px;
+    margin-bottom: 5px;   // Reduced bottom margin
   }
   
   .company-name {
     font-size: 1em;
     color: #555;
-    margin: 0 0 10px;
+    margin-bottom: 5px;   // Reduced bottom margin
   }
   
   .location {
     font-size: 0.9em;
     color: #777;
-    margin: 0 0 10px;
+    margin-bottom: 5px;   // Reduced bottom margin
   }
   
   .experience {
     font-size: 0.9em;
     color: #333;
-    margin: 0 0 10px;
+    margin-bottom: 5px;   // Reduced bottom margin
   }
   
   .skills {
     display: flex;
     flex-wrap: wrap;
+    margin-top: 10px;     // Added margin-top for spacing from the last line
   }
   
   .skill {
     background: #eee;
     border-radius: 4px;
     font-size: 0.8em;
-    margin: 5px;
-    padding: 5px 10px;
+    margin: 2px;          // Reduced margin between skill tags
+    padding: 3px 8px;    // Reduced padding inside skill tags
+    display: flex;
+    align-items: center;
+  }
+  
+  .skill i {
+    margin-right: 4px;    // Added space between skill icon and text
   }
   
