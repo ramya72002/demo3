@@ -27,7 +27,7 @@ const Opportunities = () => {
         <button className="search-button">Find jobs</button>
       </div>
       <div className="filters">
-        {['Date posted', 'Remote', 'Within 25 kilometres', 'Pay', 'Job type', 'Skills', 'Occupation', 'Education level', 'Language requirement', 'Location', 'Company', 'Job Language'].map(filter => (
+        {['Work Mode', 'Sub-Domain', 'Location', 'Experience', 'Sector', 'Skills'].map(filter => (
           <button
             key={filter}
             className={activeFilter === filter ? 'active' : ''}
