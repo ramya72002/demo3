@@ -1,4 +1,5 @@
 'use client';
+import Header from '../header/page';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import './hero.scss';
@@ -16,21 +17,23 @@ const Hero = () => {
 
     return () => clearInterval(interval);
   }, [texts.length]);
-
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const overlayTimeout = setTimeout(() => {
       setShowImages(true);
-    }, 2000); // 2 seconds
+    }, 2000);
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(overlayTimeout);
+}, []);
+
+   
 
   return (
     <div className="hero-container">
+      <Header />
       <div className="background-image">  
         <Image src="/images/C1.png" alt="Background" layout="fill" objectFit="cover" />
       </div>
-      
+      <div className='image-container'>
       <div className="overlay">
         <div className="hero-content">
           <div className="logo-image">
@@ -44,19 +47,37 @@ const Hero = () => {
           <div className="dynamic-text">
             {texts[visibleTextIndex]}
           </div>
-        </div>
-        
-        {showImages && (
-          <div className="image-container">
-            <div className="image-item">
-              <Image src="/images/image1.png" alt="Image 1" layout="fill" objectFit="cover" />
-            </div>
-            <div className="image-item">
-              <Image src="/images/image2.png" alt="Image 2" layout="fill" objectFit="cover" />
-            </div>
-          </div>
-        )}
+        </div> 
       </div>
+      {showImages && (
+                    <div className="image-gallery">
+                        <div className="im1">
+                            <Image
+                                src="/images/image1.png"
+                                alt="Image 1"
+                                width={400}
+                                height={200}
+                                // style={isMobile ? { height: '100px',width:'100px' } : {}}
+                            />
+                        </div>
+                        <div className="im2">
+                            <Image
+                                src="/images/image2.png"
+                                alt="Image 2"
+                                width={400}
+                                height={200}
+                                // style={isMobile ? { height: '100px',width:'100px' } : {}}
+                            />
+                        </div>
+                    </div>
+                )}
+                
+
+      </div>
+      <div className="footer">
+                <h3>An elite online marketplace for leading<span className="text-white"> FinCrime</span> professionals in <span className="text-white">leadership</span> roles</h3>
+            </div>
+      
     </div>
   );
 };

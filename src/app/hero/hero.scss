@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Corben:wght@400;700&display=swap');
-
 .hero-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; // Use min-height to ensure the container grows with content
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 
   .background-image {
     position: absolute;
@@ -43,7 +46,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 1px;
   }
+  
   .logo-text-container {
     display: flex;
     align-items: center;
@@ -59,55 +64,46 @@
   .logo-text {
     color: #a67c52;
     font-family: "Corben", serif;
-    font-size: 50px;
+    font-size: 40px;
     margin-right: 20px;
+    font-weight: bold;
   }
 
-  
   .dynamic-text {
     font-family: "Corben", serif;
-    font-size: 50px;
+    font-size: 40px;
+    font-weight: bold;
     color: #ffffff; // Adjust color if needed
   }
 
   .image-container {
-    display: flex;
-    gap: 20px; // Space between the images
-    width: 100%;
-    height: 50%; // Adjust based on your design
     position: relative;
+    width: 100%;
     flex: 1;
-    overflow: hidden;
-
-    .image-item {
-      position: absolute;
-      width: 50%; // Each image takes half of the container width
-      height: 100%;
-      transform: scale(1); // Initial scale
-      transition: transform 0.5s ease-in-out;
-      
-      &:first-of-type {
-        left: 0; // Position first image on the left
-        clip-path: inset(0 50% 0 0); // Clip the right half of the first image
-      }
-      
-      &:last-of-type {
-        right: 0; // Position second image on the right
-        clip-path: inset(0 0 0 50%); // Clip the left half of  the second image
-      }
-      
-      img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-      }
-
-      &:hover {
-        transform: scale(1.1); // Zoom-in effect
-      }
-    }
+    overflow: hidden; /* Ensures content doesn't overflow */
   }
 
+  .image-gallery {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .footer {
+    width: 100%;
+    text-align: center;
+    background-color: #1a3551;
+    color: #a67c52;
+    margin-top: auto; // Pushes the footer to the bottom
+    opacity: 0;
+    animation: slideUpFooter 1s ease-in-out forwards;
+    animation-delay: 1s;
+  }
+  
   @keyframes slideOverlay {
     from {
       transform: translateY(-100%);
@@ -116,6 +112,17 @@
     to {
       transform: translateY(0);
       opacity: 1;
+    }
+  }
+
+  @keyframes slideUpFooter {
+    0% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
