@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import './Header.scss';
+import './header.scss';
 
 const Header = () => {
   const router = useRouter();
