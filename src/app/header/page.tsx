@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './header.scss';
+import Image from 'next/image';
 
 const Header = () => {
   const router = useRouter();
   const [activeMenu, setActiveMenu] = useState('');
 
-  const handleNavigation = (path:any) => {
+  const handleNavigation = (path: any) => {
     setActiveMenu(path);
     router.push(path);
   };
@@ -15,6 +16,9 @@ const Header = () => {
   return (
     <div className="header">
       <nav className="navbar">
+        <div className="logo-image">
+          <Image src="/images/logo.png" alt="Logo" width={125} height={50} />
+        </div>
         <ul className="nav-list">
           <li
             className={`nav-item ${activeMenu === '/' ? 'active' : ''}`}
