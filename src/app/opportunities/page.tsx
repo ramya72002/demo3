@@ -3,11 +3,39 @@ import React, { useState } from 'react';
 import Joblist from '../joblist/page';
 import './opportunities.scss';
 
-const Opportunities = () => {
-  const [activeFilter, setActiveFilter] = useState(null);
+type Filters = {
+  WorkMode: string;
+  SubDomain: string;
+  Location: string;
+  Experience: string;
+  Sector: string;
+  Skills: string;
+};
 
-  const handleFilterClick = (filter:any) => {
-    setActiveFilter(filter);
+const Opportunities = () => {
+  const [filters, setFilters] = useState<Filters>({
+    WorkMode: '',
+    SubDomain: '',
+    Location: '',
+    Experience: '',
+    Sector: '',
+    Skills: '',
+  });
+
+  const handleFilterChange = (filterName: keyof Filters, value: string) => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
+  };
+
+  const filterOptions: Record<keyof Filters, string[]> = {
+    WorkMode: ['Remote', 'On-site', 'Hybrid'],
+    SubDomain: ['Frontend', 'Backend', 'Fullstack'],
+    Location: ['Mumbai', 'Pune', 'Bangalore'],
+    Eexperience: ['Fresher', '1-3 years', '3-5 years', '5+ years'],
+    Sector: ['IT', 'Healthcare', 'Finance'],
+    Skills: ['React', 'Node.js', 'Python'],
   };
 
   return (
@@ -27,14 +55,20 @@ const Opportunities = () => {
         <button className="search-button">Find jobs</button>
       </div>
       <div className="filters">
-        {['Work Mode', 'Sub-Domain', 'Location', 'Experience', 'Sector', 'Skills'].map(filter => (
-          <button
-            key={filter}
-            className={activeFilter === filter ? 'active' : ''}
-            onClick={() => handleFilterClick(filter)}
+        {Object.keys(filterOptions).map(filterName => (
+          <select
+            key={filterName}
+            value={filters[filterName as keyof Filters]}
+            onChange={e => handleFilterChange(filterName as keyof Filters, e.target.value)}
+            className={filters[filterName as keyof Filters] ? 'active' : ''}
           >
-            {filter}
-          </button>
+            <option value="">{filterName}</option>
+            {filterOptions[filterName as keyof Filters].map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         ))}
       </div>
       <Joblist />

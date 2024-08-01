@@ -44,22 +44,36 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      margin-bottom: 20px;
   
-      button {
-        padding: 10px 20px;
+      select {
+        padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        background-color: white;
+        background-color: #fff;
         cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        min-width: 180px; /* Adjust based on content or layout needs */
   
-        &:hover {
-          background-color: #e6f0fa;
+        &:hover,
+        &:focus {
+          border-color: #0073b1;
+          box-shadow: 0 0 5px rgba(0, 115, 177, 0.5);
         }
   
         &.active {
-          background-color: #0073b1;
-          color: white;
+          border-color: #0073b1;
+          background-color: #e6f0fa;
+        }
+  
+        option {
+          padding: 10px; /* Ensure sufficient space for readability */
+          background-color: #fff;
+          color: #333;
+  
+          &:hover {
+            background-color: #f2f2f2;
+          }
         }
       }
     }
