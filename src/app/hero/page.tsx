@@ -57,8 +57,8 @@ const Hero = () => {
                                 alt="Image 1"
                                 width={400}
                                 height={200}
-                                // style={isMobile ? { height: '100px',width:'100px' } : {}}
-                            />
+                             />
+                             <div className="text-overlay1">OPPORTUNITIES</div> 
                         </div>
                         <div className="im2">
                             <Image
@@ -66,8 +66,8 @@ const Hero = () => {
                                 alt="Image 2"
                                 width={400}
                                 height={200}
-                                // style={isMobile ? { height: '100px',width:'100px' } : {}}
-                            />
+                             />
+                             <div className="text-overlay1">HIRE TALENT</div> 
                         </div>
                     </div>
                 )}
