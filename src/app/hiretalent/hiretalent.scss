@@ -1,0 +1,39 @@
+.image-gallery {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  .text-overlay1 {
+    position: absolute;
+    bottom: 10px;
+    padding-left: 10px;
+    color: #fff;
+     font-size: 20px;
+    text-align: left;
+    font-weight: 800;
+    display: flex; // Ensures the arrow and text are aligned
+    align-items: center; // Aligns text and arrow vertically
+     
+    &::after {
+      content: '→'; // Arrow symbol
+      cursor: pointer;
+      font-size: 30px;
+
+      margin-left: 10px; // Space between text and arrow
+      font-size: 24px; // Adjust size of the arrow if needed
+      color: #fff; // Arrow color (same as text color)
+    }
+    
+  }
+  .quote {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #1a3551;
+    text-align: center;
+  }
+
+  
