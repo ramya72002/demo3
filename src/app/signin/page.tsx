@@ -23,12 +23,12 @@ const SignInPage = () => {
           </p>
 
           <button className="google-btn">
-            <img src="google-logo.png" alt="Google Logo" />
+          <img src="/images/google-logo.png" alt="Google logo" />
             Continue with Google
           </button>
 
           <button className="apple-btn">
-            <img src="apple-logo.png" alt="Apple Logo" />
+          <img src="/images/apple-logo.png" alt="Apple logo" />
             Continue with Apple
           </button>
 
