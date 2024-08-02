@@ -88,15 +88,20 @@
           background-color: white;
           border: 1px solid #ddd;
           img {
-            margin-right: 10px;
+            height: 24px; // Set the height of the image
+            width: auto; // Maintain aspect ratio
+            margin-right: 85px; // Space between the image and text
           }
         }
         
-        .apple-btn {
-          background-color: black;
-          color: white;
+         .apple-btn {
+          background-color: rgb(255, 255, 255);
+          color: rgb(0, 0, 0);
+          border: 1px solid #ddd;
           img {
-            margin-right: 10px;
+            height: 24px; // Set the height of the image
+            width: auto; // Maintain aspect ratio
+            margin-right: 90px; // Space between the image and text
           }
         }
         
