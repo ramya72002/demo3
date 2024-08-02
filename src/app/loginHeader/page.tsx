@@ -9,11 +9,14 @@ const Header = () => {
   const handleClick = () => {
     router.push('/studentlogin');
   };
+  const handleClick1 = () => {
+    router.push('/signin');
+  };
   return (
     <header className="header">
       <div className="login-signin">
         <button onClick={handleClick} className="login-button">Login</button>
-        <button className="signin-button">Sign In</button>
+        <button onClick={handleClick1} className="signin-button">Sign In</button>
       </div>
     </header>
   );
