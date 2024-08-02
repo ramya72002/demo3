@@ -60,7 +60,7 @@ const Hero = () => {
               />
               <div className="text-overlay1">OPPORTUNITIES</div> 
             </div>
-            <div className="im2">
+            <div className="im2" onClick={() => handleImageClick('/hiretalent')}>
               <Image
                 src="/images/image.png"
                 alt="Image 2"
