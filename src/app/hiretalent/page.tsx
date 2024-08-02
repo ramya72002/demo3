@@ -21,7 +21,7 @@ const Hiretalent = () => {
                 width={250}
                 height={250}
               />
-              <div className="text-overlay1">OPPORTUNITIES</div> 
+              <div className="text-overlay1">Post A Job</div> 
             </div>
             <div className="im2" onClick={() => handleImageClick('/hiretalent')}>
               <Image
@@ -30,7 +30,7 @@ const Hiretalent = () => {
                 width={250}
                 height={250}
               />
-              <div className="text-overlay1">HIRE TALENT</div> 
+              <div className="text-overlay1">Find TALENT</div> 
             </div>
           </div>
           </div>
