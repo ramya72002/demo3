@@ -72,8 +72,6 @@
         
         .google-btn, .apple-btn, .continue-btn {
           display: flex;
-          align-items: center;
-          justify-content: center;
           width: 100%;
           padding: 10px;
           margin-bottom: 15px;
@@ -136,8 +134,10 @@
         }
         
         .continue-btn {
-          background-color: #9eb6e0;
-          color: white;
+            background-color: #9eb6e0;
+            color: white;
+            align-items: center;
+            justify-content: center;
           
           &:hover {
             background-color: #2c407e;
