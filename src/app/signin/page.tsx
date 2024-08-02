@@ -4,8 +4,10 @@ import Header from '../header/page';
 
 const SignInPage = () => {
   return (
+    <div>
+          <Header />
     <div className="signin-page">
-      <Header />
+  
       
       <main className="signin-content">
         <h1>FIND OPPORTUNITIES WITH US</h1>
@@ -41,6 +43,7 @@ const SignInPage = () => {
           <button className="continue-btn">Continue</button>
         </div>
       </main>
+    </div>
     </div>
   );
 };
