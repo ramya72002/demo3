@@ -1,22 +1,11 @@
 import React from "react";
 import './signin.scss';
 import Header from '../header/page';
-import Image from 'next/image';
 
 const SignInPage = () => {
   return (
     <div className="signin-page">
-      <header className="signin-header">
-        <div className="logo">
-        <Image src="/images/logo.png" alt="Logo" width={125} height={50} />
-        </div>
-        <nav>
-          <ul>
-            <li>SIGN IN</li>
-            <li>SIGN UP PAGE</li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
       
       <main className="signin-content">
         <h1>FIND OPPORTUNITIES WITH US</h1>
