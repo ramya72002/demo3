@@ -1,5 +1,5 @@
 import ZohoHeader from '@/app/zohoheader/page';
-import './dashboard.scss';
+import './jobopenings.scss';
 import React from 'react';
 
 const Page = () => {
