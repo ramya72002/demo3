@@ -22,8 +22,8 @@ const ZohoHeader = () => {
         +
         {dropdownVisible && (
           <div className="dropdown-content">
-            <a href="/zoho/dashboard">Job Openings</a>
-            <a href="/zoho/dashboard">Candidates</a>
+            <a href="/zoho/postjobopenings">Job Openings</a>
+            <a href="/zoho/postcandidate">Candidates</a>
           </div>
         )}
       </div>

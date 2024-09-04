@@ -1,0 +1,83 @@
+// Define basic variables for consistent styling
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$border-color: #ced4da;
+$background-color: #f8f9fa;
+$font-color: #495057;
+
+form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: $background-color;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  
+  h2 {
+    color: $primary-color;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    font-size: 1em;
+    color: $font-color;
+    background-color: white;
+
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+  }
+
+  input[type="file"] {
+    padding: 5px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: $primary-color;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}
+
+// Style sections
+h2 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid $secondary-color;
+  padding-bottom: 5px;
+}
+
+// Media queries for responsive design
+@media (max-width: 768px) {
+  form {
+    padding: 10px;
+
+    h2 {
+      font-size: 1.3em;
+    }
+    
+    input, select, textarea {
+      font-size: 0.9em;
+    }
+    
+    button {
+      padding: 8px 16px;
+      font-size: 0.9em;
+    }
+  }
+}

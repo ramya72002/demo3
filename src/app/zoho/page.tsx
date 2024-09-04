@@ -4,9 +4,11 @@ import React from 'react';
 
 const Page = () => {
   return (
+    <div>
+      <ZohoHeader />
     
     <div className="container">
-        <ZohoHeader />
+   
       <div className="pipelineHeader">
         <h1>Hiring Pipeline</h1>
         <button className="expandButton">↗</button>
@@ -34,6 +36,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
