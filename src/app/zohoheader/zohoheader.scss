@@ -1,0 +1,21 @@
+/* zohoheader.scss */
+.header {
+    background-color: #2b3a4a; // Dark blue background
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  
+    .menu-item {
+      color: #ffffff; // White text color
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+      cursor: pointer;
+  
+      &:hover {
+        color: #cccccc; // Lighter color on hover
+      }
+    }
+  }
+  
