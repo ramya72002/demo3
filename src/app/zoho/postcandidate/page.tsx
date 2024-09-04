@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client'
 import React, { useState } from 'react';
-import './postCandidate.scss';
+import './postcandidate.scss';
 import ZohoHeader from '@/app/zohoheader/page';
 
 const PostCandidate = () => {
