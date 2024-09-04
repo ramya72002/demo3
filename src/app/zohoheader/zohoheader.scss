@@ -1,10 +1,15 @@
-/* zohoheader.scss */
 .header {
     background-color: #2b3a4a; // Dark blue background
     padding: 10px 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+  
+    .menu {
+      display: flex;
+      justify-content: space-around;
+      flex-grow: 1;
+    }
   
     .menu-item {
       color: #ffffff; // White text color
@@ -15,6 +20,41 @@
   
       &:hover {
         color: #cccccc; // Lighter color on hover
+      }
+    }
+  
+    .plus-menu {
+      position: relative;
+      color: #ffffff;
+      font-size: 34px;
+      cursor: pointer;
+  
+      &:hover .dropdown-content {
+        display: block;
+      }
+  
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        font-size: 14px;
+        top: 100%;
+        right: 0;
+        background-color: #ffffff;
+        color: #000000;
+        min-width: 10px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+  
+        a {
+          color: #000000;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+  
+          &:hover {
+            background-color: #f1f1f1;
+          }
+        }
       }
     }
   }
