@@ -7,6 +7,13 @@
   margin: 0 auto;
   overflow-x: auto;
 
+  h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+  }
+
   .candidate-stages {
     display: flex;
     justify-content: space-around;

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
 import ZohoHeader from '@/app/zohoheader/page';
 import './candidates.scss'; // Import your SCSS file
@@ -104,6 +104,7 @@ const Candidates: React.FC = () => {
       <ZohoHeader />
 
       {/* Candidate Stages Section */}
+      <h2>Candidate Stage</h2> {/* Added heading */}
       <div className="candidate-stages">
         <div className="stage">
           <span>New</span>
