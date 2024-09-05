@@ -44,7 +44,7 @@ const JobOpenings = () => {
         <table>
           <thead>
             <tr>
-              <th>Job Opening ID</th>
+              <th>select</th>
               <th>postingTitle</th>
               <th>Assigned Recruiter(s)</th>
               <th>targetDate</th>
@@ -58,7 +58,7 @@ const JobOpenings = () => {
           <tbody>
             {jobs.map((job, index) => (
               <tr key={index}>
-                <td>{job['Job Opening ID']}</td>
+                <td>[]</td>
                 <td>{job['postingTitle']}</td>
                 <td>{job['Assigned Recruiter(s)']}</td>
                 {/* Safely access the date */}
