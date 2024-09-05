@@ -75,26 +75,40 @@ const Interviews = () => {
                 <form onSubmit={handleSubmit} className="interview-form">
                     <div className="form-group">
                         <label>Candidate Name *</label>
-                        <select className="candidateName" value={formData.candidateName} onChange={handleChange} required>
-                            <option value="">Select Candidate</option>
-                            {candidates.map((candidate, index) => (
-                                <option key={index} value={`${candidate["First Name"]} ${candidate["Last Name"]}`}>
-                                    {candidate["First Name"]} {candidate["Last Name"]}
-                                </option>
-                            ))}
-                        </select>
+                        <select
+    name="candidateName" // Added name attribute
+    className="candidateName"
+    value={formData.candidateName}
+    onChange={handleChange}
+    required
+>
+    <option value="">Select Candidate</option>
+    {candidates.map((candidate, index) => (
+        <option key={index} value={`${candidate["First Name"]} ${candidate["Last Name"]}`}>
+            {candidate["First Name"]} {candidate["Last Name"]}
+        </option>
+    ))}
+</select>
+
                     </div>
 
                     <div className="form-group">
                         <label>Client Name</label>
-                        <select className="clientName" value={formData.clientName} onChange={handleChange}>
-                            <option value="">Select Client</option>
-                            {jobPostings.map((job, index) => (
-                                <option key={index} value={job.clientName}>
-                                    {job.clientName}
-                                </option>
-                            ))}
-                        </select>
+                        <select
+    name="clientName"  // Added name attribute
+    className="clientName"
+    value={formData.clientName}
+    onChange={handleChange}
+    required
+>
+    <option value="">Select Posting Title</option>
+    {jobPostings.map((job, index) => (
+        <option key={index} value={job.clientName}>
+            {job.clientName}
+        </option>
+    ))}
+</select>
+
                     </div>
 
                     <div className="form-group">
@@ -131,14 +145,21 @@ const Interviews = () => {
 
                     <div className="form-group">
                         <label>Posting Title *</label>
-                        <select className="postingTitle" value={formData.postingTitle} onChange={handleChange} required>
-                            <option value="">Select Posting Title</option>
-                            {jobPostings.map((job, index) => (
-                                <option key={index} value={job.postingTitle}>
-                                    {job.postingTitle}
-                                </option>
-                            ))}
-                        </select>
+                        <select
+    name="postingTitle"  // Added name attribute
+    className="postingTitle"
+    value={formData.postingTitle}
+    onChange={handleChange}
+    required
+>
+    <option value="">Select Posting Title</option>
+    {jobPostings.map((job, index) => (
+        <option key={index} value={job.postingTitle}>
+            {job.postingTitle}
+        </option>
+    ))}
+</select>
+
                     </div>
 
                     <div className="form-group">
