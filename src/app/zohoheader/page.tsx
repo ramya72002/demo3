@@ -13,9 +13,9 @@ const ZohoHeader = () => {
     <div className="header">
       <div className="menu">
         <a href="/zoho" className="menu-item">Dashboard</a>
-        <a href="/zoho/dashboard" className="menu-item">Job Openings</a>
-        <a href="/zoho/dashboard" className="menu-item">Candidates</a>
-        <a href="/zoho/dashboard" className="menu-item">Interviews</a>
+        <a href="/zoho/jobopenings" className="menu-item">Job Openings</a>
+        <a href="/zoho/candidates" className="menu-item">Candidates</a>
+        <a href="/zoho/interviews" className="menu-item">Interviews</a>
         <a href="/zoho/dashboard" className="menu-item">Clients</a>
       </div>
       <div className="plus-menu" onClick={toggleDropdown}>
