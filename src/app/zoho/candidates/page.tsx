@@ -54,17 +54,87 @@ interface Candidate {
 
 const Candidates: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [stageCounts, setStageCounts] = useState({
+    new: 0,
+    inReview: 0,
+    available: 0,
+    engaged: 0,
+    offered: 0,
+    hired: 0,
+    rejected: 0
+  });
 
   useEffect(() => {
     fetch(API_URL)
       .then(response => response.json())
-      .then((data: Candidate[]) => setCandidates(data))
+      .then((data: Candidate[]) => {
+        setCandidates(data);
+        calculateStages(data); // Calculate stage counts
+      })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+  const calculateStages = (candidates: Candidate[]) => {
+    const counts = {
+      new: 0,
+      inReview: 0,
+      available: 0,
+      engaged: 0,
+      offered: 0,
+      hired: 0,
+      rejected: 0
+    };
+
+    candidates.forEach(candidate => {
+      const stage = candidate["Additional Info"]["Candidate Status"].toLowerCase();
+      if (stage.includes('new')) counts.new++;
+      if (stage.includes('in review')) counts.inReview++;
+      if (stage.includes('available')) counts.available++;
+      if (stage.includes('engaged')) counts.engaged++;
+      if (stage.includes('offered')) counts.offered++;
+      if (stage.includes('hired')) counts.hired++;
+      if (stage.includes('rejected')) counts.rejected++;
+    });
+
+    setStageCounts(counts);
+  };
 
   return (
     <div className="table-container">
       <ZohoHeader />
+
+      {/* Candidate Stages Section */}
+      <div className="candidate-stages">
+        <div className="stage">
+          <span>New</span>
+          <span>{stageCounts.new}</span>
+        </div>
+        <div className="stage">
+          <span>In Review</span>
+          <span>{stageCounts.inReview}</span>
+        </div>
+        <div className="stage">
+          <span>Available</span>
+          <span>{stageCounts.available}</span>
+        </div>
+        <div className="stage">
+          <span>Engaged</span>
+          <span>{stageCounts.engaged}</span>
+        </div>
+        <div className="stage">
+          <span>Offered</span>
+          <span>{stageCounts.offered}</span>
+        </div>
+        <div className="stage">
+          <span>Hired</span>
+          <span>{stageCounts.hired}</span>
+        </div>
+        <div className="stage">
+          <span>Rejected</span>
+          <span>{stageCounts.rejected}</span>
+        </div>
+      </div>
+
       <table>
         <thead>
           <tr>
