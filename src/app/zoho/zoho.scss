@@ -1,73 +1,144 @@
+/* Container for the entire page */
 .container {
-    width: 100%;
-    padding: 20px;
-  }
-  
-  .pipelineHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .expandButton {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
-  .pipeline {
-    margin-top: 20px;
-  }
-  
-  .headerRow {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-  }
-  
-  .title {
-    width: 30%;
-  }
-  
-  .stages {
-    display: flex;
-    justify-content: space-between;
-    width: 70%;
-  }
-  
-  .pipelineRow {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .clientInfo {
-    width: 30%;
-  }
-  
-  .recruiter {
-    font-weight: bold;
-  }
-  
-  .clientName {
-    color: gray;
-  }
-  
-  .interviewStage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
-  }
-  
-  .interviewCount {
-    background-color: #f2c6a9;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
+  width: 100%;
+  padding: 20px;
+  display: block;
+  overflow: hidden; /* Hide any scrollbars */
+}
+
+/* Scrollable content inside the container */
+.scrollable-content {
+  overflow-y: scroll; /* Allows scrolling but hides scrollbar */
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For IE and Edge */
+}
+
+.scrollable-content::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for WebKit-based browsers */
+}
+
+/* Common box styling for all sections */
+.box-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between the boxes */
+}
+
+.box {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff; /* White background for box appearance */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
+}
+
+/* Section headers */
+.pipelineHeader,
+.timeToFillHeader,
+.timeToHireHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Common styles for the pipeline, time to fill, and time to hire sections */
+.pipeline,
+.timeToFill,
+.timeToHire {
+  margin-top: 10px;
+}
+
+/* Aligns the header row in the pipeline section */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Pipeline section title */
+.title {
+  flex: 1;
+  padding-right: 10px; /* Adds space between the title and stages */
+}
+
+/* Stages in the pipeline */
+.stages {
+  display: flex;
+  justify-content: space-between;
+  flex: 3; /* Ensures stages take 3x the space compared to the title */
+}
+
+/* Aligns recruiter/client info and stages */
+.pipelineRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Styling for client info section */
+.clientInfo {
+  flex: 1; /* Takes up some space relative to interviewStage */
+}
+
+.recruiter {
+  font-weight: bold;
+}
+
+.clientName {
+  color: gray;
+}
+
+/* Interview stage section */
+.interviewStage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 3; /* Ensures the stage takes up more space, similar to stages in header */
+}
+
+.interviewCount {
+  background-color: #f2c6a9;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Filter buttons inside the time to fill and time to hire sections */
+.filter-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px; /* Adds space between the buttons */
+  margin-bottom: 10px;
+}
+
+.filterButton {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: #e0e0e0;
+}
+
+/* Style for the "No records found" text */
+p {
+  text-align: center;
+  color: #888;
+  margin-top: 10px;
+}
