@@ -30,6 +30,13 @@
   border-radius: 8px;
   background-color: #fff; /* White background for box appearance */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
+  transition: height 0.3s ease; /* Smooth transition */
+  height: 200px; /* Default box height */
+  overflow: hidden;
+}
+
+.box.expanded {
+  height: 600px; /* Expanded height */
 }
 
 /* Section headers */
@@ -144,8 +151,6 @@
   border-left: 20px solid red; /* Creates the right arrow */
 }
 
-
-
 /* Filter buttons inside the time to fill and time to hire sections */
 .filter-buttons {
   display: flex;
@@ -173,12 +178,29 @@ p {
   color: #888;
   margin-top: 10px;
 }
-.box {
-  transition: height 0.3s ease; /* Smooth transition */
-  height: 200px; /* Default box height */
-  overflow: hidden;
+.jobTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1rem;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.box.expanded {
-  height: 600px; /* Expanded height */
+.jobTable th, .jobTable td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.jobTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.jobTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.jobTable tr:hover {
+  background-color: #f1f1f1;
 }
