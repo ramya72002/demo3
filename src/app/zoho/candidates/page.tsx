@@ -59,7 +59,7 @@ const Candidates: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [stageCounts, setStageCounts] = useState({
     new: 0,
-    inReview: 0,
+    inreview: 0,
     available: 0,
     engaged: 0,
     offered: 0,
@@ -82,7 +82,7 @@ const Candidates: React.FC = () => {
   const calculateStages = (candidates: Candidate[]) => {
     const counts = {
       new: 0,
-      inReview: 0,
+      inreview: 0,
       available: 0,
       engaged: 0,
       offered: 0,
