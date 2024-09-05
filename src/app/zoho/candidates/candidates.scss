@@ -1,47 +1,131 @@
-// candidates.scss
-
 .table-container {
-    padding: 20px;
-    background-color: #f9f9f9;
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-  
-      thead {
-        background-color: #0070f3;
-        color: white;
-      }
-  
-      th, td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
-  
-      th {
-        font-weight: bold;
-      }
-  
-      tbody tr {
-        &:hover {
-          background-color: #f1f1f1;
-        }
-      }
-  
-      tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-  
-      tbody tr:nth-child(odd) {
-        background-color: #fff;
-      }
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1500px;
+  margin: 0 auto;
+  overflow-x: auto;
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .candidate-stages {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+    background-color: #f1f1f1;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #e9e9e9;
     }
-  
-    // Candidate Stage (e.g., Engaged, New)
+
     .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       font-weight: bold;
-      color: #0070f3;
+      color: #333;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #0070f3;
+      }
+
+      span {
+        margin: 8px 0;
+        font-size: 14px;
+        text-transform: capitalize;
+      }
     }
   }
-  
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+
+    thead {
+      background-color: #0070f3;
+      color: white;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 3px solid #005bb5;
+    }
+
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      vertical-align: middle;
+    }
+
+    th {
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      position: sticky;
+      top: 0;
+      background-color: #0070f3;
+      z-index: 1;
+    }
+
+    td {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    tbody tr {
+      &:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.3s ease;
+      }
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: #fff;
+    }
+
+    tbody tr.selected {
+      background-color: #e0f7fa;
+      color: #00796b;
+    }
+
+    // Candidate Stage
+    .stage {
+      font-weight: bold;
+      color: #1d83f8;
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .candidate-stages {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    table {
+      font-size: 12px;
+
+      th, td {
+        padding: 10px;
+      }
+    }
+  }
+}
