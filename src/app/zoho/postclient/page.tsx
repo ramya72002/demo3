@@ -111,8 +111,17 @@ const PostClient = () => {
                 onChange={(e) => setIndustry(e.target.value)}
               >
                 <option value="none">None</option>
-                <option value="tech">Tech</option>
-                <option value="finance">Finance</option>
+                <option value="tech">Technology</option>
+<option value="healthcare">Healthcare</option>
+<option value="finance">Finance</option>
+< option value="ecommerce">E-commerce</option>
+<option value="education">Education</option>
+<option value="entertainment">Entertainment</option>
+<option value="manufacturing">Manufacturing</option>
+<option value="energy">Energy</option>
+<option value="transportation">Transportation</option>
+<option value="real_estate">Real Estate</option>
+
                 {/* Add other industries here */}
               </select>
             </div>
