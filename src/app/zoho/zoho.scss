@@ -142,3 +142,12 @@ p {
   color: #888;
   margin-top: 10px;
 }
+.box {
+  transition: height 0.3s ease; /* Smooth transition */
+  height: 200px; /* Default box height */
+  overflow: hidden;
+}
+
+.box.expanded {
+  height: 600px; /* Expanded height */
+}
