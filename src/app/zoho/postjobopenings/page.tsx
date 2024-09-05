@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
