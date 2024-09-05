@@ -25,8 +25,7 @@ interface Candidate {
     Province: string;
     Street: string;
   };
-  "Attachment Information": {
-    Candidate_Stage: string;
+  "Attachment Information": { 
     Contracts: string;
     "Cover Letter": string;
     "Formatted Resume": string;
@@ -90,7 +89,7 @@ const Candidates: React.FC = () => {
     };
 
     candidates.forEach(candidate => {
-      const stage = candidate["Attachment Information"].Candidate_Stage.toLowerCase();
+      const stage = candidate["Candidate_Stage"].toLowerCase();
       if (stage in counts) {
         (counts as any)[stage]++;
       }
