@@ -4,7 +4,26 @@ $secondary-color: #6c757d;
 $border-color: #ced4da;
 $background-color: #f8f9fa;
 $font-color: #495057;
+.form-container {
+  position: relative;
+}
 
+.save-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #4CAF50; /* Green background */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
 form {
   max-width: 800px;
   margin: 0 auto;

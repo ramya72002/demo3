@@ -1,76 +1,215 @@
-import React from 'react';
-import './postjobopenings.scss'; // Import your CSS for styling
+'use client'
+import React, { useState, ChangeEvent } from 'react';
+import './postjobopenings.scss';
 import ZohoHeader from '@/app/zohoheader/page';
+import axios from 'axios';
 
-const JobOpenings = () => {
+interface JobFormData {
+  postingTitle: string;
+  clientName: string;
+  contactName?: string;
+  accountManager?: string;
+  assignedRecruiter?: string;
+  dateOpened?: string;
+  targetDate: string;
+  jobType?: string;
+  jobOpeningStatus?: string;
+  workExperience?: string;
+  industry: string;
+  requiredSkills?: string;
+  salary?: string;
+  city?: string;
+  country?: string;
+  province?: string;
+  postalCode?: string;
+  revenuePerPosition?: number;
+  actualRevenue?: number;
+  expectedRevenue?: number;
+  missedRevenue?: number;
+  numberOfPositions?: number;
+}
+
+const JobOpenings: React.FC = () => {
+  const [formData, setFormData] = useState<JobFormData>({
+    postingTitle: '',
+    clientName: '',
+    targetDate: '',
+    industry: '',
+    numberOfPositions: 1,
+  });
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const requiredFields: Array<keyof JobFormData> = ['postingTitle', 'clientName', 'targetDate', 'industry'];
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const validateFields = (): boolean => {
+    const missingFields = requiredFields.filter((field) => !formData[field]);
+    setErrors(missingFields as string[]);
+    return missingFields.length === 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateFields()) {
+      return;
+    }
+
+    try {
+      const response = await axios.post('https://demo4-backend.vercel.app/zoho/postjob', formData);
+      alert('Job added successfully!');
+    } catch (error) {
+      alert(`Error: ${error}`);
+    }
+  };
+
   return (
     <div>
-      <ZohoHeader />
+    <ZohoHeader />
     <div className="job-openings">
-      
+      <button className="save-button" onClick={handleSave}>Save</button>
       <h2>Job Opening Information</h2>
       <div className="form-section">
         <div className="form-group">
-          <label>Posting Title *</label>
-          <input type="text" name="postingTitle" />
+          <label className={errors.includes('postingTitle') ? 'required' : ''}>
+            Posting Title *
+          </label>
+          <input
+            type="text"
+            name="postingTitle"
+            value={formData.postingTitle}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
-          <label>Client Name *</label>
-          <input type="text" name="clientName" />
+          <label className={errors.includes('clientName') ? 'required' : ''}>
+            Client Name *
+          </label>
+          <input
+            type="text"
+            name="clientName"
+            value={formData.clientName}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Contact Name</label>
-          <input type="text" name="contactName" />
+          <input
+            type="text"
+            name="contactName"
+            value={formData.contactName || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Account Manager</label>
-          <select name="accountManager">
+          <select
+            name="accountManager"
+            value={formData.accountManager || ''}
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
             <option>NALLAMSETTY SRI RAMYA</option>
           </select>
         </div>
         <div className="form-group">
           <label>Assigned Recruiter(s)</label>
-          <input type="text" name="assignedRecruiter" />
+          <input
+            type="text"
+            name="assignedRecruiter"
+            value={formData.assignedRecruiter || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Date Opened</label>
-          <input type="date" name="dateOpened" />
+          <input
+            type="date"
+            name="dateOpened"
+            value={formData.dateOpened || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
-          <label>Target Date *</label>
-          <input type="date" name="targetDate" />
+          <label className={errors.includes('targetDate') ? 'required' : ''}>
+            Target Date *
+          </label>
+          <input
+            type="date"
+            name="targetDate"
+            value={formData.targetDate}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Job Type</label>
-          <select name="jobType">
+          <select
+            name="jobType"
+            value={formData.jobType || ''}
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
             <option>Full time</option>
           </select>
         </div>
         <div className="form-group">
           <label>Job Opening Status</label>
-          <select name="jobOpeningStatus">
+          <select
+            name="jobOpeningStatus"
+            value={formData.jobOpeningStatus || ''}
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
             <option>In-progress</option>
           </select>
         </div>
         <div className="form-group">
           <label>Work Experience</label>
-          <select name="workExperience">
+          <select
+            name="workExperience"
+            value={formData.workExperience || ''}
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
             <option>None</option>
           </select>
         </div>
         <div className="form-group">
-          <label>Industry *</label>
-          <select name="industry">
+          <label className={errors.includes('industry') ? 'required' : ''}>
+            Industry *
+          </label>
+          <select
+            name="industry"
+            value={formData.industry}
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
             <option>None</option>
           </select>
         </div>
         <div className="form-group">
           <label>Required Skills</label>
-          <input type="text" name="requiredSkills" placeholder="Search and add skills" />
+          <input
+            type="text"
+            name="requiredSkills"
+            value={formData.requiredSkills || ''}
+            placeholder="Search and add skills"
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Salary</label>
-          <select name="salary">
+          <select
+            name="salary"
+            value={formData.salary || ''}
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
             <option>None</option>
           </select>
         </div>
@@ -80,21 +219,41 @@ const JobOpenings = () => {
       <div className="form-section">
         <div className="form-group">
           <label>City</label>
-          <input type="text" name="city" />
+          <input
+            type="text"
+            name="city"
+            value={formData.city || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Country</label>
-          <select name="country">
+          <select
+            name="country"
+            value={formData.country || ''}
+            onChange={handleInputChange}
+          >
+            <option value="">Select</option>
             <option>None</option>
           </select>
         </div>
         <div className="form-group">
           <label>Province</label>
-          <input type="text" name="province" />
+          <input
+            type="text"
+            name="province"
+            value={formData.province || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Postal Code</label>
-          <input type="text" name="postalCode" />
+          <input
+            type="text"
+            name="postalCode"
+            value={formData.postalCode || ''}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
 
@@ -102,28 +261,53 @@ const JobOpenings = () => {
       <div className="form-section">
         <div className="form-group">
           <label>Revenue per Position</label>
-          <input type="number" name="revenuePerPosition" />
+          <input
+            type="number"
+            name="revenuePerPosition"
+            value={formData.revenuePerPosition || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Actual Revenue</label>
-          <input type="number" name="actualRevenue" />
+          <input
+            type="number"
+            name="actualRevenue"
+            value={formData.actualRevenue || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Expected Revenue</label>
-          <input type="number" name="expectedRevenue" />
+          <input
+            type="number"
+            name="expectedRevenue"
+            value={formData.expectedRevenue || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Missed Revenue</label>
-          <input type="number" name="missedRevenue" />
+          <input
+            type="number"
+            name="missedRevenue"
+            value={formData.missedRevenue || ''}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-group">
           <label>Number of Positions</label>
-          <input type="number" name="numberOfPositions" defaultValue={1} />
+          <input
+            type="number"
+            name="numberOfPositions"
+            value={formData.numberOfPositions || ''}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
     </div>
-    </div>
+  </div>
   );
-}
+};
 
 export default JobOpenings;
