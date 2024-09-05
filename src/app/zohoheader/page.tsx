@@ -25,6 +25,7 @@ const ZohoHeader = () => {
             <a href="/zoho/postjobopenings">Job Openings</a>
             <a href="/zoho/postcandidate">Candidates</a>
             <a href="/zoho/postclient">Clients</a>
+            <a href="/zoho/postinterviews">Interviews</a>
           </div>
         )}
       </div>
