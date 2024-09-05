@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './zoho.scss';
+import ZohoHeader from '../zohoheader/page';
 
 const Page = () => {
   // Define the type for the state keys
@@ -23,6 +24,7 @@ const Page = () => {
 
   return (
     <div>
+      <ZohoHeader />
       <div className="container">
         <div className="scrollable-content">
           <div className="box-container">
