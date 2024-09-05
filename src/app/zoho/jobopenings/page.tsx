@@ -7,14 +7,14 @@ import './jobopenings.scss' // Import SCSS directly without assigning it to a va
 // Define the structure of the Job object
 interface Job {
   'Job Opening ID': string;
-  'Posting Title': string;
+  'postingTitle': string;
   'Assigned Recruiter(s)': string;
-  'Target Date': {
+  'targetDate': {
     $date: string;
   };
   'Job Opening Status': string;
   City: string;
-  'Client Name': string;
+  'clientName': string;
   'Contact Name': string;
   'Account Manager': string;
 }
@@ -44,13 +44,13 @@ const JobOpenings = () => {
         <table>
           <thead>
             <tr>
-              <th>Job Opening ID</th>
-              <th>Posting Title</th>
+              <th>select</th>
+              <th>postingTitle</th>
               <th>Assigned Recruiter(s)</th>
-              <th>Target Date</th>
+              <th>targetDate</th>
               <th>Job Opening Status</th>
               <th>City</th>
-              <th>Client Name</th>
+              <th>clientName</th>
               <th>Contact Name</th>
               <th>Account Manager</th>
             </tr>
@@ -58,18 +58,18 @@ const JobOpenings = () => {
           <tbody>
             {jobs.map((job, index) => (
               <tr key={index}>
-                <td>{job['Job Opening ID']}</td>
-                <td>{job['Posting Title']}</td>
+                <td>[]</td>
+                <td>{job['postingTitle']}</td>
                 <td>{job['Assigned Recruiter(s)']}</td>
                 {/* Safely access the date */}
                 <td>
-                  {job['Target Date'] && job['Target Date'].$date
-                    ? new Date(job['Target Date'].$date).toLocaleDateString()
+                  {job['targetDate'] && job['targetDate'].$date
+                    ? new Date(job['targetDate'].$date).toLocaleDateString()
                     : 'N/A'}
                 </td>
                 <td>{job['Job Opening Status']}</td>
                 <td>{job.City}</td>
-                <td>{job['Client Name']}</td>
+                <td>{job['clientName']}</td>
                 <td>{job['Contact Name']}</td>
                 <td>{job['Account Manager']}</td>
               </tr>
