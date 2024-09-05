@@ -109,11 +109,42 @@
 }
 
 .interviewCount {
-  background-color: #f2c6a9;
-  padding: 5px 10px;
-  border-radius: 5px;
+  width: 30px; /* Adjust width */
+  height: 20px;
+  display: inline-block;
+  position: relative;
+  color: white;
   font-weight: bold;
+  padding: 10px 20px; /* Adjust padding to fit the text inside the arrow */
+  background-color: red; /* Arrow body color */
 }
+
+.interviewCount::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40px;
+  width: 0;
+  border-right: 25px solid red; /* Adjust arrow tip size */
+  height: 0;
+  border-top: 20px solid red;
+  border-bottom: 20px solid red;
+  border-left: 20px solid transparent; /* Creates the left arrow */
+}
+
+.interviewCount::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -20px;
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid red; /* Creates the right arrow */
+}
+
+
 
 /* Filter buttons inside the time to fill and time to hire sections */
 .filter-buttons {
