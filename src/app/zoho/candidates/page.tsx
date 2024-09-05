@@ -50,6 +50,7 @@ interface Candidate {
   };
   "Secondary Email": string;
   Website: string;
+  Candidate_Stage: string; // Ensure this matches how you're accessing the data
 }
 
 const Candidates: React.FC = () => {
@@ -86,14 +87,12 @@ const Candidates: React.FC = () => {
     };
 
     candidates.forEach(candidate => {
-      const stage = candidate["Additional Info"]["Candidate Status"].toLowerCase();
-      if (stage.includes('new')) counts.new++;
-      if (stage.includes('in review')) counts.inReview++;
-      if (stage.includes('available')) counts.available++;
-      if (stage.includes('engaged')) counts.engaged++;
-      if (stage.includes('offered')) counts.offered++;
-      if (stage.includes('hired')) counts.hired++;
-      if (stage.includes('rejected')) counts.rejected++;
+      // Normalize the stage value to lowercase
+      const stage = candidate.Candidate_Stage.toLowerCase();
+      // Update the count based on normalized stage value
+      if (stage in counts) {
+        (counts as any)[stage]++;
+      }
     });
 
     setStageCounts(counts);
@@ -106,34 +105,12 @@ const Candidates: React.FC = () => {
       {/* Candidate Stages Section */}
       <h2>Candidate Stage</h2> {/* Added heading */}
       <div className="candidate-stages">
-        <div className="stage">
-          <span>New</span>
-          <span>{stageCounts.new}</span>
-        </div>
-        <div className="stage">
-          <span>In Review</span>
-          <span>{stageCounts.inReview}</span>
-        </div>
-        <div className="stage">
-          <span>Available</span>
-          <span>{stageCounts.available}</span>
-        </div>
-        <div className="stage">
-          <span>Engaged</span>
-          <span>{stageCounts.engaged}</span>
-        </div>
-        <div className="stage">
-          <span>Offered</span>
-          <span>{stageCounts.offered}</span>
-        </div>
-        <div className="stage">
-          <span>Hired</span>
-          <span>{stageCounts.hired}</span>
-        </div>
-        <div className="stage">
-          <span>Rejected</span>
-          <span>{stageCounts.rejected}</span>
-        </div>
+        {Object.keys(stageCounts).map(stage => (
+          <div key={stage} className="stage">
+            <span>{stage.charAt(0).toUpperCase() + stage.slice(1)}</span>
+            <span>{stageCounts[stage as keyof typeof stageCounts]}</span>
+          </div>
+        ))}
       </div>
 
       <table>
@@ -152,7 +129,7 @@ const Candidates: React.FC = () => {
             <tr key={index}>
               <td>{candidate["First Name"]} {candidate["Last Name"]}</td>
               <td>{candidate["Address Information"].City}</td>
-              <td className="stage">{candidate["Additional Info"]["Candidate Status"]}</td>
+              <td className="stage">{candidate.Candidate_Stage}</td>
               <td>{new Date().toLocaleString()}</td> {/* Placeholder for Modified Time */}
               <td>{candidate["Additional Info"].Source}</td>
               <td>{candidate["Additional Info"]["Candidate Owner"]}</td>
