@@ -7,11 +7,11 @@ import axios from 'axios';
 
 const PostCandidate = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
+    name: '',
     lastName: '',
     email: '',
     phone: '',
-    mobile: '',
+    mobile_number: '',
     fax: '',
     website: '',
     secondaryEmail: '',
@@ -34,32 +34,74 @@ const PostCandidate = () => {
     twitter: '',
     candidateStatus: 'New',
     candidateOwner: '',
-    resume: null,
-    formattedResume: null,
-    coverLetter: null,
-    others: null,
+    resume: null as File | null,
+    formattedResume: null as File | null,
+    coverLetter: null as File | null,
+    others: null as File | null,
   });
 
+  const [resumeUploaded, setResumeUploaded] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, type, files } = e.target as HTMLInputElement; // Use type assertion here
+    const { name, value, type, files } = e.target as HTMLInputElement;
     setFormData({
       ...formData,
       [name]: type === 'file' ? files![0] : value,
     });
   };
 
+  const handleResumeChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        // Create a FormData object to send the file
+        const uploadData = new FormData();
+        uploadData.append('file', file);
+
+        // Send the file to the API
+        const response = await axios.post('https://demo4-backendurl.vercel.app/res', uploadData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        // Update the skills field with the extracted data
+        if (response.data.data) {
+          setFormData(prevState => ({
+            ...prevState,
+            name: response.data.data.name || "",               // Set name if available
+            email: response.data.data.email || "",             // Set email if available
+            mobile_number: response.data.data.mobile_number || "", // Set mobile number if available
+            college_name: response.data.data.college_name || "",   // Set college name if available
+            company_names: response.data.data.company_names || "", // Set company names if available
+            degree: response.data.data.degree || "",           // Set degree if available
+            designation: response.data.data.designation || "", // Set designation if available
+            experience: response.data.data.experience || "",   // Set experience if available
+            no_of_pages: response.data.data.no_of_pages || "", // Set no of pages if available
+            skills: response.data.data.skills ? response.data.data.skills.join(', ') : "", // Convert skills array to comma-separated string
+            total_experience: response.data.data.total_experience || 0 // Set total experience if available
+          }));
+        }
+        
+        setResumeUploaded(true); // Mark resume as uploaded
+      } catch (error) {
+        console.error('Error uploading resume:', error);
+      }
+    }
+  };
+
+
+
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     // Prepare the data to send
     const payload = {
-      "First Name": formData.firstName,
+      "First Name": formData.name,
       "Last Name": formData.lastName,
       "Email": formData.email,
       "Phone": formData.phone,
       "Website": formData.website,
       "Secondary Email": formData.secondaryEmail,
-      "Mobile": formData.mobile,
+      "Mobile": formData.mobile_number,
       "Fax": formData.fax,
       "Address Information": {
         "Street": formData.street,
@@ -72,7 +114,7 @@ const PostCandidate = () => {
         "Experience in Years": formData.experience,
         "Current Job Title": formData.jobTitle,
         "Expected Salary": formData.expectedSalary,
-        "Skill Set": formData.skills.split(',').map(skill => skill.trim()), // Convert comma-separated skills to an array
+        "Skill Set": formData.skills.split(',').map(skill => skill.trim()),
         "Skype ID": formData.skypeId,
         "Highest Qualification Held": formData.qualification,
         "Current Employer": formData.employer,
@@ -109,17 +151,35 @@ const PostCandidate = () => {
     <div>
         <ZohoHeader />
         <div className="form-container">
+          {/* Resume Upload Section */}
+          <div className="upload-resume-container">
+            <label htmlFor="resume-upload" className="upload-label">
+              <span className="upload-text">Upload Resume</span>
+              <input
+                type="file"
+                id="resume-upload"
+                className="upload-input"
+                accept=".pdf, .doc, .docx"
+                onChange={handleResumeChange}
+              />
+            </label>
+            {formData.resume?.name && (
+              <p className="resume-name">{formData.resume.name}</p>
+            )}
+            {resumeUploaded }
+          </div>
+
+          {/* Form Section */}
           <form onSubmit={handleSubmit}>
             <h2>Basic Info</h2>
-            <input name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} />
+            <input name="firstName" placeholder="First Name" value={formData.name} onChange={handleChange} />
             <input name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} />
             <input name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-            <input name="mobile" placeholder="Mobile" value={formData.mobile} onChange={handleChange} />
+            <input name="mobile" placeholder="Mobile" value={formData.mobile_number} onChange={handleChange} />
             <input name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} />
             <input name="fax" placeholder="Fax" value={formData.fax} onChange={handleChange} />
             <input name="website" placeholder="Website" value={formData.website} onChange={handleChange} />
             <input name="secondaryEmail" placeholder="Secondary Email" value={formData.secondaryEmail} onChange={handleChange} />
-
             <h2>Address Information</h2>
             <input name="street" placeholder="Street" value={formData.street} onChange={handleChange} />
             <input name="city" placeholder="City" value={formData.city} onChange={handleChange} />
@@ -139,36 +199,23 @@ const PostCandidate = () => {
             <input name="skypeId" placeholder="Skype ID" value={formData.skypeId} onChange={handleChange} />
             <select name="qualification" value={formData.qualification} onChange={handleChange}>
               <option value="None">None</option>
-              <option value="Bachelor's">Bachelor's</option>
-              <option value="Master's">Master's</option>
+              <option value="Bachelor's Degree">Bachelor's Degree</option>
               {/* Add more options as needed */}
             </select>
             <input name="employer" placeholder="Current Employer" value={formData.employer} onChange={handleChange} />
             <input name="currentSalary" placeholder="Current Salary" value={formData.currentSalary} onChange={handleChange} />
             <textarea name="additionalInfo" placeholder="Additional Info" value={formData.additionalInfo} onChange={handleChange}></textarea>
 
-            <h2>Social Links</h2>
+            <h2>Additional Info</h2>
             <input name="linkedin" placeholder="LinkedIn" value={formData.linkedin} onChange={handleChange} />
             <input name="facebook" placeholder="Facebook" value={formData.facebook} onChange={handleChange} />
             <input name="twitter" placeholder="Twitter" value={formData.twitter} onChange={handleChange} />
-
-            <h2>Other Info</h2>
-            <select name="candidateStatus" value={formData.candidateStatus} onChange={handleChange}>
-              <option value="New">New</option>
-              <option value="Reviewed">Reviewed</option>
-              {/* Add more options as needed */}
-            </select>
+            <input name="candidateStatus" placeholder="Candidate Status" value={formData.candidateStatus} onChange={handleChange} />
             <input name="candidateOwner" placeholder="Candidate Owner" value={formData.candidateOwner} onChange={handleChange} />
-
-            <h2>Attachment Information</h2>
-            <input type="file" name="resume" onChange={handleChange} />
-            <input type="file" name="formattedResume" onChange={handleChange} />
-            <input type="file" name="coverLetter" onChange={handleChange} />
-            <input type="file" name="others" onChange={handleChange} />
+            <textarea name="additionalInfo" placeholder="Additional Info" value={formData.additionalInfo} onChange={handleChange} />
 
             <button type="submit">Submit</button>
           </form>
-          <button className="save-button" onClick={handleSubmit}>Save</button>
         </div>
     </div>
   );
