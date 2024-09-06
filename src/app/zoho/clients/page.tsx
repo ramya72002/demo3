@@ -32,7 +32,7 @@ const Clients: React.FC = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await fetch('https://demo4-backend.vercel.app/clients/getall');
+        const response = await fetch('https://demo4-backendurl.vercel.app/clients/getall');
         const data: Client[] = await response.json();
         setClientsData(data);
       } catch (error) {

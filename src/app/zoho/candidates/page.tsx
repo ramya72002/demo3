@@ -4,9 +4,9 @@ import ZohoHeader from '@/app/zohoheader/page';
 import './candidates.scss'; // Import your SCSS file
 
 // Define the API URLs
-const API_URL = 'https://demo4-backend.vercel.app/candidate/getall';
-const DETAILS_API_URL = 'https://demo4-backend.vercel.app/zoho/getcandidate_name'; // Adjust this URL based on your API setup
-const UPDATE_STAGE_API_URL = 'https://demo4-backend.vercel.app/candidate/update_stage'; // URL for updating candidate stage
+const API_URL = 'https://demo4-backendurl.vercel.app/candidate/getall';
+const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getcandidate_name'; // Adjust this URL based on your API setup
+const UPDATE_STAGE_API_URL = 'https://demo4-backendurl.vercel.app/candidate/update_stage'; // URL for updating candidate stage
 
 // TypeScript interface for candidate data
 interface Candidate {

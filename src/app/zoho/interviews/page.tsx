@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ZohoHeader from '@/app/zohoheader/page';
 import './interviews.scss'
-const API_INTERVIEWS_URL = 'https://demo4-backend.vercel.app/zoho/getinterviews';
+const API_INTERVIEWS_URL = 'https://demo4-backendurl.vercel.app/zoho/getinterviews';
 
 interface Interview {
   _id: string;

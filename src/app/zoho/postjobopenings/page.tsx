@@ -47,7 +47,7 @@ const JobOpenings: React.FC = () => {
     // Function to fetch clients
     const fetchClients = async () => {
       try {
-        const response = await axios.get('https://demo4-backend.vercel.app/clients/getall');
+        const response = await axios.get('https://demo4-backendurl.vercel.app/clients/getall');
         setClients(response.data);
       } catch (error) {
         console.error('Error fetching clients:', error);
@@ -77,7 +77,7 @@ const JobOpenings: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('https://demo4-backend.vercel.app/zoho/postjob', formData);
+      const response = await axios.post('https://demo4-backendurl.vercel.app/zoho/postjob', formData);
       alert('Job added successfully!');
     } catch (error) {
       alert(`Error: ${error}`);

@@ -33,7 +33,7 @@ const Page = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch('https://demo4-backend.vercel.app/jobs/getall');
+        const response = await fetch('https://demo4-backendurl.vercel.app/jobs/getall');
         const data = await response.json();
         setJobData(data);
       } catch (error) {

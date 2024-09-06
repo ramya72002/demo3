@@ -4,9 +4,9 @@ import ZohoHeader from '@/app/zohoheader/page';
 import './postinterviews.scss';
 import axios from 'axios';
 
-const API_CANDIDATES_URL = 'https://demo4-backend.vercel.app/candidate/getall';
-const API_JOB_POSTINGS_URL = 'https://demo4-backend.vercel.app/jobs/getall';
-const API_POST_INTERVIEW_URL = 'https://demo4-backend.vercel.app/zoho/postinterview';
+const API_CANDIDATES_URL = 'https://demo4-backendurl.vercel.app/candidate/getall';
+const API_JOB_POSTINGS_URL = 'https://demo4-backendurl.vercel.app/jobs/getall';
+const API_POST_INTERVIEW_URL = 'https://demo4-backendurl.vercel.app/zoho/postinterview';
 
 interface Candidate {
     _id: { $oid: string };

@@ -98,7 +98,7 @@ const PostCandidate = () => {
     };
 
     try {
-      const response = await axios.post('https://demo4-backend.vercel.app/candidate/post', payload);
+      const response = await axios.post('https://demo4-backendurl.vercel.app/candidate/post', payload);
       console.log('Success:', response.data);
     } catch (error) {
       console.error('Error:', error);

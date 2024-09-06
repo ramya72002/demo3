@@ -32,7 +32,7 @@ const PostClient = () => {
     }
 
     try {
-      const response = await axios.post('https://demo4-backend.vercel.app/zoho/postclient', {
+      const response = await axios.post('https://demo4-backendurl.vercel.app/zoho/postclient', {
         clientName,
         contactNumber,
         accountManager,
