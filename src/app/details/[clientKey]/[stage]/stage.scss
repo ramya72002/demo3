@@ -1,0 +1,46 @@
+.container {
+    margin: 20px;
+    overflow-x: auto; /* Enables horizontal scrolling */
+  }
+  
+  .candidate-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1200px; /* Ensure table is wide enough for horizontal scrolling */
+  
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+  
+    th {
+      background-color: #f4f4f4;
+      font-weight: bold;
+      position: sticky;
+      top: 0; /* Sticky header for better visibility when scrolling */
+      z-index: 1; /* Ensures header stays on top */
+    }
+  
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  
+    td {
+      word-break: break-word;
+    }
+  }
+  
+  /* Optional: Add responsiveness */
+  @media (max-width: 768px) {
+    .candidate-table th, .candidate-table td {
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+  

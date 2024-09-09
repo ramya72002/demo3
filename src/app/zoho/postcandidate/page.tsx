@@ -172,7 +172,7 @@ const PostCandidate = () => {
           {/* Form Section */}
           <form onSubmit={handleSubmit}>
             <h2>Basic Info</h2>
-            <input name="firstName" placeholder="First Name" value={formData.name} onChange={handleChange} />
+            <input name="name" placeholder="First Name" value={formData.name} onChange={handleChange} />
             <input name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} />
             <input name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
             <input name="mobile" placeholder="Mobile" value={formData.mobile_number} onChange={handleChange} />
