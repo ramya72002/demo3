@@ -38,7 +38,7 @@ const Page = () => {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const response = await fetch('https://demo4-backendurl.vercel.app/hiringpipeline/details');
+        const response = await fetch('http://127.0.0.1:80/hiringpipeline/details');
         const data = await response.json();
         setCandidateData(data); // Store the fetched data
       } catch (error) {
@@ -47,7 +47,7 @@ const Page = () => {
     };
     const fetchJobs = async () => {
       try {
-        const response = await fetch('https://demo4-backendurl.vercel.app/jobs/getall');
+        const response = await fetch('http://127.0.0.1:80/jobs/getall');
         const data = await response.json();
         setJobData(data);
       } catch (error) {

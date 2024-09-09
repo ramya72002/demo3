@@ -58,7 +58,7 @@
         }
 
         span {
-          color: red;
+          color: red; // Red asterisk for required fields
         }
       }
     }
@@ -73,12 +73,20 @@
       .address-group {
         display: flex;
         flex-wrap: wrap;
-        margin: -10px; // Negative margin to compensate for the field margins
+        margin: -10px;
 
         .form-group {
-          flex: 0 1 calc(50% - 20px); // Adjust width to fit two fields per row
+          flex: 0 1 calc(50% - 20px); // Adjust width for 2 fields per row
           margin: 10px; // Add space between fields
         }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .form-content {
+      .form-section {
+        flex: 0 1 100%; // Stack form sections on smaller screens
       }
     }
   }

@@ -31,7 +31,7 @@ const Admin: React.FC = () => {
 
   const fetchRecords = (filters: { [key: string]: any } = {}) => {
     setLoading(true);
-    axios.get<EmployeeRecord[]>('https://demo4-backendurl.vercel.app/filter', { params: filters })
+    axios.get<EmployeeRecord[]>('http://127.0.0.1:80/filter', { params: filters })
       .then(response => {
         setRecords(response.data);
         setLoading(false);
