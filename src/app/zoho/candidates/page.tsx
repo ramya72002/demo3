@@ -97,6 +97,7 @@ const Candidates: React.FC = () => {
       })
       .catch(error => console.error('Error fetching job postings:', error));
   };
+  
 
   useEffect(() => {
     fetchJobPostings(); 
@@ -149,24 +150,29 @@ const Candidates: React.FC = () => {
   };
 
   const handleJobChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedJob(event.target.value);
+    const jobValue = event.target.value;
+    console.log('Selected Job:', jobValue); // Add this line to log the selected job
+    setSelectedJob(jobValue);
   };
+  
 
   const updateCandidateStage = () => {
     if (!selectedCandidate) return;
-
+  
     const updateData = {
       First_Name: selectedCandidate["First Name"],
       Last_Name: selectedCandidate["Last Name"],
       Candidate_Stage: selectedStage,
-      Add_Job: selectedJob
+      Add_Job: selectedJob || '' // Ensure Add_Job is not null
     };
-
+  
+    console.log('Payload:', updateData); // Log the payload
+  
     if (!updateData.First_Name || !updateData.Last_Name || !updateData.Candidate_Stage) {
       console.error('Required fields are missing');
       return;
     }
-
+  
     fetch(UPDATE_STAGE_API_URL, {
       method: 'POST',
       headers: {
@@ -181,6 +187,7 @@ const Candidates: React.FC = () => {
       })
       .catch(error => console.error('Error updating candidate stage:', error));
   };
+  
 
   return (
     <div className="table-container">
@@ -238,12 +245,13 @@ const Candidates: React.FC = () => {
             </select>
           </p>
           <p><strong>Add Job:</strong>
-            <select value={selectedJob} onChange={handleJobChange}>
-              {jobPostings.map(job => (
-                <option key={job.id} value={job.postingTitle}>{job.postingTitle}</option>
-              ))}
-            </select>
-          </p>
+        <select value={selectedJob} onChange={handleJobChange}>
+          {jobPostings.map(job => (
+            <option key={job.id} value={job.postingTitle}>{job.postingTitle}</option>
+          ))}
+        </select>
+</p>
+
 
           <p><strong>Email:</strong> {selectedCandidate.Email}</p>
           <p><strong>Mobile:</strong> {selectedCandidate.Mobile}</p>

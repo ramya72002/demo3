@@ -30,6 +30,7 @@ const JobStageDetails = () => {
   const [candidateData, setCandidateData] = useState<CandidateData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [modifiedCandidates, setModifiedCandidates] = useState<CandidateData[]>([]); // Track modified candidates
 
   const clientKey = decodeURIComponent(pathname.split('/')[2]); // Extract clientKey from URL
   const stage = decodeURIComponent(pathname.split('/')[3]); // Extract stage from URL
@@ -85,6 +86,63 @@ const JobStageDetails = () => {
     const updatedCandidates = [...candidateData];
     updatedCandidates[index].job_stage = newStage;
     setCandidateData(updatedCandidates);
+    setModifiedCandidates(updatedCandidates); // Track modified candidates
+  };
+
+  const saveChanges = async () => {
+    try {
+      const response = await fetch('https://demo4-backendurl.vercel.app/update-job-stage', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(modifiedCandidates.map(candidate => ({
+          'First Name': candidate['First Name'],
+          'Last Name': candidate['Last Name'],
+          'Email': candidate.Email,
+          'job_stage': candidate.job_stage
+        }))),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update job stage');
+      }
+
+      // Refetch updated data
+      const updatedResponse = await fetch('https://demo4-backendurl.vercel.app/hiringpipeline/details');
+      if (!updatedResponse.ok) {
+        throw new Error('Failed to fetch updated data');
+      }
+      const updatedData: { [key: string]: CandidateData[] } = await updatedResponse.json();
+
+      if (clientKey && updatedData[clientKey]) {
+        const updatedCandidates = updatedData[clientKey].filter((candidate: CandidateData) => {
+          switch (stage) {
+            case 'screening':
+              return candidate.job_stage === 1;
+            case 'submissions':
+              return candidate.job_stage === 2;
+            case 'interview':
+              return candidate.job_stage === 3;
+            case 'offered':
+              return candidate.job_stage === 4;
+            case 'hired':
+              return candidate.job_stage === 5;
+            case 'rejected':
+              return candidate.job_stage === 6;
+            case 'archived':
+              return candidate.job_stage === 7;
+            default:
+              return false;
+          }
+        });
+        setCandidateData(updatedCandidates);
+      }
+
+      alert('Changes saved and data updated successfully');
+    } catch (error: any) {
+      alert(error.message || 'An error occurred while saving changes');
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -96,6 +154,7 @@ const JobStageDetails = () => {
       <table className="candidate-table">
         <thead>
           <tr>
+            {/* Table headers */}
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
@@ -156,6 +215,7 @@ const JobStageDetails = () => {
           ))}
         </tbody>
       </table>
+      <button onClick={saveChanges} className="save-button">Save</button> {/* Save Button */}
     </div>
   );
 };
