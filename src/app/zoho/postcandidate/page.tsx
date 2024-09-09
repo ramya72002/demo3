@@ -39,8 +39,11 @@ const PostCandidate = () => {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:80/candidate/post', payload);
+      const response = await axios.post('https://demo4-backendurl.vercel.app/candidate/post', payload);
       console.log('Success:', response.data);
+      if (response.status === 201) {
+        alert('Candidate details added');
+      }
     } catch (error) {
       console.error('Error:', error);
     }

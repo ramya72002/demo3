@@ -26,7 +26,7 @@ const JobOpenings = () => {
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
     try {
-      const response = await axios.get<Job[]>('http://127.0.0.1:80/jobs/getall');
+      const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');
       setJobs(response.data);
     } catch (error) {
       console.error('Error fetching job openings:', error);
@@ -39,7 +39,7 @@ const JobOpenings = () => {
 
   const handleJobClick = async (postingTitle: string, clientName: string) => {
     try {
-      const response = await axios.get('http://127.0.0.1:80/zoho/getjob', {
+      const response = await axios.get('https://demo4-backendurl.vercel.app/zoho/getjob', {
         params: { postingTitle, clientName }
       });
       setSelectedJob(response.data[0]);
@@ -56,7 +56,7 @@ const JobOpenings = () => {
     if (selectedJob && newStatus) {
       try {
         // Call API to update job status
-        const response = await axios.post('http://127.0.0.1:80/zoho/updatejobstatus', {
+        const response = await axios.post('https://demo4-backendurl.vercel.app/zoho/updatejobstatus', {
           clientName: selectedJob.clientName,
           postingTitle: selectedJob.postingTitle,
           newStatus,

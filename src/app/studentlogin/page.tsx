@@ -7,7 +7,7 @@ import './studentlogin.scss';
 const StudentLogin = () => {
 
   const handleGoogleSignIn = () => {
-    window.location.href = 'http://127.0.0.1:80/login';
+    window.location.href = 'https://demo4-backendurl.vercel.app/login';
   };
 
   return (

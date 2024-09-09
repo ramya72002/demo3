@@ -5,10 +5,10 @@ import ZohoHeader from '@/app/zohoheader/page';
 import './candidates.scss';
 
 // Define the API URLs
-const API_URL = 'http://127.0.0.1:80/candidate/getall';
-const DETAILS_API_URL = 'http://127.0.0.1:80/zoho/getcandidate_name';
-const UPDATE_STAGE_API_URL = 'http://127.0.0.1:80/candidate/update_stage';
-const API_JOB_POSTINGS_URL = 'http://127.0.0.1:80/jobs/getall';
+const API_URL = 'https://demo4-backendurl.vercel.app/candidate/getall';
+const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getcandidate_name';
+const UPDATE_STAGE_API_URL = 'https://demo4-backendurl.vercel.app/candidate/update_stage';
+const API_JOB_POSTINGS_URL = 'https://demo4-backendurl.vercel.app/jobs/getall';
 
 // TypeScript interface for candidate data
 interface Candidate {
@@ -21,7 +21,7 @@ interface Candidate {
   experience: string;
   skills: string[];
   linkedIn: string;
-  candidate_stage: string;
+  Candidate_Stage: string;
   add_job: string;
 }
 
@@ -76,7 +76,7 @@ const Candidates: React.FC = () => {
     };
 
     candidates.forEach(candidate => {
-      const stage = candidate.candidate_stage.toLowerCase();
+      const stage = candidate.Candidate_Stage.toLowerCase();
       if (stage in counts) {
         (counts as any)[stage]++;
       }
@@ -138,7 +138,7 @@ const Candidates: React.FC = () => {
             <tr key={index} onClick={() => handleRowClick(candidate)} className="candidate-row">
               <td>{candidate.name}</td>
               <td>{candidate.city}</td>
-              <td className="stage">{candidate.candidate_stage}</td>
+              <td className="stage">{candidate.Candidate_Stage}</td>
               <td>{candidate.linkedIn}</td>
             </tr>
           ))}

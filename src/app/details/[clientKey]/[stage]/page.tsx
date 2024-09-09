@@ -39,7 +39,7 @@ const JobStageDetails = () => {
     const fetchCandidates = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://127.0.0.1:80/hiringpipeline/details');
+        const response = await fetch('https://demo4-backendurl.vercel.app/hiringpipeline/details');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -91,7 +91,7 @@ const JobStageDetails = () => {
 
   const saveChanges = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:80/update-job-stage', {
+      const response = await fetch('https://demo4-backendurl.vercel.app/update-job-stage', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const JobStageDetails = () => {
       }
 
       // Refetch updated data
-      const updatedResponse = await fetch('http://127.0.0.1:80/hiringpipeline/details');
+      const updatedResponse = await fetch('https://demo4-backendurl.vercel.app/hiringpipeline/details');
       if (!updatedResponse.ok) {
         throw new Error('Failed to fetch updated data');
       }
