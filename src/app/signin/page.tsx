@@ -7,7 +7,7 @@ import Header from '../header/page';
 const SignInPage = () => {
 
   const handleGoogleSignIn = () => {
-    window.location.href = 'https://demo4-backendurl.vercel.app/login';
+    window.location.href = 'http://127.0.0.1:80/login';
   };
 
   return (

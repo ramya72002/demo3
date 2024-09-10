@@ -4,18 +4,17 @@ import ZohoHeader from '@/app/zohoheader/page';
 import axios from 'axios';
 import './jobopenings.scss';
 
+// Updated Job interface
 interface Job {
-  'Job Opening ID': string;
-  'postingTitle': string;
-  'Assigned Recruiter(s)': string;
-  'targetDate': {
-    $date: string;
-  };
-  'Job Opening Status': string;
-  City: string;
-  'clientName': string;
-  'Contact Name': string;
-  'Account Manager': string;
+  companyName: string;
+  status: string;
+  postingTitle: string;
+  experience: string;
+  budget: string;
+  noticePeriod: string;
+  city: string;
+  jd: string;  // job description
+  address: string;
 }
 
 const JobOpenings = () => {
@@ -26,7 +25,7 @@ const JobOpenings = () => {
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
     try {
-      const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');
+      const response = await axios.get<Job[]>('http://127.0.0.1:80/jobs/getall');
       setJobs(response.data);
     } catch (error) {
       console.error('Error fetching job openings:', error);
@@ -37,10 +36,10 @@ const JobOpenings = () => {
     fetchJobs();
   }, []);
 
-  const handleJobClick = async (postingTitle: string, clientName: string) => {
+  const handleJobClick = async (postingTitle: string, companyName: string) => {
     try {
-      const response = await axios.get('https://demo4-backendurl.vercel.app/zoho/getjob', {
-        params: { postingTitle, clientName }
+      const response = await axios.get('http://127.0.0.1:80/zoho/getjob', {
+        params: { postingTitle, companyName }
       });
       setSelectedJob(response.data[0]);
     } catch (error) {
@@ -56,19 +55,16 @@ const JobOpenings = () => {
     if (selectedJob && newStatus) {
       try {
         // Call API to update job status
-        const response = await axios.post('https://demo4-backendurl.vercel.app/zoho/updatejobstatus', {
-          clientName: selectedJob.clientName,
+        const response = await axios.post('http://127.0.0.1:80/zoho/updatejobstatus', {
+          companyName: selectedJob.companyName,
           postingTitle: selectedJob.postingTitle,
           newStatus,
         });
         
         if (response.status === 200) {
           alert('Job status updated successfully');
-          // Optionally, update the selected job in state
-          setSelectedJob((prev) => prev ? { ...prev, 'Job Opening Status': newStatus } : null);
-          
-          // Fetch the updated job list again
-          await fetchJobs();  // This will refresh the table with updated data
+          setSelectedJob((prev) => prev ? { ...prev, status: newStatus } : null);
+          await fetchJobs();  // Refresh the table with updated data
         }
       } catch (error) {
         console.error('Error updating job status:', error);
@@ -86,32 +82,30 @@ const JobOpenings = () => {
           <thead>
             <tr>
               <th>Select</th>
+              <th>Company Name</th>
+              <th>Status</th>
               <th>Posting Title</th>
-              <th>Assigned Recruiter(s)</th>
-              <th>Target Date</th>
-              <th>Job Opening Status</th>
+              <th>Experience</th>
+              <th>Budget</th>
+              <th>Notice Period</th>
               <th>City</th>
-              <th>Client Name</th>
-              <th>Contact Name</th>
-              <th>Account Manager</th>
+              <th>Job Description</th>
+              <th>Address</th>
             </tr>
           </thead>
           <tbody>
             {jobs.map((job, index) => (
-              <tr key={index} onClick={() => handleJobClick(job['postingTitle'], job['clientName'])}>
+              <tr key={index} onClick={() => handleJobClick(job.postingTitle, job.companyName)}>
                 <td>[]</td>
-                <td>{job['postingTitle']}</td>
-                <td>{job['Assigned Recruiter(s)']}</td>
-                <td>
-                  {job['targetDate'] && job['targetDate'].$date
-                    ? new Date(job['targetDate'].$date).toLocaleDateString()
-                    : 'N/A'}
-                </td>
-                <td>{job['Job Opening Status']}</td>
-                <td>{job.City}</td>
-                <td>{job['clientName']}</td>
-                <td>{job['Contact Name']}</td>
-                <td>{job['Account Manager']}</td>
+                <td>{job.companyName}</td>
+                <td>{job.status}</td>
+                <td>{job.postingTitle}</td>
+                <td>{job.experience}</td>
+                <td>{job.budget}</td>
+                <td>{job.noticePeriod}</td>
+                <td>{job.city}</td>
+                <td>{job.jd}</td>
+                <td>{job.address}</td>
               </tr>
             ))}
           </tbody>
@@ -121,12 +115,10 @@ const JobOpenings = () => {
       {selectedJob && (
         <div className="jobDetails">
           <h2>Job Details</h2>
+          <p><strong>Company Name:</strong> {selectedJob.companyName}</p>
           <p><strong>Posting Title:</strong> {selectedJob.postingTitle}</p>
-          <p><strong>Client Name:</strong> {selectedJob.clientName}</p>
-          <p><strong>Assigned Recruiter:</strong> {selectedJob['Assigned Recruiter(s)']}</p>
-          <p><strong>Target Date:</strong> {new Date(selectedJob.targetDate.$date).toLocaleDateString()}</p>
-          <p><strong>Job Opening Status:</strong>
-            <select value={newStatus || selectedJob['Job Opening Status']} onChange={handleStatusChange}>
+          <p><strong>Status:</strong> 
+            <select value={newStatus || selectedJob.status} onChange={handleStatusChange}>
               <option value="">Select</option>
               <option>Open</option>
               <option>Closed</option>
@@ -139,9 +131,12 @@ const JobOpenings = () => {
               <option>Rejected</option>
             </select>
           </p>
-          <p><strong>City:</strong> {selectedJob.City}</p>
-          <p><strong>Account Manager:</strong> {selectedJob['Account Manager']}</p>
-          <p><strong>Contact Name:</strong> {selectedJob['Contact Name']}</p>
+          <p><strong>Experience:</strong> {selectedJob.experience}</p>
+          <p><strong>Budget:</strong> {selectedJob.budget}</p>
+          <p><strong>Notice Period:</strong> {selectedJob.noticePeriod}</p>
+          <p><strong>City:</strong> {selectedJob.city}</p>
+          <p><strong>Job Description:</strong> {selectedJob.jd}</p>
+          <p><strong>Address:</strong> {selectedJob.address}</p>
         </div>
       )}
     </div>
