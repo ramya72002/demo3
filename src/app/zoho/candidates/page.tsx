@@ -7,8 +7,10 @@ import './candidates.scss';
 // Define the API URLs
 const API_URL = 'http://127.0.0.1:80/candidate/getall';
 const DETAILS_API_URL = 'http://127.0.0.1:80/zoho/getcandidate_id';
-const UPDATE_STAGE_API_URL = 'http://127.0.0.1:80/candidate/update_stage';
+const UPDATE_CANDIDATE_API_URL = 'http://127.0.0.1:80/candidate/update';
 const API_JOB_POSTINGS_URL = 'http://127.0.0.1:80/jobs/getall';
+const UPDATE_CANDIDATE_STAGE_API_URL = 'http://127.0.0.1:80/candidate/update_stage';
+type CandidateStage = 'new' | 'inreview' | 'available' | 'engaged' | 'offered' | 'hired' | 'rejected';
 
 // TypeScript interface for candidate data
 interface Candidate {
@@ -26,7 +28,7 @@ interface Candidate {
   domain: string;
   skills: string[];
   linkedIn: string;
-  candidateStage: string;
+  candidateStage: CandidateStage;
   addJob: string | null;
   jobStage: number;
 }
@@ -55,7 +57,10 @@ const Candidates: React.FC = () => {
 
   const fetchCandidates = () => {
     axios.get(API_URL)
-      .then(response => setCandidates(response.data))
+      .then(response => {
+        setCandidates(response.data);
+        calculateStageCounts(response.data); // Calculate counts after fetching
+      })
       .catch(error => console.error('Error fetching candidates:', error));
   };
 
@@ -65,12 +70,7 @@ const Candidates: React.FC = () => {
       .catch(error => console.error('Error fetching job postings:', error));
   };
 
-  useEffect(() => {
-    fetchJobPostings();
-    fetchCandidates();
-  }, []);
-
-  const calculateStages = (candidates: Candidate[]) => {
+  const calculateStageCounts = (candidates: Candidate[]) => {
     const counts = {
       new: 0,
       inreview: 0,
@@ -82,16 +82,20 @@ const Candidates: React.FC = () => {
     };
 
     candidates.forEach(candidate => {
-      const stage = candidate.candidateStage.toLowerCase();
-      if (stage in counts) {
-        (counts as any)[stage]++;
+      if (counts.hasOwnProperty(candidate.candidateStage)) {
+        counts[candidate.candidateStage]++;
       }
     });
 
     setStageCounts(counts);
   };
 
-  const handleRowClick = (candidateId: string) => {
+  useEffect(() => {
+    fetchJobPostings();
+    fetchCandidates();
+  }, []);
+
+  const handleCandidateIdClick = (candidateId: string) => {
     if (showDetails === candidateId) {
       setShowDetails(null);
       return;
@@ -100,29 +104,58 @@ const Candidates: React.FC = () => {
       .then(response => {
         const data = response.data[0];
         setSelectedCandidate(data);
-        setSelectedStage(data.candidateStage);
-        setSelectedJob(data.addJob);
-        setShowDetails(candidateId); // Show details of the clicked candidate
+        setShowDetails(candidateId);
       })
       .catch(error => console.error('Error fetching candidate details:', error));
   };
 
-  const updateCandidateStage = () => {
+  const handleSave = () => {
     if (!selectedCandidate) return;
 
     const updateData = {
-      candidateId: selectedCandidate.candidateId,
-      candidateStage: selectedStage,
-      addJob: selectedJob || '',
+      name: selectedCandidate.name,
+      email: selectedCandidate.email,
+      phone: selectedCandidate.phone,
+      gender: selectedCandidate.gender,
+      city: selectedCandidate.city,
+      state: selectedCandidate.state,
+      experience: selectedCandidate.experience,
+      currentCTC: selectedCandidate.currentCTC,
+      expectedCTC: selectedCandidate.expectedCTC,
+      noticePeriod: selectedCandidate.noticePeriod,
+      domain: selectedCandidate.domain,
+      skills: selectedCandidate.skills,
+      linkedIn: selectedCandidate.linkedIn,
     };
 
-    axios.post(UPDATE_STAGE_API_URL, updateData)
-      .then(() => fetchCandidates())
-      .catch(error => console.error('Error updating candidate stage:', error));
+    axios.put(`${UPDATE_CANDIDATE_API_URL}/${selectedCandidate.candidateId}`, updateData)
+      .then(() => {
+        fetchCandidates();
+        setShowDetails(null);
+      })
+      .catch(error => console.error('Error updating candidate:', error));
   };
 
   const closeDetails = () => {
     setShowDetails(null); // Close the details view
+  };
+
+  const handleCandidateStageChange = async (candidateId: string, candidateStage: string) => {
+    try {
+      // Make the PUT request to the API endpoint
+      const response = await axios.put(`${UPDATE_CANDIDATE_STAGE_API_URL}/${candidateId}`, {
+        candidateStage
+      });
+  
+      // Handle the successful response
+      console.log('Candidate stage updated successfully:', response.data);
+  
+      // Fetch updated candidates and update the stage counts
+      fetchCandidates();
+    } catch (error) {
+      // Handle errors
+      console.error('Error updating candidate stage:', error);
+    }
   };
 
   return (
@@ -153,54 +186,56 @@ const Candidates: React.FC = () => {
         <tbody>
           {candidates.map((candidate, index) => (
             <React.Fragment key={index}>
-              <tr onClick={() => handleRowClick(candidate.candidateId)} className="candidate-row">
-                <td>{candidate.candidateId}</td>
+              <tr className="candidate-row">
+                {/* Only clicking on the Candidate ID will trigger the details layer */}
+                <td onClick={() => handleCandidateIdClick(candidate.candidateId)} style={{ cursor: 'pointer' }}>
+                  {candidate.candidateId}
+                </td>
                 <td>{candidate.name}</td>
                 <td>{candidate.email}</td>
                 <td>{candidate.phone}</td>
                 <td>{candidate.city}</td>
-                <td className="stage">{candidate.candidateStage}</td>
+                <td className="stage">
+                  {/* Dropdown for candidate stage */}
+                  <select
+                    value={candidate.candidateStage}
+                    onChange={e => handleCandidateStageChange(candidate.candidateId, e.target.value)}
+                  >
+                    <option value="new">New</option>
+                    <option value="inreview">In Review</option>
+                    <option value="available">Available</option>
+                    <option value="engaged">Engaged</option>
+                    <option value="offered">Offered</option>
+                    <option value="hired">Hired</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </td>
               </tr>
               {showDetails === candidate.candidateId && selectedCandidate && (
-                <div className="candidate-details-layer">
-                  <div className="candidate-details-content">
-                    <span className="close-btn" onClick={closeDetails}>&times;</span>
-                    <h3>Candidate Details</h3>
-                    <p><strong>Name:</strong> {selectedCandidate.name}</p>
-                    <p><strong>Email:</strong> {selectedCandidate.email}</p>
-                    <p><strong>Phone:</strong> {selectedCandidate.phone}</p>
-                    <p><strong>Gender:</strong> {selectedCandidate.gender}</p>
-                    <p><strong>City:</strong> {selectedCandidate.city}</p>
-                    <p><strong>State:</strong> {selectedCandidate.state}</p>
-                    <p><strong>Experience:</strong> {selectedCandidate.experience} years</p>
-                    <p><strong>Current CTC:</strong> {selectedCandidate.currentCTC}</p>
-                    <p><strong>Expected CTC:</strong> {selectedCandidate.expectedCTC}</p>
-                    <p><strong>Notice Period:</strong> {selectedCandidate.noticePeriod} months</p>
-                    <p><strong>Domain:</strong> {selectedCandidate.domain}</p>
-                    <p><strong>Skills:</strong> {selectedCandidate.skills.join(', ')}</p>
-                    <p><strong>LinkedIn:</strong> <a href={selectedCandidate.linkedIn} target="_blank" rel="noopener noreferrer">{selectedCandidate.linkedIn}</a></p>
-                    <p><strong>Candidate Stage:</strong>
-                      <select value={selectedStage} onChange={(e) => setSelectedStage(e.target.value)}>
-                        <option value="new">New</option>
-                        <option value="inreview">In Review</option>
-                        <option value="available">Available</option>
-                        <option value="engaged">Engaged</option>
-                        <option value="offered">Offered</option>
-                        <option value="hired">Hired</option>
-                        <option value="rejected">Rejected</option>
-                      </select>
-                    </p>
-                    <p><strong>Job Posting:</strong>
-                      <select value={selectedJob} onChange={(e) => setSelectedJob(e.target.value)}>
-                        <option value="">None</option>
-                        {jobPostings.map(job => (
-                          <option key={job.id} value={job.id}>{job.postingTitle}</option>
-                        ))}
-                      </select>
-                    </p>
-                    <button onClick={updateCandidateStage}>Update Stage</button>
-                  </div>
-                </div>
+                <tr>
+                  <td colSpan={6}>
+                    <div className="candidate-details-layer">
+                      <div className="candidate-details-content">
+                        <span className="close-btn" onClick={closeDetails}>&times;</span>
+                        <h3>Edit Candidate Details</h3>
+                        <p><strong>Name:</strong> <input type="text" value={selectedCandidate.name} onChange={e => setSelectedCandidate({ ...selectedCandidate, name: e.target.value })} /></p>
+                        <p><strong>Email:</strong> <input type="email" value={selectedCandidate.email} onChange={e => setSelectedCandidate({ ...selectedCandidate, email: e.target.value })} /></p>
+                        <p><strong>Phone:</strong> <input type="tel" value={selectedCandidate.phone} onChange={e => setSelectedCandidate({ ...selectedCandidate, phone: e.target.value })} /></p>
+                        <p><strong>Gender:</strong> <input type="text" value={selectedCandidate.gender} onChange={e => setSelectedCandidate({ ...selectedCandidate, gender: e.target.value })} /></p>
+                        <p><strong>City:</strong> <input type="text" value={selectedCandidate.city} onChange={e => setSelectedCandidate({ ...selectedCandidate, city: e.target.value })} /></p>
+                        <p><strong>State:</strong> <input type="text" value={selectedCandidate.state} onChange={e => setSelectedCandidate({ ...selectedCandidate, state: e.target.value })} /></p>
+                        <p><strong>Experience:</strong> <input type="text" value={selectedCandidate.experience} onChange={e => setSelectedCandidate({ ...selectedCandidate, experience: e.target.value })} /></p>
+                        <p><strong>Current CTC:</strong> <input type="text" value={selectedCandidate.currentCTC} onChange={e => setSelectedCandidate({ ...selectedCandidate, currentCTC: e.target.value })} /></p>
+                        <p><strong>Expected CTC:</strong> <input type="text" value={selectedCandidate.expectedCTC} onChange={e => setSelectedCandidate({ ...selectedCandidate, expectedCTC: e.target.value })} /></p>
+                        <p><strong>Notice Period:</strong> <input type="text" value={selectedCandidate.noticePeriod} onChange={e => setSelectedCandidate({ ...selectedCandidate, noticePeriod: e.target.value })} /></p>
+                        <p><strong>Domain:</strong> <input type="text" value={selectedCandidate.domain} onChange={e => setSelectedCandidate({ ...selectedCandidate, domain: e.target.value })} /></p>
+                        <p><strong>Skills:</strong> <input type="text" value={selectedCandidate.skills.join(', ')} onChange={e => setSelectedCandidate({ ...selectedCandidate, skills: e.target.value.split(',').map(s => s.trim()) })} /></p>
+                        <p><strong>LinkedIn:</strong> <input type="text" value={selectedCandidate.linkedIn} onChange={e => setSelectedCandidate({ ...selectedCandidate, linkedIn: e.target.value })} /></p>
+                        <button onClick={handleSave}>Save</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
               )}
             </React.Fragment>
           ))}
@@ -210,4 +245,4 @@ const Candidates: React.FC = () => {
   );
 };
 
-export default Candidates;                                  
+export default Candidates;
