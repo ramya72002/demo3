@@ -12,11 +12,16 @@ const PostClient = () => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [website, setWebsite] = useState('');
-  const [contactPerson1, setContactPerson1] = useState('');
-  const [contactPerson2, setContactPerson2] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [contactPerson1Name, setContactPerson1Name] = useState('');
+  const [contactPerson1Email, setContactPerson1Email] = useState('');
+  const [contactPerson1Phone, setContactPerson1Phone] = useState('');
+  const [contactPerson2Name, setContactPerson2Name] = useState('');
+  const [contactPerson2Email, setContactPerson2Email] = useState('');
+  const [contactPerson2Phone, setContactPerson2Phone] = useState('');
 
   const handleSave = async () => {
-    if (clientName.trim() === '' || email.trim() === '' || phone.trim() === '' || contactPerson1.trim() === '') {
+    if (clientName.trim() === '' || contactPerson1Name.trim() === '' || contactPerson1Email.trim() === '' || contactPerson1Phone.trim() === '') {
       alert('Please fill in all mandatory fields');
       return;
     }
@@ -30,8 +35,17 @@ const PostClient = () => {
         phone,
         address,
         website,
-        contactPerson1,
-        contactPerson2
+        industry,
+        contactPerson1: {
+          name: contactPerson1Name,
+          email: contactPerson1Email,
+          phone: contactPerson1Phone
+        },
+        contactPerson2: {
+          name: contactPerson2Name,
+          email: contactPerson2Email,
+          phone: contactPerson2Phone
+        }
       });
 
       if (response.status === 201) {
@@ -56,31 +70,34 @@ const PostClient = () => {
         <div className="form-content">
           <div className="form-section">
             <div className="form-group">
-              <label htmlFor="agency">Agency <span>*</span></label>
+              <label htmlFor="agency">Agency</label>
               <select
                 id="agency"
                 value={agency}
                 onChange={(e) => setAgency(e.target.value)}
               >
                 <option value="">Select Agency</option>
-                <option value="data">data</option>
-                {/* Add agency options here */}
+                <option value="Morpheus">Morpheus</option>
+                <option value="Talent Corner">Talent Corner</option>
+                <option value="HR Frontiers">HR Frontiers</option>
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="clientManager">Client Manager <span>*</span></label>
+              <label htmlFor="clientManager">Client Manager</label>
               <select
                 id="clientManager"
                 value={clientManager}
                 onChange={(e) => setClientManager(e.target.value)}
               >
                 <option value="">Select Client Manager</option>
-                <option value="data">data</option>
-                {/* Add client manager options here */}
+                <option value="ayesha">Ayesha</option>
+                <option value="ramya">Ritika</option>
+                <option value="ayesha">Rashika</option>
+                <option value="ramya">Varsha</option>
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="clientName">Client Name <span>*</span></label>
+              <label htmlFor="clientName">Client Name <span className="required">*</span></label>
               <input
                 type="text"
                 id="clientName"
@@ -90,23 +107,30 @@ const PostClient = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="email">Email <span>*</span></label>
+              <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="phone">Phone <span>*</span></label>
+              <label htmlFor="phone">Phone</label>
               <input
                 type="text"
                 id="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="industry">Industry</label>
+              <input
+                type="text"
+                id="industry"
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
               />
             </div>
           </div>
@@ -130,23 +154,67 @@ const PostClient = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="contactPerson1">Contact Person 1 <span>*</span></label>
-              <input
-                type="text"
-                id="contactPerson1"
-                value={contactPerson1}
-                onChange={(e) => setContactPerson1(e.target.value)}
-                required
-              />
+              <h3>Contact Person 1</h3>
+              <div className="form-group">
+                <label htmlFor="contactPerson1Name">Name <span className="required">*</span></label>
+                <input
+                  type="text"
+                  id="contactPerson1Name"
+                  value={contactPerson1Name}
+                  onChange={(e) => setContactPerson1Name(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="contactPerson1Email">Email <span className="required">*</span></label>
+                <input
+                  type="email"
+                  id="contactPerson1Email"
+                  value={contactPerson1Email}
+                  onChange={(e) => setContactPerson1Email(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="contactPerson1Phone">Phone <span className="required">*</span></label>
+                <input
+                  type="text"
+                  id="contactPerson1Phone"
+                  value={contactPerson1Phone}
+                  onChange={(e) => setContactPerson1Phone(e.target.value)}
+                  required
+                />
+              </div>
             </div>
             <div className="form-group">
-              <label htmlFor="contactPerson2">Contact Person 2</label>
-              <input
-                type="text"
-                id="contactPerson2"
-                value={contactPerson2}
-                onChange={(e) => setContactPerson2(e.target.value)}
-              />
+              <h3>Contact Person 2 (Optional)</h3>
+              <div className="form-group">
+                <label htmlFor="contactPerson2Name">Name</label>
+                <input
+                  type="text"
+                  id="contactPerson2Name"
+                  value={contactPerson2Name}
+                  onChange={(e) => setContactPerson2Name(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="contactPerson2Email">Email</label>
+                <input
+                  type="email"
+                  id="contactPerson2Email"
+                  value={contactPerson2Email}
+                  onChange={(e) => setContactPerson2Email(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="contactPerson2Phone">Phone</label>
+                <input
+                  type="text"
+                  id="contactPerson2Phone"
+                  value={contactPerson2Phone}
+                  onChange={(e) => setContactPerson2Phone(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         </div>
