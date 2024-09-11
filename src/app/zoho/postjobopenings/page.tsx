@@ -9,7 +9,7 @@ interface JobFormData {
   postingTitle: string;
   clientName: string;
   contactName?: string;
-  accountManager?: string;
+  Recruiter?: string;
   clientManager?: string;
   dateOpened?: string;
   targetDate: string;
@@ -129,15 +129,18 @@ const JobOpenings: React.FC = () => {
             />
           </div>
           <div className="form-group">
-            <label>Account Manager</label>
+            <label>Recruiter</label>
             <select
-              name="accountManager"
-              value={formData.accountManager || ''}
+              name="Recruiter"
+              value={formData.Recruiter || ''}
               onChange={handleInputChange}
             >
-              <option value="">Select</option>
-              <option>NALLAMSETTY SRI RAMYA</option>
-            </select>
+             <option value="">Select Recruiter</option>
+                <option value="ayesha">Ayesha</option>
+                <option value="ramya">Ritika</option>
+                <option value="ayesha">Rashika</option>
+                <option value="ramya">Varsha</option>
+              </select>
           </div>
           <div className="form-group">
             <label>Client Manager</label>
@@ -197,14 +200,7 @@ const JobOpenings: React.FC = () => {
             >
               <option value="">Select</option>
               <option>Open</option>
-                  <option>Closed</option>
-                  <option>Pending</option>
-                  <option>Filled</option>
-                  <option>On Hold</option>
-                  <option>Expired</option>
-                  <option>Interviewing</option>
-                  <option>Offer Extended</option>
-                  <option>Rejected</option>
+                  <option>Close</option>
             </select>
           </div>
           <div className="form-group">
