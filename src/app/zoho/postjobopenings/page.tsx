@@ -10,7 +10,7 @@ interface JobFormData {
   clientName: string;
   contactName?: string;
   accountManager?: string;
-  assignedRecruiter?: string;
+  clientManger?: string;
   dateOpened?: string;
   targetDate: string;
   jobType?: string;
@@ -24,10 +24,9 @@ interface JobFormData {
   province?: string;
   postalCode?: string;
   revenuePerPosition?: number;
-  actualRevenue?: number;
-  expectedRevenue?: number;
-  missedRevenue?: number;
   numberOfPositions?: number;
+  description?: string;  // Add description field here
+
 }
 
 const JobOpenings: React.FC = () => {
@@ -37,11 +36,12 @@ const JobOpenings: React.FC = () => {
     targetDate: '',
     industry: '',
     numberOfPositions: 1,
+    description:'',
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [clients, setClients] = useState<{ clientName: string }[]>([]);
 
-  const requiredFields: Array<keyof JobFormData> = ['postingTitle', 'clientName', 'targetDate', 'industry'];
+  const requiredFields: Array<keyof JobFormData> = ['postingTitle', 'clientName', 'targetDate', 'industry','description'];
 
   useEffect(() => {
     // Function to fetch clients
@@ -57,7 +57,7 @@ const JobOpenings: React.FC = () => {
     fetchClients();
   }, []); // Empty dependency array ensures this runs only once
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -140,13 +140,19 @@ const JobOpenings: React.FC = () => {
             </select>
           </div>
           <div className="form-group">
-            <label>Assigned Recruiter(s)</label>
-            <input
-              type="text"
-              name="assignedRecruiter"
-              value={formData.assignedRecruiter || ''}
+            <label>Client Manager</label>
+    
+             <select
+              name="clientManger"
+              value={formData.clientManger || ''}
               onChange={handleInputChange}
-            />
+            >
+            <option value="">Select Client Manager</option>
+                <option value="ayesha">Ayesha</option>
+                <option value="ramya">Ritika</option>
+                <option value="ayesha">Rashika</option>
+                <option value="ramya">Varsha</option>
+              </select>
           </div>
           <div className="form-group">
             <label>Date Opened</label>
@@ -324,172 +330,7 @@ const JobOpenings: React.FC = () => {
           <option>Burundi</option>
           <option>Cabo Verde</option>
           <option>Cambodia</option>
-          <option>Cameroon</option>
-          <option>Canada</option>
-          <option>Central African Republic</option>
-          <option>Chad</option>
-          <option>Chile</option>
-          <option>China</option>
-          <option>Colombia</option>
-          <option>Comoros</option>
-          <option>Congo, Democratic Republic of the</option>
-          <option>Congo, Republic of the</option>
-          <option>Costa Rica</option>
-          <option>Cote d'Ivoire</option>
-          <option>Croatia</option>
-          <option>Cuba</option>
-          <option>Cyprus</option>
-          <option>Czech Republic</option>
-          <option>Denmark</option>
-          <option>Djibouti</option>
-          <option>Dominica</option>
-          <option>Dominican Republic</option>
-          <option>East Timor</option>
-          <option>Ecuador</option>
-          <option>Egypt</option>
-          <option>El Salvador</option>
-          <option>Equatorial Guinea</option>
-          <option>Eritrea</option>
-          <option>Estonia</option>
-          <option>Eswatini</option>
-          <option>Ethiopia</option>
-          <option>Fiji</option>
-          <option>Finland</option>
-          <option>France</option>
-          <option>Gabon</option>
-          <option>The Gambia</option>
-          <option>Georgia</option>
-          <option>Germany</option>
-          <option>Ghana</option>
-          <option>Greece</option>
-          <option>Grenada</option>
-          <option>Guatemala</option>
-          <option>Guinea</option>
-          <option>Guinea-Bissau</option>
-          <option>Guyana</option>
-          <option>Haiti</option>
-          <option>Honduras</option>
-          <option>Hungary</option>
-          <option>Iceland</option>
-          <option>India</option>
-          <option>Indonesia</option>
-          <option>Iran</option>
-          <option>Iraq</option>
-          <option>Ireland</option>
-          <option>Israel</option>
-          <option>Italy</option>
-          <option>Jamaica</option>
-          <option>Japan</option>
-          <option>Jordan</option>
-          <option>Kazakhstan</option>
-          <option>Kenya</option>
-          <option>Kiribati</option>
-          <option>Korea, North</option>
-          <option>Korea, South</option>
-          <option>Kosovo</option>
-          <option>Kuwait</option>
-          <option>Kyrgyzstan</option>
-          <option>Laos</option>
-          <option>Latvia</option>
-          <option>Lebanon</option>
-          <option>Lesotho</option>
-          <option>Liberia</option>
-          <option>Libya</option>
-          <option>Liechtenstein</option>
-          <option>Lithuania</option>
-          <option>Luxembourg</option>
-          <option>Madagascar</option>
-          <option>Malawi</option>
-          <option>Malaysia</option>
-          <option>Maldives</option>
-          <option>Mali</option>
-          <option>Malta</option>
-          <option>Marshall Islands</option>
-          <option>Mauritania</option>
-          <option>Mauritius</option>
-          <option>Mexico</option>
-          <option>Micronesia</option>
-          <option>Moldova</option>
-          <option>Monaco</option>
-          <option>Mongolia</option>
-          <option>Montenegro</option>
-          <option>Morocco</option>
-          <option>Mozambique</option>
-          <option>Myanmar</option>
-          <option>Namibia</option>
-          <option>Nauru</option>
-          <option>Nepal</option>
-          <option>Netherlands</option>
-          <option>New Zealand</option>
-          <option>Nicaragua</option>
-          <option>Niger</option>
-          <option>Nigeria</option>
-          <option>North Macedonia</option>
-          <option>Norway</option>
-          <option>Oman</option>
-          <option>Pakistan</option>
-          <option>Palau</option>
-          <option>Panama</option>
-          <option>Papua New Guinea</option>
-          <option>Paraguay</option>
-          <option>Peru</option>
-          <option>Philippines</option>
-          <option>Poland</option>
-          <option>Portugal</option>
-          <option>Qatar</option>
-          <option>Romania</option>
-          <option>Russia</option>
-          <option>Rwanda</option>
-          <option>Saint Kitts and Nevis</option>
-          <option>Saint Lucia</option>
-          <option>Saint Vincent and the Grenadines</option>
-          <option>Samoa</option>
-          <option>San Marino</option>
-          <option>Sao Tome and Principe</option>
-          <option>Saudi Arabia</option>
-          <option>Senegal</option>
-          <option>Serbia</option>
-          <option>Seychelles</option>
-          <option>Sierra Leone</option>
-          <option>Singapore</option>
-          <option>Slovakia</option>
-          <option>Slovenia</option>
-          <option>Solomon Islands</option>
-          <option>Somalia</option>
-          <option>South Africa</option>
-          <option>South Sudan</option>
-          <option>Spain</option>
-          <option>Sri Lanka</option>
-          <option>Sudan</option>
-          <option>Suriname</option>
-          <option>Sweden</option>
-          <option>Switzerland</option>
-          <option>Syria</option>
-          <option>Taiwan</option>
-          <option>Tajikistan</option>
-          <option>Tanzania</option>
-          <option>Thailand</option>
-          <option>Togo</option>
-          <option>Tonga</option>
-          <option>Trinidad and Tobago</option>
-          <option>Tunisia</option>
-          <option>Turkey</option>
-          <option>Turkmenistan</option>
-          <option>Tuvalu</option>
-          <option>Uganda</option>
-          <option>Ukraine</option>
-          <option>United Arab Emirates</option>
-          <option>United Kingdom</option>
-          <option>United States</option>
-          <option>Uruguay</option>
-          <option>Uzbekistan</option>
-          <option>Vanuatu</option>
-          <option>Vatican City</option>
-          <option>Venezuela</option>
-          <option>Vietnam</option>
-          <option>Yemen</option>
-          <option>Zambia</option>
-          <option>Zimbabwe</option>
+    
 
                       </select>
                     </div>
@@ -524,35 +365,7 @@ const JobOpenings: React.FC = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="form-group">
-            <label>Actual Revenue</label>
-            <input
-              type="number"
-              name="actualRevenue"
-              value={formData.actualRevenue || ''}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Expected Revenue</label>
-            <input
-              type="number"
-              name="expectedRevenue"
-              value={formData.expectedRevenue || ''}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Missed Revenue</label>
-            <input
-              type="number"
-              name="missedRevenue"
-              value={formData.missedRevenue || ''}
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-
+         </div>
         <div className="form-group">
           <label className={errors.includes('numberOfPositions') ? 'required' : ''}>
             Number of Positions *
@@ -564,6 +377,17 @@ const JobOpenings: React.FC = () => {
             onChange={handleInputChange}
           />
         </div>
+        <div className="form-group">
+    <label className={errors.includes('description') ? 'required' : ''}>
+      Description *
+    </label>
+    <textarea
+      name="description"
+      value={formData.description || ''}
+      placeholder="Enter job description here..."
+      onChange={handleInputChange}
+    />
+  </div>
       </div>
     </div>
   );
