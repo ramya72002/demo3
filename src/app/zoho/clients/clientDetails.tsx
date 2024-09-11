@@ -1,25 +1,6 @@
 import React from 'react';
 import './clientDetails.scss'; // Import SCSS for styling if needed
-
-interface ContactPerson {
-  name: string;
-  email?: string;
-  phone?: string;
-}
-
-interface Client {
-  agency: string;
-  clientManager: string;
-  clientName: string;
-  email: string;
-  phone: string;
-  address: string;
-  website: string;
-  industry: string;
-  contactPerson1: ContactPerson;
-  contactPerson2: ContactPerson;
-  clientId: string;
-}
+import { Client } from '@/app/types';
 
 interface ClientDetailsProps {
   client: Client;
