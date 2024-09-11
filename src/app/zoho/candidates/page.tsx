@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ShowDetails from './ShowDetails';
 import './candidates.scss';
-
+import ZohoHeader from '@/app/zohoheader/page';
 const API_URL = 'https://demo4-backendurl.vercel.app/candidate/getall';
 const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getcandidate_id';
 const API_JOB_POSTINGS_URL = 'https://demo4-backendurl.vercel.app/jobs/getall';
@@ -117,6 +117,9 @@ const Candidates: React.FC = () => {
   };
 
   return (
+    <div>
+      <ZohoHeader />
+ 
     <div className="table-container">
       <h2>Candidate Stage</h2>
       <div className="candidate-stages">
@@ -179,6 +182,7 @@ const Candidates: React.FC = () => {
       {showDetails && selectedCandidate && (
         <ShowDetails candidate={selectedCandidate} onClose={closeDetails} fetchCandidates={fetchCandidates} />
       )}
+    </div>
     </div>
   );
 };
