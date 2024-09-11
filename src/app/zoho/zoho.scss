@@ -1,53 +1,69 @@
-/* Container for the entire page */
+// Variables for common colors
+$primary-color: #4CAF50;
+$secondary-color: #2196F3;
+$hover-darken: #333;
+$border-color: #ddd;
+$bg-light: #f4f4f4;
+$bg-lighter: #f9f9f9;
+$bg-hover: #f1f1f1;
+
+// Mixin for box shadow
+@mixin box-shadow {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+// Container for the entire page
 .container {
-  width: 100%;
+  width: 197vh;
   padding: 20px;
   display: block;
-  overflow: hidden; /* Hide any scrollbars */
+  overflow: hidden; // Hide any scrollbars
 }
 
-/* Scrollable content inside the container */
+// Scrollable content inside the container
 .scrollable-content {
-  overflow-y: scroll; /* Allows scrolling but hides scrollbar */
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For IE and Edge */
+  overflow-y: scroll; // Allows scrolling but hides scrollbar
+  scrollbar-width: none; // For Firefox
+  -ms-overflow-style: none; // For IE and Edge
+
+  &::-webkit-scrollbar {
+    display: none; // Hide scrollbar for WebKit-based browsers
+  }
 }
 
-.scrollable-content::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for WebKit-based browsers */
-}
-
-/* Common box styling for all sections */
+// Common box styling for all sections
 .box-container {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between the boxes */
+  gap: 20px; // Space between the boxes
 }
 
 .box {
-  border: 1px solid #ddd;
+  border: 1px solid $border-color;
   padding: 20px;
   border-radius: 8px;
-  background-color: #fff; /* White background for box appearance */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
-  transition: height 0.3s ease; /* Smooth transition */
-  height: 200px; /* Default box height */
+  background-color: #fff;
+  @include box-shadow;
+  transition: height 0.3s ease;
+  height: 200px;
   overflow: hidden;
+
+  &.expanded {
+    height: 600px;
+  }
 }
 
-.box.expanded {
-  height: 600px; /* Expanded height */
-}
-
-/* Section headers */
+// Section headers
 .pipelineHeader,
 .timeToFillHeader,
-.timeToHireHeader {
+.timeToHireHeader,
+.sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+// Expand button
 .expandButton {
   background: none;
   border: none;
@@ -55,48 +71,125 @@
   cursor: pointer;
 }
 
-/* Common styles for the pipeline, time to fill, and time to hire sections */
+// Common styles for the sections
 .pipeline,
 .timeToFill,
 .timeToHire {
   margin-top: 10px;
 }
 
-/* Aligns the header row in the pipeline section */
+// Aligns the header row in the pipeline section
 .headerRow {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
   padding-bottom: 10px;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid $border-color;
 }
 
-/* Pipeline section title */
+// Pipeline section title
 .title {
   flex: 1;
-  padding-right: 10px; /* Adds space between the title and stages */
+  padding-right: 10px;
 }
 
-/* Stages in the pipeline */
+// Stages in the pipeline
 .stages {
   display: flex;
   justify-content: space-between;
-  flex: 3; /* Ensures stages take 3x the space compared to the title */
+  flex: 3;
+}
+.client-summary {
+  display: flex;
+  gap: 20px; // Adjust spacing between cards
+  justify-content: space-around; // Distribute evenly across the container
+  margin-top: 30px; // Adjust based on your layout
+
+  .client-card {
+    background-color: #f0f0f0; // Light grey background color for the card
+    border: 2px solid #ccc; // Light grey border
+    border-radius: 10px;
+    padding: 20px;
+    width: 150px; // Adjust the width of each box
+    text-align: center;
+
+    .client-info-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .client-number3 {
+      font-size: 2rem; // Size of the number
+      font-weight: bold;
+      color: #ffffff; // Darker color for the client number
+      background-color: #ee6211; // Light grey background for the number box
+      padding: 10px;
+      border: 2px solid #9c9c9c; // Light grey border around the number box
+      border-radius: 5px; // Rounded corners for the number box
+      width: 80px;
+      height: 60px; // Set a fixed height for the number box
+      display: flex;
+      align-items: center; // Center vertically
+      justify-content: center; // Center horizontally
+      text-align: center; // Center align the text inside the box
+    }
+
+    .client-number1 {
+      font-size: 2rem; // Size of the number
+      font-weight: bold;
+      color: #ffffff; // Darker color for the client number
+      background-color: #1281e9; // Light grey background for the number box
+      padding: 10px;
+      border: 2px solid #9c9c9c; // Light grey border around the number box
+      border-radius: 5px; // Rounded corners for the number box
+      width: 80px;
+      height: 60px; // Set a fixed height for the number box
+      display: flex;
+      align-items: center; // Center vertically
+      justify-content: center; // Center horizontally
+      text-align: center; // Center align the text inside the box
+    }
+
+    .client-number2 {
+      font-size: 2rem; // Size of the number
+      font-weight: bold;
+      color: #ffffff; // Darker color for the client number
+      background-color: #1cdb35; // Light grey background for the number box
+      padding: 10px;
+      border: 2px solid #9c9c9c; // Light grey border around the number box
+      border-radius: 5px; // Rounded corners for the number box
+      width: 80px;
+      height: 60px; // Set a fixed height for the number box
+      display: flex;
+      align-items: center; // Center vertically
+      justify-content: center; // Center horizontally
+      text-align: center; // Center align the text inside the box
+    }
+    
+
+    .client-label {
+      font-size: 1.2rem;
+      color: #666; // Lighter color for the label text
+      margin-top: 10px; // Space between the number and the label
+    }
+  }
 }
 
-/* Aligns recruiter/client info and stages */
+
+// Aligns recruiter/client info and stages
 .pipelineRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
   padding: 10px 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $border-color;
 }
 
-/* Styling for client info section */
 .clientInfo {
-  flex: 1; /* Takes up some space relative to interviewStage */
+  flex: 1;
 }
 
 .recruiter {
@@ -107,155 +200,280 @@
   color: gray;
 }
 
-/* Interview stage section */
+// Interview stage section
 .interviewStage {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 3; /* Ensures the stage takes up more space, similar to stages in header */
+  flex: 3;
 }
 
 .interviewCount {
-  width: 30px; /* Adjust width */
+  width: 30px;
   height: 20px;
   display: inline-block;
   position: relative;
   color: white;
   font-weight: bold;
-  padding: 10px 20px; /* Adjust padding to fit the text inside the arrow */
-  background-color: red; /* Arrow body color */
+  padding: 10px 20px;
+  background-color: red;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -40px;
+    border-right: 25px solid red;
+    border-top: 20px solid red;
+    border-bottom: 20px solid red;
+    border-left: 20px solid transparent;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -20px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid red;
+  }
 }
 
-.interviewCount::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -40px;
-  width: 0;
-  border-right: 25px solid red; /* Adjust arrow tip size */
-  height: 0;
-  border-top: 20px solid red;
-  border-bottom: 20px solid red;
-  border-left: 20px solid transparent; /* Creates the left arrow */
-}
-
-.interviewCount::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -20px;
-  width: 0;
-  height: 0;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-  border-left: 20px solid red; /* Creates the right arrow */
-}
-
-/* Filter buttons inside the time to fill and time to hire sections */
+// Filter buttons
 .filter-buttons {
   display: flex;
   justify-content: flex-start;
-  gap: 10px; /* Adds space between the buttons */
+  gap: 10px;
   margin-bottom: 10px;
+
+  .filterButton {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
 }
 
-.filterButton {
-  padding: 10px 20px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.filterButton:hover {
-  background-color: #e0e0e0;
-}
-
-/* Style for the "No records found" text */
-p {
-  text-align: center;
-  color: #888;
-  margin-top: 10px;
-}
+// Job table
 .jobTable {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
   font-size: 1rem;
   text-align: left;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  @include box-shadow;
+
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid $border-color;
+  }
+
+  th {
+    background-color: $bg-light;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: $bg-lighter;
+  }
+
+  tr:hover {
+    background-color: $bg-hover;
+  }
 }
 
-.jobTable th, .jobTable td {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-}
-
-.jobTable th {
-  background-color: #f4f4f4;
-  font-weight: bold;
-}
-
-.jobTable tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.jobTable tr:hover {
-  background-color: #f1f1f1;
-}                   
-/* Box styles for stage counts */
+// Stage count box styles
 .stageCount {
   display: inline-block;
-  width: 50px; /* Adjust width as needed */
-  height: 50px; /* Adjust height as needed */
-  border-radius: 12px; /* Rounded edges */
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
   text-align: center;
-  line-height: 50px; /* Center the text vertically */
-  color: white; /* Text color */
+  line-height: 50px;
+  color: white;
   font-weight: bold;
-  margin: 5px; /* Space between boxes */
+  margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
-}
+  transition: background-color 0.3s ease, transform 0.3s ease;
 
-.stageCount:hover {
-  background-color: #333; /* Darker background on hover */
-  transform: scale(1.05); /* Slight zoom effect on hover */
-}
+  &:hover {
+    background-color: $hover-darken;
+    transform: scale(1.05);
+  }
 
-/* Individual stage colors */
-.screening {
-  background-color: #4CAF50; /* Green */
-}
+  // Stage colors
+  &.screening {
+    background-color: $primary-color;
+  }
 
-.submissions {
-  background-color: #2196F3; /* Blue */
-}
+  &.submissions {
+    background-color: $secondary-color;
+  }
 
-.interview {
-  background-color: #FFC107; /* Yellow */
-}
+  &.interview {
+    background-color: #FFC107; // Yellow
+  }
 
-.offered {
-  background-color: #FF5722; /* Orange */
-}
+  &.offered {
+    background-color: #FF5722; // Orange
+  }
 
-.hired {
-  background-color: #009688; /* Teal */
-}
+  &.hired {
+    background-color: #009688; // Teal
+  }
 
-.rejected {
-  background-color: #F44336; /* Red */
-}
+  &.rejected {
+    background-color: #F44336; // Red
+  }
 
-.archived {
-  background-color: #9E9E9E; /* Grey */
+  &.archived {
+    background-color: #9E9E9E; // Grey
+  }
 }
-
-/* Optional: Add a container style for better alignment */
-.stages {
+.client-summary {
   display: flex;
-  justify-content: space-around; /* Space out the stage boxes */
-  flex-wrap: wrap; /* Allow wrapping if necessary */
+  justify-content: center;
+  margin: 20px 0;
+
+  .client-card {
+      width: 20%;
+      background-color: #613c1e;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+
+      .client-info-box {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: #fff;
+          border-radius: 5px;
+          padding: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          min-height: 100px;
+
+          .client-number {
+              font-size: 24px;
+              font-weight: bold;
+          }
+
+          .client-label {
+              margin-top: 10px;
+              font-size: 20px;
+              font-weight: bold;
+              color: #331515;
+          }
+      }
+  }
 }
+
+.client-data {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #1f41b3; /* Adding a color to header */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    border-radius: 5px;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row colors */
+  }
+
+  tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  /* Add some hover effects for interactive feel */
+  tbody tr:hover td {
+    color: #333;
+    font-weight: bold;
+  }
+
+  /* Responsive design */
+  @media screen and (max-width: 768px) {
+    thead {
+      display: none; /* Hides the table header on smaller screens */
+    }
+
+    tbody tr {
+      display: block;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    tbody td {
+      display: block;
+      text-align: right;
+      padding: 10px;
+      position: relative;
+      border: none;
+    }
+
+    tbody td::before {
+      content: attr(data-label); /* Use a custom attribute to show column names */
+      position: absolute;
+      left: 0;
+      top: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+}
+.summary-grid {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+
+  .summary-item {
+    text-align: center;
+
+    .header-text {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .summary-box {
+      width: 70px;
+      height: 70px;
+      background-color: #1b5a72;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      span {
+        font-size: 1.2rem;
+        color: white;
+      }
+    }
+  }
+}
+

@@ -23,15 +23,17 @@ interface JobData {
 }
 
 const Page = () => {
-  type Section = 'pipeline' | 'ageOfJob' | 'upcoming';
+  type Section = 'pipeline' | 'ageOfJob' | 'sectionOne' | 'sectionTwo' | 'sectionThree' | 'upcoming';
 
   const [isExpanded, setIsExpanded] = useState({
     pipeline: false,
     ageOfJob: false,
+    sectionOne: false,
+    sectionTwo: false,
+    sectionThree: false,
     upcoming: false,
   });
   const [jobData, setJobData] = useState<JobData[]>([]);
-
   const [candidateData, setCandidateData] = useState<{ [key: string]: CandidateData[] }>({});
   const router = useRouter(); // Use Next.js router for navigation
 
@@ -101,7 +103,6 @@ const Page = () => {
     return stageCounts;
   };
 
-  // Navigate to the details page with the client key and job stage
   const handleStageClick = (clientKey: string, stage: string) => {
     const encodedClientKey = encodeURIComponent(clientKey);
     const encodedStage = encodeURIComponent(stage);
@@ -115,7 +116,6 @@ const Page = () => {
     }));
   };
 
-  // Function to calculate the age of the job in days
   const calculateJobAge = (targetDate: string) => {
     const target = new Date(targetDate).getTime();
     const today = new Date().getTime();
@@ -142,78 +142,76 @@ const Page = () => {
                 <div className="headerRow">
                   <span className="title">Posting Title / Client Name</span>
                   <div className="stages">
-                    <span>Screening</span>
-                    <span>Submissions</span>
+                    <span>New</span>
                     <span>Interview</span>
+                    <span>Available</span>
+                    <span>Engaged</span>
                     <span>Offered</span>
                     <span>Hired</span>
                     <span>Rejected</span>
-                    <span>Archived</span>
                   </div>
                 </div>
 
-                {/* Render pipeline data for each client */}
                 {Object.keys(candidateData).map((clientKey, index) => {
                   const stageCounts = getCandidateStageCounts(candidateData[clientKey]);
 
                   return (
                     <div className="pipelineRow" key={index}>
-  <div className="clientInfo">
-    <span className="recruiter">{clientKey}</span>
-  </div>
-  <div className="stages">
-    <span
-      className={`stageCount screening`}
-      onClick={() => handleStageClick(clientKey, 'screening')}
-    >
-      {stageCounts.screening}
-    </span>
-    <span
-      className={`stageCount submissions`}
-      onClick={() => handleStageClick(clientKey, 'submissions')}
-    >
-      {stageCounts.submissions}
-    </span>
-    <span
-      className={`stageCount interview`}
-      onClick={() => handleStageClick(clientKey, 'interview')}
-    >
-      {stageCounts.interview}
-    </span>
-    <span
-      className={`stageCount offered`}
-      onClick={() => handleStageClick(clientKey, 'offered')}
-    >
-      {stageCounts.offered}
-    </span>
-    <span
-      className={`stageCount hired`}
-      onClick={() => handleStageClick(clientKey, 'hired')}
-    >
-      {stageCounts.hired}
-    </span>
-    <span
-      className={`stageCount rejected`}
-      onClick={() => handleStageClick(clientKey, 'rejected')}
-    >
-      {stageCounts.rejected}
-    </span>
-    <span
-      className={`stageCount archived`}
-      onClick={() => handleStageClick(clientKey, 'archived')}
-    >
-      {stageCounts.archived}
-    </span>
-  </div>
-</div>
-
+                      <div className="clientInfo">
+                        <span className="recruiter">{clientKey}</span>
+                      </div>
+                      <div className="stages">
+                        <span
+                          className={`stageCount screening`}
+                          onClick={() => handleStageClick(clientKey, 'screening')}
+                        >
+                          {stageCounts.screening}
+                        </span>
+                        <span
+                          className={`stageCount submissions`}
+                          onClick={() => handleStageClick(clientKey, 'submissions')}
+                        >
+                          {stageCounts.submissions}
+                        </span>
+                        <span
+                          className={`stageCount interview`}
+                          onClick={() => handleStageClick(clientKey, 'interview')}
+                        >
+                          {stageCounts.interview}
+                        </span>
+                        <span
+                          className={`stageCount offered`}
+                          onClick={() => handleStageClick(clientKey, 'offered')}
+                        >
+                          {stageCounts.offered}
+                        </span>
+                        <span
+                          className={`stageCount hired`}
+                          onClick={() => handleStageClick(clientKey, 'hired')}
+                        >
+                          {stageCounts.hired}
+                        </span>
+                        <span
+                          className={`stageCount rejected`}
+                          onClick={() => handleStageClick(clientKey, 'rejected')}
+                        >
+                          {stageCounts.rejected}
+                        </span>
+                        <span
+                          className={`stageCount archived`}
+                          onClick={() => handleStageClick(clientKey, 'archived')}
+                        >
+                          {stageCounts.archived}
+                        </span>
+                      </div>
+                    </div>
                   );
                 })}
 
               </div>
             </div>
 
-            {/* Other sections remain unchanged */}
+            {/* Age of Job Section */}
             <div className={`box ${isExpanded.ageOfJob ? 'expanded' : ''}`}>
               <div className="timeToFillHeader">
                 <h2>Age of Job</h2>
@@ -227,33 +225,235 @@ const Page = () => {
                   <button className="filterButton">Department</button>
                 </div>
                 {jobData.length > 0 ? (
-  <table className="jobTable">
-    <thead>
-      <tr>
-        <th>Job Opening</th>
-        <th>No of positions</th>
-        <th>Age of opened jobs</th>
-        <th>Delay [IN DAYS]</th>
-      </tr>
-    </thead>
-    <tbody>
-      {jobData.map((job, index) => (
-        <tr key={index}>
-          <td>{job.postingTitle || 'N/A'}</td>
-          <td>{job.numberOfPositions}</td>
-          <td>{calculateJobAge(job.targetDate)}</td>
-          <td>0</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-) : (
-  <p>No records found</p>
-)}
-
+                  <table className="jobTable">
+                    <thead>
+                      <tr>
+                        <th>Job Opening</th>
+                        <th>No of positions</th>
+                        <th>Age of opened jobs</th>
+                        <th>Delay [IN DAYS]</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {jobData.map((job, index) => (
+                        <tr key={index}>
+                          <td>{job.postingTitle || 'N/A'}</td>
+                          <td>{job.numberOfPositions}</td>
+                          <td>{calculateJobAge(job.targetDate)}</td>
+                          <td>0</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No records found</p>
+                )}
               </div>
             </div>
 
+            {/* New Section One */}
+            <div className={`box ${isExpanded.sectionOne ? 'expanded' : ''}`}>
+              <div className="sectionHeader">
+                <h2>Client Summary</h2>
+                <button className="expandButton" onClick={() => toggleExpand('sectionOne')}>
+                  {isExpanded.sectionOne ? '↘' : '↗'}
+                </button>
+              </div>
+              <div className="client-summary">
+                  <div className="client-card">
+                      <div className="client-info-box">
+                          <span className="client-number3">50</span>
+                          <span className="client-label">Active Clients</span>
+                      </div>
+                  </div>
+                  <div className="client-card">
+                      <div className="client-info-box">
+                          <span className="client-number1">20</span>
+                          <span className="client-label">Inactive Clients</span>
+                      </div>
+                  </div>
+                  <div className="client-card">
+                      <div className="client-info-box">
+                          <span className="client-number2">70</span>
+                          <span className="client-label">Total Clients</span>
+                      </div>
+                  </div>
+              </div>
+
+              {/* <!-- Table for Data --> */}
+                <table className="client-data">
+                    <thead>
+                        <tr>
+                            <th>Client ID</th>
+                            <th>Agency</th>
+                            <th>Client Manager</th>
+                            <th>Client Name</th>
+                            <th>Contact Person 1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Agency A</td>
+                            <td>John Doe</td>
+                            <td>Client A</td>
+                            <td>Jane Smith</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Agency B</td>
+                            <td>Emily Davis</td>
+                            <td>Client B</td>
+                            <td>Robert Johnson</td>
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>Agency C</td>
+                            <td>Michael Lee</td>
+                            <td>Client C</td>
+                            <td>Alice White</td>
+                        </tr>
+                        <tr>
+                            <td>004</td>
+                            <td>Agency D</td>
+                            <td>Sarah Green</td>
+                            <td>Client D</td>
+                            <td>David Brown</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>Agency E</td>
+                            <td>Chris Black</td>
+                            <td>Client E</td>
+                            <td>Linda Blue</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            {/* New Section Two */}
+            <div className={`box ${isExpanded.sectionTwo ? 'expanded' : ''}`}>
+              <div className="sectionHeader">
+                <h2>Job Opening Summary</h2>
+                <button className="expandButton" onClick={() => toggleExpand('sectionTwo')}>
+                  {isExpanded.sectionTwo ? '↘' : '↗'}
+                </button>
+              </div>
+              <div className="client-summary">
+                    <div className="client-card">
+                        <div className="client-info-box">
+                            <span className="client-number3">16</span>
+                            <span className="client-label">Active Job Oppenings</span>
+                        </div>
+                    </div>
+                    <div className="client-card">
+                        <div className="client-info-box">
+                            <span className="client-number1">4</span>
+                            <span className="client-label">Inactive Job Openings</span>
+                        </div>
+                    </div>
+                    <div className="client-card">
+                        <div className="client-info-box">
+                            <span className="client-number2">20</span>
+                            <span className="client-label">Total job Openings</span>
+                        </div>
+                    </div>
+                </div>
+                <table className="client-data">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Posting Title</th>
+                            <th>Client Name</th>
+                            <th>Target Date</th>
+                            <th>Job Opening Status</th>
+                            <th>City</th>
+                            <th>Client Manager</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                          <tr>
+                              <td>1001</td>
+                              <td>Software Engineer</td>
+                              <td>Client A</td>
+                              <td>2024-09-30</td>
+                              <td>Open</td>
+                              <td>New York</td>
+                              <td>John Doe</td>
+                              <td>Active</td>
+                          </tr>
+                          <tr>
+                              <td>1002</td>
+                              <td>Data Analyst</td>
+                              <td>Client B</td>
+                              <td>2024-10-05</td>
+                              <td>Closed</td>
+                              <td>Chicago</td>
+                              <td>Emily Davis</td>
+                              <td>Inactive</td>
+                          </tr>
+                          <tr>
+                              <td>1003</td>
+                              <td>Project Manager</td>
+                              <td>Client C</td>
+                              <td>2024-09-28</td>
+                              <td>Pending</td>
+                              <td>San Francisco</td>
+                              <td>Michael Lee</td>
+                              <td>Active</td>
+                          </tr>
+                          <tr>
+                              <td>1004</td>
+                              <td>UX Designer</td>
+                              <td>Client D</td>
+                              <td>2024-10-10</td>
+                              <td>Open</td>
+                              <td>Seattle</td>
+                              <td>Sarah Green</td>
+                              <td>Active</td>
+                          </tr>
+                          <tr>
+                              <td>1005</td>
+                              <td>DevOps Engineer</td>
+                              <td>Client E</td>
+                              <td>2024-09-25</td>
+                              <td>Open</td>
+                              <td>Boston</td>
+                              <td>Chris Black</td>
+                              <td>Active</td>
+                          </tr>
+                      </tbody>
+
+                </table>
+
+            </div>
+
+            {/* New Section Three */}
+            <div className={`box ${isExpanded.sectionThree ? 'expanded' : ''}`}>
+                <div className="sectionHeader">
+                  <h2>Candidate Summary</h2>
+                  <button className="expandButton" onClick={() => toggleExpand('sectionThree')}>
+                    {isExpanded.sectionThree ? '↘' : '↗'}
+                  </button>
+                </div>
+                <div className="sectionContent">
+                  <div className="summary-grid">
+                    {['Screening', 'Submissions', 'Interview', 'Offered', 'Hired', 'Rejected', 'Total'].map((header, index) => (
+                      <div className="summary-item" key={index}>
+                        <p className="header-text">{header}</p>
+                        <div className="summary-box">
+                          <span>{}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            {/* Upcoming Section */}
             <div className={`box ${isExpanded.upcoming ? 'expanded' : ''}`}>
               <div className="timeToHireHeader">
                 <h2>Upcoming</h2>
