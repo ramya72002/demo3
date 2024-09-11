@@ -1,11 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './postcandidate.scss';
 import ZohoHeader from '@/app/zohoheader/page';
 import axios from 'axios';
+import { Job } from '@/app/types';
 
 const PostCandidate = () => {
+  // Initialize state, including candidateDate with the current date
   const [candidateInfo, setCandidateInfo] = useState({
     name: '',
     email: '',
@@ -20,19 +22,69 @@ const PostCandidate = () => {
     domain: '',
     skills: '',
     linkedIn: '',
+    clientName: '',
+    postingTitle: '',
+    candidateDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD format
   });
+
+  const [clientNames, setClientNames] = useState<string[]>([]);
+  const [postingTitles, setPostingTitles] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');
+        const jobs = response.data;
+
+        const uniqueClientNames = Array.from(new Set(jobs.map((job) => job.clientName)));
+        setClientNames(uniqueClientNames);
+
+        const initialClientName = uniqueClientNames[0];
+        const filteredJobs = jobs.filter((job) => job.clientName === initialClientName);
+        const uniquePostingTitles = Array.from(new Set(filteredJobs.map((job) => job.postingTitle)));
+        setPostingTitles(uniquePostingTitles);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setCandidateInfo({
-      ...candidateInfo,
+    setCandidateInfo(prevState => ({
+      ...prevState,
       [name]: value,
-    });
+    }));
+
+    if (name === 'clientName') {
+      const selectedClientName = value;
+      setCandidateInfo(prevState => ({
+        ...prevState,
+        clientName: selectedClientName,
+        postingTitle: ''
+      }));
+
+      const fetchPostingTitles = async () => {
+        try {
+          const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');
+          const jobs = response.data;
+          const filteredJobs = jobs.filter((job) => job.clientName === selectedClientName);
+          const uniquePostingTitles = Array.from(new Set(filteredJobs.map((job) => job.postingTitle)));
+          setPostingTitles(uniquePostingTitles);
+        } catch (error) {
+          console.error('Error fetching posting titles:', error);
+        }
+      };
+
+      fetchPostingTitles();
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const payload = {
       ...candidateInfo,
       skills: candidateInfo.skills.split(',').map(skill => skill.trim()),
@@ -67,7 +119,7 @@ const PostCandidate = () => {
               />
             </div>
           ))}
-          
+
           <div className="form-group">
             <label htmlFor="gender">Gender</label>
             <select name="gender" id="gender" value={candidateInfo.gender} onChange={handleChange}>
@@ -77,7 +129,39 @@ const PostCandidate = () => {
               <option value="Other">Other</option>
             </select>
           </div>
-          
+
+          <div className="form-group">
+            <label htmlFor="clientName">Client Name</label>
+            <select name="clientName" id="clientName" value={candidateInfo.clientName} onChange={handleChange}>
+              <option value="">Select Client Name</option>
+              {clientNames.map((clientName) => (
+                <option key={clientName} value={clientName}>{clientName}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="postingTitle">Posting Title</label>
+            <select name="postingTitle" id="postingTitle" value={candidateInfo.postingTitle} onChange={handleChange}>
+              <option value="">Select Posting Title</option>
+              {postingTitles.map((postingTitle) => (
+                <option key={postingTitle} value={postingTitle}>{postingTitle}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="candidateDate">Candidate Date</label>
+            <input
+              type="date"
+              id="candidateDate"
+              name="candidateDate"
+              value={candidateInfo.candidateDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           <button type="submit">Submit</button>
         </form>
       </div>

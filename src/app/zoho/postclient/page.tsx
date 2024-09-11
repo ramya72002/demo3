@@ -1,5 +1,5 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for HTTP requests
 import './postclient.scss'; // Import the SCSS file
 import ZohoHeader from '@/app/zohoheader/page';
@@ -19,6 +19,13 @@ const PostClient = () => {
   const [contactPerson2Name, setContactPerson2Name] = useState('');
   const [contactPerson2Email, setContactPerson2Email] = useState('');
   const [contactPerson2Phone, setContactPerson2Phone] = useState('');
+  const [clientDate, setClientDate] = useState('');
+
+  // Set today's date on component load
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    setClientDate(today);
+  }, []);
 
   const handleSave = async () => {
     if (clientName.trim() === '' || contactPerson1Name.trim() === '' || contactPerson1Email.trim() === '' || contactPerson1Phone.trim() === '') {
@@ -36,6 +43,7 @@ const PostClient = () => {
         address,
         website,
         industry,
+        clientDate, // Add clientDate to the payload
         contactPerson1: {
           name: contactPerson1Name,
           email: contactPerson1Email,
@@ -92,8 +100,8 @@ const PostClient = () => {
                 <option value="">Select Client Manager</option>
                 <option value="ayesha">Ayesha</option>
                 <option value="ramya">Ritika</option>
-                <option value="ayesha">Rashika</option>
-                <option value="ramya">Varsha</option>
+                <option value="rashika">Rashika</option>
+                <option value="varsha">Varsha</option>
               </select>
             </div>
             <div className="form-group">
@@ -151,6 +159,17 @@ const PostClient = () => {
                 id="website"
                 value={website}
                 onChange={(e) => setWebsite(e.target.value)}
+              />
+            </div>
+            {/* Display the clientDate field, optional */}
+            <div className="form-group">
+              <label htmlFor="clientDate">Client Date</label>
+              <input
+                type="date"
+                id="clientDate"
+                value={clientDate}
+                onChange={(e) => setClientDate(e.target.value)} // Allow changing date
+                disabled
               />
             </div>
             <div className="form-group">

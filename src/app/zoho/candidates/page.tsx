@@ -118,10 +118,8 @@ const Candidates: React.FC = () => {
             <th>Phone</th>
             <th>Gender</th>
             <th>City</th>
-            <th>Experience</th>
-            <th>Current CTC</th>
-            <th>Expected CTC</th>
-            <th>Notice Period</th>
+            <th>ClientName</th>
+            <th>PostingTitle</th>
             <th>Stage</th>
           </tr>
         </thead>
@@ -136,10 +134,8 @@ const Candidates: React.FC = () => {
               <td>{candidate.phone}</td>
               <td>{candidate.gender}</td>
               <td>{candidate.city}</td>
-              <td>{candidate.experience}</td>
-              <td>{candidate.currentCTC}</td>
-              <td>{candidate.expectedCTC}</td>
-              <td>{candidate.noticePeriod}</td>
+              <td>{candidate.clientName}</td>
+              <td>{candidate.postingTitle}</td>
               <td>
                 <select value={candidate.candidateStage} onChange={(e) => handleCandidateStageChange(candidate.candidateId, e.target.value)}>
                   <option value="new">New</option>

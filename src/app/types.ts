@@ -64,6 +64,9 @@ export interface EmployeeRecord {
   skills: string[];
   linkedIn: string;
   candidateStage: CandidateStage;
+  postingTitle:string;
+  clientName:string;
+  candidateDate:string;
 }
 
 export interface ContactPerson {
@@ -84,4 +87,5 @@ export interface Client {
   contactPerson1: ContactPerson;
   contactPerson2: ContactPerson;
   clientId: string;
+  clientDate:string;
 }
