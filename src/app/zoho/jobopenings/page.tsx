@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import ZohoHeader from '@/app/zohoheader/page';
 import axios from 'axios';
-import JobDetails from './JobDetails'; // Import the new JobDetails component
+import JobDetails from './jobDetails'; // Import the new JobDetails component
 import './jobopenings.scss';
 import { Job } from '../../types';
 
