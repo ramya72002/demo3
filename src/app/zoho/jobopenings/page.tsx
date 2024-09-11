@@ -35,16 +35,7 @@ const JobOpenings = () => {
     fetchJobs();
   }, []);
 
-  const handleJobClick = async (postingTitle: string, clientName: string) => {
-    try {
-      const response = await axios.get('http://127.0.0.1:80/zoho/getjob', {
-        params: { postingTitle, clientName }
-      });
-      setSelectedJob(response.data[0]);
-    } catch (error) {
-      console.error('Error fetching job details:', error);
-    }
-  };
+
 
   // Function to handle status change
   const handleStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -91,8 +82,7 @@ const JobOpenings = () => {
           </thead>
           <tbody>
             {jobs.map((job, index) => (
-              <tr key={index} onClick={() => handleJobClick(job.postingTitle, job.clientName)}>
-          
+              <tr key={index}>         
                 <td>{job.jobId}</td>
                 <td>{job.postingTitle}</td>
                 <td>{job.clientManager}</td>
@@ -107,32 +97,7 @@ const JobOpenings = () => {
         </table>
       </div>
 
-      {selectedJob && (
-        <div className="jobDetails">
-          <h2>Job Details</h2>
-          <p><strong>Job ID:</strong> {selectedJob.jobId}</p>
-          <p><strong>Posting Title:</strong> {selectedJob.postingTitle}</p>
-          <p><strong>Client Manager:</strong> {selectedJob.clientManager}</p>
-          <p><strong>Target Date:</strong> {selectedJob.targetDate}</p>
-          <p><strong>Job Opening Status:</strong> 
-            <select value={newStatus || selectedJob.jobOpeningStatus} onChange={handleStatusChange}>
-              <option value="">Select</option>
-              <option>Open</option>
-              <option>Closed</option>
-              <option>Pending</option>
-              <option>Filled</option>
-              <option>On Hold</option>
-              <option>Expired</option>
-              <option>Interviewing</option>
-              <option>Offer Extended</option>
-              <option>Rejected</option>
-            </select>
-          </p>
-          <p><strong>City:</strong> {selectedJob.city}</p>
-          <p><strong>Client Name:</strong> {selectedJob.clientName}</p>
-          <p><strong>Account Manager:</strong> {selectedJob.accountManager || 'N/A'}</p>
-        </div>
-      )}
+    
     </div>
   );
 };
