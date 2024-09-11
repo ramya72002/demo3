@@ -87,5 +87,5 @@ export interface Client {
   contactPerson1: ContactPerson;
   contactPerson2: ContactPerson;
   clientId: string;
-  clientDate:string;
+  clientDate: string;
 }
