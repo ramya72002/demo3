@@ -9,6 +9,7 @@ import { Job } from '../../types';
 const JobOpenings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [jobOpeningStatus, setJobOpeningStatus] = useState<string>(''); // For dropdown status handling
 
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
@@ -30,30 +31,27 @@ const JobOpenings = () => {
       const response = await axios.get<Job[]>(`https://demo4-backendurl.vercel.app/zoho/getjob_id?jobId=${jobId}`);
       const job = response.data[0]; // Access the first element of the array
       setSelectedJob(job);
+      setJobOpeningStatus(job.jobOpeningStatus); // Set current status in state
     } catch (error) {
       console.error('Error fetching job details:', error);
     }
   };
 
-  // Function to handle job details update
-  const handleSave = async (updatedJob: Partial<Job>) => {
-    if (selectedJob) {
-      try {
-        // Create a new object excluding the '_id' field
-        const { _id, ...updateData } = updatedJob;
+  // Function to handle status change
+  const handleStatusChange = async (jobId: string, newStatus: string) => {
+    try {
+      const response = await axios.put(
+        `https://demo4-backendurl.vercel.app/job/update_job_opening_status/${jobId}`,
+        { jobOpeningStatus: newStatus }
+      );
 
-        // Call PUT API to update job details
-        const response = await axios.put(`https://demo4-backendurl.vercel.app/job/update/${selectedJob.jobId}`, updateData);
-
-        if (response.status === 200) {
-          alert('Job updated successfully');
-          await fetchJobs(); // Refresh the table with updated data
-          setSelectedJob(null); // Close the details view
-        }
-      } catch (error) {
-        console.error('Error updating job details:', error);
-        alert('Failed to update job details');
+      if (response.status === 200) {
+        alert('Job status updated successfully');
+        await fetchJobs(); // Refresh the table with updated data
       }
+    } catch (error) {
+      console.error('Error updating job status:', error);
+      alert('Failed to update job status');
     }
   };
 
@@ -69,10 +67,10 @@ const JobOpenings = () => {
               <th>Posting Title</th>
               <th>Client Manager</th>
               <th>Target Date</th>
-              <th>Job Opening Status</th>
               <th>City</th>
               <th>Client Name</th>
               <th>Account Manager</th>
+              <th>Job Opening Status</th>
             </tr>
           </thead>
           <tbody>
@@ -84,10 +82,19 @@ const JobOpenings = () => {
                 <td>{job.postingTitle}</td>
                 <td>{job.clientManager}</td>
                 <td>{job.targetDate}</td>
-                <td>{job.jobOpeningStatus}</td>
                 <td>{job.city}</td>
                 <td>{job.clientName}</td>
                 <td>{job.accountManager || 'N/A'}</td>
+                <td>
+                <select
+  value={job.jobOpeningStatus ?? ''} // Default to an empty string if undefined
+  onChange={(e) => handleStatusChange(job.jobId, e.target.value)}
+>
+  <option value="Open">Open</option>
+  <option value="Close">Close</option>
+</select>
+
+                </td>
               </tr>
             ))}
           </tbody>
@@ -98,7 +105,9 @@ const JobOpenings = () => {
         <JobDetails
           job={selectedJob}
           onClose={() => setSelectedJob(null)}
-          onSave={handleSave}
+         // Ensure jobOpeningStatus has a fallback value if undefined
+onSave={(updatedJob) => handleStatusChange(selectedJob.jobId, updatedJob.jobOpeningStatus ?? 'Open')}
+
         />
       )}
     </div>
