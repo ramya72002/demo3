@@ -49,7 +49,7 @@ $bg-hover: #f1f1f1;
   overflow: hidden;
 
   &.expanded {
-    height: 600px;
+    height: 800px;
   }
 }
 
@@ -476,4 +476,8 @@ $bg-hover: #f1f1f1;
     }
   }
 }
-
+.bar {
+  display: flex;
+  justify-content: center;  /* Center horizontally */
+  height: 35%;             /* Ensure the container takes up the full height */
+}

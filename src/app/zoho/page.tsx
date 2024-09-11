@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // For navigation
 import './zoho.scss';
 import ZohoHeader from '../zohoheader/page';
+import PerformanceBarChart from '../barchart/page';
+import LineChart from '../linechart/page';
 
 // Define interface for Candidate Data
 interface CandidateData {
@@ -23,7 +25,7 @@ interface JobData {
 }
 
 const Page = () => {
-  type Section = 'pipeline' | 'ageOfJob' | 'sectionOne' | 'sectionTwo' | 'sectionThree' | 'upcoming';
+  type Section = 'pipeline' | 'ageOfJob' | 'sectionOne' | 'sectionTwo' | 'sectionThree' | 'newSection' | 'upcoming';
 
   const [isExpanded, setIsExpanded] = useState({
     pipeline: false,
@@ -31,6 +33,7 @@ const Page = () => {
     sectionOne: false,
     sectionTwo: false,
     sectionThree: false,
+    newSection: false,
     upcoming: false,
   });
   const [jobData, setJobData] = useState<JobData[]>([]);
@@ -70,9 +73,10 @@ const Page = () => {
       hired: 0,
       rejected: 0,
       archived: 0,
+      total: candidates.length, // Total count of candidates
     };
-
-    candidates.forEach((candidate) => {
+  
+    candidates.forEach((candidate: CandidateData) => {
       switch (candidate.job_stage) {
         case 1:
           stageCounts.screening += 1;
@@ -99,9 +103,29 @@ const Page = () => {
           break;
       }
     });
-
+  
     return stageCounts;
   };
+  interface CandidateData {
+    job_stage: number;
+    name: string;
+    // Add other properties if necessary
+  }
+  // Sample candidates array
+  const candidates: CandidateData[] = [
+    { name: 'Alice Smith', job_stage: 1 }, // Screening
+    { name: 'Bob Johnson', job_stage: 2 }, // Submissions
+    { name: 'Carol Williams', job_stage: 3 }, // Interview
+    { name: 'David Brown', job_stage: 4 }, // Offered
+    { name: 'Eva Davis', job_stage: 5 }, // Hired
+    { name: 'Frank Miller', job_stage: 6 }, // Rejected
+    { name: 'Grace Wilson', job_stage: 7 }, // Archived
+    { name: 'Henry Moore', job_stage: 1 }, // Screening
+    { name: 'Ivy Taylor', job_stage: 2 }, // Submissions
+    { name: 'Jack Anderson', job_stage: 3 }, // Interview
+  ];
+// Get the stage counts
+const stageCounts = getCandidateStageCounts(candidates);
 
   const handleStageClick = (clientKey: string, stage: string) => {
     const encodedClientKey = encodeURIComponent(clientKey);
@@ -196,12 +220,6 @@ const Page = () => {
                           onClick={() => handleStageClick(clientKey, 'rejected')}
                         >
                           {stageCounts.rejected}
-                        </span>
-                        <span
-                          className={`stageCount archived`}
-                          onClick={() => handleStageClick(clientKey, 'archived')}
-                        >
-                          {stageCounts.archived}
                         </span>
                       </div>
                     </div>
@@ -431,27 +449,49 @@ const Page = () => {
             </div>
 
             {/* New Section Three */}
-            <div className={`box ${isExpanded.sectionThree ? 'expanded' : ''}`}>
-                <div className="sectionHeader">
-                  <h2>Candidate Summary</h2>
-                  <button className="expandButton" onClick={() => toggleExpand('sectionThree')}>
-                    {isExpanded.sectionThree ? '↘' : '↗'}
-                  </button>
-                </div>
-                <div className="sectionContent">
-                  <div className="summary-grid">
-                    {['Screening', 'Submissions', 'Interview', 'Offered', 'Hired', 'Rejected', 'Total'].map((header, index) => (
-                      <div className="summary-item" key={index}>
-                        <p className="header-text">{header}</p>
-                        <div className="summary-box">
-                          <span>{}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+    <div className={`box ${isExpanded.sectionThree ? 'expanded' : ''}`}>
+        <div className="sectionHeader">
+          <h2>Candidate Summary</h2>
+          <button className="expandButton" onClick={() => toggleExpand('sectionThree')}>
+            {isExpanded.sectionThree ? '↘' : '↗'}
+          </button>
+        </div>
+        <div className="sectionContent">
+          <div className="summary-grid">
+            {['Screening', 'Submissions', 'Interview', 'Offered', 'Hired', 'Rejected', 'Total'].map((header, index) => (
+              <div className="summary-item" key={index}>
+                <p className="header-text">{header}</p>
+                <div className="summary-box">
+                  <span>
+                  {
+                        header === 'Screening' ? stageCounts.screening ?? 0 :
+                        header === 'Submissions' ? stageCounts.submissions ?? 0 :
+                        header === 'Interview' ? stageCounts.interview ?? 0 :
+                        header === 'Offered' ? stageCounts.offered ?? 0 :
+                        header === 'Hired' ? stageCounts.hired ?? 0 :
+                        header === 'Rejected' ? stageCounts.rejected ?? 0 :
+                        header === 'Total' ? stageCounts.total ?? 0 : ''
+                      }
+
+                  </span>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+    </div>
+                <div className={`box ${isExpanded.newSection ? 'expanded' : ''}`}>
+              <div className="sectionHeader">
+                <h2>Weekly Performance</h2> {/* Replace with your section title */}
+                <button className="expandButton" onClick={() => toggleExpand('newSection')}>
+                  {isExpanded.newSection ? '↘' : '↗'}
+                </button>
+              </div>
+                    <div className='bar'>
+                      <PerformanceBarChart /> 
+                    </div>
+                    
+            </div><LineChart />
 
             {/* Upcoming Section */}
             <div className={`box ${isExpanded.upcoming ? 'expanded' : ''}`}>
