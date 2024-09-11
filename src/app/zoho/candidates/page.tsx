@@ -96,18 +96,23 @@ const Candidates: React.FC = () => {
   }, []);
 
   const handleCandidateIdClick = (candidateId: string) => {
-    if (showDetails === candidateId) {
-      setShowDetails(null);
-      return;
-    }
+    console.log("Clicked candidateId:", candidateId);
     axios.get(`${DETAILS_API_URL}?candidateId=${candidateId}`)
       .then(response => {
-        const data = response.data[0];
-        setSelectedCandidate(data);
-        setShowDetails(candidateId);
+        console.log("API Response:", response); // Log the entire response object
+        const data = response.data; // Ensure response.data is an array
+        console.log("Fetched candidate data:", data);
+        if (data) {
+          setSelectedCandidate(data);
+          setShowDetails(candidateId);
+        } else {
+          console.error('No data found for candidateId:', candidateId);
+        }
       })
       .catch(error => console.error('Error fetching candidate details:', error));
   };
+  
+  
 
   const handleSave = () => {
     if (!selectedCandidate) return;
