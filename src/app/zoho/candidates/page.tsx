@@ -5,11 +5,11 @@ import ZohoHeader from '@/app/zohoheader/page';
 import './candidates.scss';
 
 // Define the API URLs
-const API_URL = 'http://127.0.0.1:80/candidate/getall';
-const DETAILS_API_URL = 'http://127.0.0.1:80/zoho/getcandidate_id';
-const UPDATE_CANDIDATE_API_URL = 'http://127.0.0.1:80/candidate/update';
-const API_JOB_POSTINGS_URL = 'http://127.0.0.1:80/jobs/getall';
-const UPDATE_CANDIDATE_STAGE_API_URL = 'http://127.0.0.1:80/candidate/update_stage';
+const API_URL = 'https://demo4-backendurl.vercel.app/candidate/getall';
+const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getcandidate_id';
+const UPDATE_CANDIDATE_API_URL = 'https://demo4-backendurl.vercel.app/candidate/update';
+const API_JOB_POSTINGS_URL = 'https://demo4-backendurl.vercel.app/jobs/getall';
+const UPDATE_CANDIDATE_STAGE_API_URL = 'https://demo4-backendurl.vercel.app/candidate/update_stage';
 type CandidateStage = 'new' | 'inreview' | 'available' | 'engaged' | 'offered' | 'hired' | 'rejected';
 
 // TypeScript interface for candidate data

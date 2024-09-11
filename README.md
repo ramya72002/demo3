@@ -6,7 +6,7 @@ First, run the development server:
 npm run dev
 
 ## zoho project
-http://127.0.0.1:80
+https://demo4-backendurl.vercel.app
 zoho project we r using https://github.com/ramya72002/demo4
 
 this repo

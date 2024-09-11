@@ -15,7 +15,7 @@ const Joblist: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:80/joblist')
+    fetch('https://demo4-backendurl.vercel.app/joblist')
       .then(response => response.json())
       .then(data => setJobs(data))
       .catch(error => console.error('Error fetching job listings:', error));

@@ -12,9 +12,9 @@ interface ContactPerson {
   phone?: string;
 }
 
-const DETAILS_API_URL = 'http://127.0.0.1:80/zoho/getclient_id';
-const UPDATE_Client_API_URL = 'http://127.0.0.1:80/client/update';
-const FETCH_CLIENTS_API_URL = 'http://127.0.0.1:80/clients/getall'; // Add fetch clients API URL
+const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getclient_id';
+const UPDATE_Client_API_URL = 'https://demo4-backendurl.vercel.app/client/update';
+const FETCH_CLIENTS_API_URL = 'https://demo4-backendurl.vercel.app/clients/getall'; // Add fetch clients API URL
 
 interface Client {
   agency: string;

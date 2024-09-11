@@ -38,7 +38,7 @@ const JobOpenings = () => {
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
     try {
-      const response = await axios.get<Job[]>('http://127.0.0.1:80/jobs/getall');
+      const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');
       setJobs(response.data);
     } catch (error) {
       console.error('Error fetching job openings:', error);
@@ -52,7 +52,7 @@ const JobOpenings = () => {
   // Function to handle job ID click
   const handleJobClick = async (jobId: string) => {
     try {
-      const response = await axios.get<Job[]>(`http://127.0.0.1:80/zoho/getjob_id?jobId=${jobId}`);
+      const response = await axios.get<Job[]>(`https://demo4-backendurl.vercel.app/zoho/getjob_id?jobId=${jobId}`);
       const job = response.data[0];  // Access the first element of the array
       setSelectedJob(job);
       setFormData(job); // Initialize form data with selected job details
@@ -75,7 +75,7 @@ const JobOpenings = () => {
         const { _id, ...updateData } = formData;
   
         // Call PUT API to update job details
-        const response = await axios.put(`http://127.0.0.1:80/job/update/${selectedJob.jobId}`, updateData);
+        const response = await axios.put(`https://demo4-backendurl.vercel.app/job/update/${selectedJob.jobId}`, updateData);
         
         if (response.status === 200) {
           alert('Job updated successfully');
