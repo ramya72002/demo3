@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import ZohoHeader from '@/app/zohoheader/page'; // Import ZohoHeader
 import './clients.scss'; // Import SCSS for styling
 import axios from 'axios';
-import ClientDetails from './ClientDetails'; // Import the new ClientDetails component
+import ClientDetails from './clientDetails'; // Import the new ClientDetails component
 
 interface ContactPerson {
   name: string;
