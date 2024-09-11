@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { Candidate,JobPosting } from '@/app/types';
 import axios from 'axios';
 import ShowDetails from './ShowDetails';
 import './candidates.scss';
@@ -9,30 +10,6 @@ const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getcandidate_i
 const API_JOB_POSTINGS_URL = 'https://demo4-backendurl.vercel.app/jobs/getall';
 const UPDATE_CANDIDATE_STAGE_API_URL = 'https://demo4-backendurl.vercel.app/candidate/update_stage';
 
-type CandidateStage = 'new' | 'inreview' | 'available' | 'engaged' | 'offered' | 'hired' | 'rejected';
-
-interface Candidate {
-  candidateId: string;
-  name: string;
-  email: string;
-  phone: string;
-  gender: string;
-  city: string;
-  state: string;
-  experience: string;
-  currentCTC: string;
-  expectedCTC: string;
-  noticePeriod: string;
-  domain: string;
-  skills: string[];
-  linkedIn: string;
-  candidateStage: CandidateStage;
-}
-
-interface JobPosting {
-  id: string;
-  postingTitle: string;
-}
 
 const Candidates: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);

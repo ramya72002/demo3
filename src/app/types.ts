@@ -42,3 +42,28 @@ export interface EmployeeRecord {
     salary: string;
     revenuePerPosition: string;
   }
+  export interface JobPosting {
+    id: string;
+    postingTitle: string;
+  }
+  export type CandidateStage = 'new' | 'inreview' | 'available' | 'engaged' | 'offered' | 'hired' | 'rejected';
+
+  export interface Candidate {
+  candidateId: string;
+  name: string;
+  email: string;
+  phone: string;
+  gender: string;
+  city: string;
+  state: string;
+  experience: string;
+  currentCTC: string;
+  expectedCTC: string;
+  noticePeriod: string;
+  domain: string;
+  skills: string[];
+  linkedIn: string;
+  candidateStage: CandidateStage;
+}
+
+
