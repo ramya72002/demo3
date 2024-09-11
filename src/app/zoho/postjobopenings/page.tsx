@@ -10,7 +10,7 @@ interface JobFormData {
   clientName: string;
   contactName?: string;
   accountManager?: string;
-  clientManger?: string;
+  clientManager?: string;
   dateOpened?: string;
   targetDate: string;
   jobType?: string;
@@ -143,8 +143,8 @@ const JobOpenings: React.FC = () => {
             <label>Client Manager</label>
     
              <select
-              name="clientManger"
-              value={formData.clientManger || ''}
+              name="clientManager"
+              value={formData.clientManager || ''}
               onChange={handleInputChange}
             >
             <option value="">Select Client Manager</option>

@@ -6,15 +6,14 @@ import './jobopenings.scss';
 
 // Updated Job interface
 interface Job {
-  companyName: string;
-  status: string;
+  jobId: string;
   postingTitle: string;
-  experience: string;
-  budget: string;
-  noticePeriod: string;
+  clientManager: string;
+  targetDate: string;
+  jobOpeningStatus: string;
   city: string;
-  jd: string;  // job description
-  address: string;
+  clientName: string;
+  accountManager?: string;  // Optional, as it's not in the provided data
 }
 
 const JobOpenings = () => {
@@ -36,10 +35,10 @@ const JobOpenings = () => {
     fetchJobs();
   }, []);
 
-  const handleJobClick = async (postingTitle: string, companyName: string) => {
+  const handleJobClick = async (postingTitle: string, clientName: string) => {
     try {
       const response = await axios.get('http://127.0.0.1:80/zoho/getjob', {
-        params: { postingTitle, companyName }
+        params: { postingTitle, clientName }
       });
       setSelectedJob(response.data[0]);
     } catch (error) {
@@ -56,14 +55,13 @@ const JobOpenings = () => {
       try {
         // Call API to update job status
         const response = await axios.post('http://127.0.0.1:80/zoho/updatejobstatus', {
-          companyName: selectedJob.companyName,
-          postingTitle: selectedJob.postingTitle,
+          jobId: selectedJob.jobId,
           newStatus,
         });
         
         if (response.status === 200) {
           alert('Job status updated successfully');
-          setSelectedJob((prev) => prev ? { ...prev, status: newStatus } : null);
+          setSelectedJob((prev) => prev ? { ...prev, jobOpeningStatus: newStatus } : null);
           await fetchJobs();  // Refresh the table with updated data
         }
       } catch (error) {
@@ -80,32 +78,29 @@ const JobOpenings = () => {
       <div className="jobTable">
         <table>
           <thead>
-            <tr>
-              <th>Select</th>
-              <th>Company Name</th>
-              <th>Status</th>
+            <tr> 
+              <th>Job ID</th>
               <th>Posting Title</th>
-              <th>Experience</th>
-              <th>Budget</th>
-              <th>Notice Period</th>
+              <th>Client Manager</th>
+              <th>Target Date</th>
+              <th>Job Opening Status</th>
               <th>City</th>
-              <th>Job Description</th>
-              <th>Address</th>
+              <th>Client Name</th>
+              <th>Account Manager</th>
             </tr>
           </thead>
           <tbody>
             {jobs.map((job, index) => (
-              <tr key={index} onClick={() => handleJobClick(job.postingTitle, job.companyName)}>
-                <td>[]</td>
-                <td>{job.companyName}</td>
-                <td>{job.status}</td>
+              <tr key={index} onClick={() => handleJobClick(job.postingTitle, job.clientName)}>
+          
+                <td>{job.jobId}</td>
                 <td>{job.postingTitle}</td>
-                <td>{job.experience}</td>
-                <td>{job.budget}</td>
-                <td>{job.noticePeriod}</td>
+                <td>{job.clientManager}</td>
+                <td>{job.targetDate}</td>
+                <td>{job.jobOpeningStatus}</td>
                 <td>{job.city}</td>
-                <td>{job.jd}</td>
-                <td>{job.address}</td>
+                <td>{job.clientName}</td>
+                <td>{job.accountManager || 'N/A'}</td> {/* Show 'N/A' if accountManager is not provided */}
               </tr>
             ))}
           </tbody>
@@ -115,10 +110,12 @@ const JobOpenings = () => {
       {selectedJob && (
         <div className="jobDetails">
           <h2>Job Details</h2>
-          <p><strong>Company Name:</strong> {selectedJob.companyName}</p>
+          <p><strong>Job ID:</strong> {selectedJob.jobId}</p>
           <p><strong>Posting Title:</strong> {selectedJob.postingTitle}</p>
-          <p><strong>Status:</strong> 
-            <select value={newStatus || selectedJob.status} onChange={handleStatusChange}>
+          <p><strong>Client Manager:</strong> {selectedJob.clientManager}</p>
+          <p><strong>Target Date:</strong> {selectedJob.targetDate}</p>
+          <p><strong>Job Opening Status:</strong> 
+            <select value={newStatus || selectedJob.jobOpeningStatus} onChange={handleStatusChange}>
               <option value="">Select</option>
               <option>Open</option>
               <option>Closed</option>
@@ -131,12 +128,9 @@ const JobOpenings = () => {
               <option>Rejected</option>
             </select>
           </p>
-          <p><strong>Experience:</strong> {selectedJob.experience}</p>
-          <p><strong>Budget:</strong> {selectedJob.budget}</p>
-          <p><strong>Notice Period:</strong> {selectedJob.noticePeriod}</p>
           <p><strong>City:</strong> {selectedJob.city}</p>
-          <p><strong>Job Description:</strong> {selectedJob.jd}</p>
-          <p><strong>Address:</strong> {selectedJob.address}</p>
+          <p><strong>Client Name:</strong> {selectedJob.clientName}</p>
+          <p><strong>Account Manager:</strong> {selectedJob.accountManager || 'N/A'}</p>
         </div>
       )}
     </div>
