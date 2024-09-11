@@ -18,4 +18,27 @@ export interface EmployeeRecord {
     Bank: string;
     Nomination: string;
   }
-  
+  export interface Job {
+    _id: string;
+    jobId: string;
+    postingTitle: string;
+    clientName: string;
+    targetDate: string;
+    industry: string;
+    numberOfPositions: number;
+    description: string;
+    clientManger: string;
+    contactName: string;
+    city: string;
+    province: string;
+    postalCode: string;
+    accountManager?: string;
+    clientManager: string;
+    dateOpened: string;
+    jobType: string;
+    jobOpeningStatus: string;
+    workExperience: string;
+    requiredSkills: string;
+    salary: string;
+    revenuePerPosition: string;
+  }
