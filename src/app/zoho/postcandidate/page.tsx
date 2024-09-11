@@ -56,21 +56,27 @@ const PostCandidate = () => {
         <form onSubmit={handleSubmit}>
           <h2>Basic Info</h2>
           {['name', 'email', 'phone', 'city', 'state', 'experience', 'currentCTC', 'expectedCTC', 'noticePeriod', 'domain', 'skills', 'linkedIn'].map((field) => (
-            <input
-              key={field}
-              name={field}
-              placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-              value={(candidateInfo as any)[field]}
-              onChange={handleChange}
-            />
+            <div className="form-group" key={field}>
+              <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+              <input
+                id={field}
+                name={field}
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                value={(candidateInfo as any)[field]}
+                onChange={handleChange}
+              />
+            </div>
           ))}
           
-          <select name="gender" value={candidateInfo.gender} onChange={handleChange}>
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
+          <div className="form-group">
+            <label htmlFor="gender">Gender</label>
+            <select name="gender" id="gender" value={candidateInfo.gender} onChange={handleChange}>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
           
           <button type="submit">Submit</button>
         </form>
