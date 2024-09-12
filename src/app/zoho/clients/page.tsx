@@ -12,9 +12,17 @@ interface ContactPerson {
   phone?: string;
 }
 
+interface Job {
+  jobOpening: string;
+  clientName: string;
+  jobOpeningStatus: string;
+  jobId: string;
+}
+
 const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getclient_id';
-const UPDATE_Client_API_URL = 'https://demo4-backendurl.vercel.app/client/update';
-const FETCH_CLIENTS_API_URL = 'https://demo4-backendurl.vercel.app/clients/getall'; // Add fetch clients API URL
+const UPDATE_CLIENT_API_URL = 'https://demo4-backendurl.vercel.app/client/update';
+const FETCH_CLIENTS_API_URL = 'https://demo4-backendurl.vercel.app/clients/getall';
+const FETCH_JOBS_API_URL = 'https://demo4-backendurl.vercel.app/jobs/getall';
 
 interface Client {
   agency: string;
@@ -27,83 +35,97 @@ interface Client {
   contactPerson1: ContactPerson;
   contactPerson2: ContactPerson;
   clientId: string;
-  clientOnBoardingDate: string; // Add this line
-  clientStatus: string; // Add this line
+  clientOnBoardingDate: string;
+  clientStatus: string;
 }
 
 const Clients: React.FC = () => {
-  const [clientsData, setClientsData] = useState<Client[]>([]); // State for client data
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [clientsData, setClientsData] = useState<Client[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [showDetails, setShowDetails] = useState<string | null>(null);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [jobs, setJobs] = useState<Job[]>([]);
 
   const fetchClients = async () => {
     try {
-      const response = await fetch(FETCH_CLIENTS_API_URL);
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-      const data: Client[] = await response.json();
+      const { data } = await axios.get<Client[]>(FETCH_CLIENTS_API_URL);
       setClientsData(data);
-    } catch (error) {
-      setError('Error fetching client data. Please try again later.');
-      console.error('Error fetching clients:', error);
+    } catch (err) {
+      handleError(err);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchClients();
-  }, []);
-
-  const handleSave = () => {
-    if (!selectedClient) return;
-
-    const updateData = {
-      agency: selectedClient.agency,
-      clientManager: selectedClient.clientManager,
-      clientName: selectedClient.clientName,
-      email: selectedClient.email,
-      phone: selectedClient.phone,
-      address: selectedClient.address,
-      industry: selectedClient.industry,
-      contactPerson1: {
-        name: selectedClient.contactPerson1?.name,
-        email: selectedClient.contactPerson1?.email,
-        phone: selectedClient.contactPerson1?.phone
-      },
-      contactPerson2: {
-        name: selectedClient.contactPerson2?.name,
-        email: selectedClient.contactPerson2?.email,
-        phone: selectedClient.contactPerson2?.phone
-      },
-      clientOnBoardingDate: selectedClient.clientOnBoardingDate,
-      clientStatus: selectedClient.clientStatus // Ensure this is included if needed
-    };
-
-    axios.put(`${UPDATE_Client_API_URL}/${selectedClient.clientId}`, updateData)
-      .then(() => {
-        fetchClients(); // Refetch clients after update
-        setShowDetails(null);
-      })
-      .catch(error => console.error('Error updating client:', error));
+  const fetchJobs = async () => {
+    try {
+      const { data } = await axios.get<Job[]>(FETCH_JOBS_API_URL);
+      setJobs(data);
+    } catch (err) {
+      handleError(err);
+    }
   };
 
-  const handleClientIdClick = (clientId: string) => {
+  const areAllJobsClosed = (clientName: string): boolean => {
+    const clientJobs = jobs.filter(job => job.clientName === clientName);
+    return clientJobs.every(job => job.jobOpeningStatus === 'Close');
+  };
+
+  const handleStatusChange = async (clientId: string, newStatus: string) => {
+    if (newStatus === 'Inactive') {
+      // Fetch jobs before proceeding
+      await fetchJobs();
+      
+      const client = clientsData.find(client => client.clientId === clientId);
+      if (client && !areAllJobsClosed(client.clientName)) {
+        alert('Cannot set status to Inactive. Some job openings are still open.');
+        return;
+      }
+    }
+
+    try {
+      await axios.put(`${UPDATE_CLIENT_API_URL}/${clientId}`, { clientStatus: newStatus });
+      fetchClients();
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const handleClientIdClick = async (clientId: string) => {
     if (showDetails === clientId) {
       setShowDetails(null);
       return;
     }
-    axios.get(`${DETAILS_API_URL}?clientId=${clientId}`)
-      .then(response => {
-        const data = response.data[0];
-        setSelectedClient(data);
-        setShowDetails(clientId);
-      })
-      .catch(error => console.error('Error fetching client details:', error));
+    try {
+      const { data } = await axios.get<Client[]>(`${DETAILS_API_URL}?clientId=${clientId}`);
+      setSelectedClient(data[0]);
+      setShowDetails(clientId);
+    } catch (err) {
+      handleError(err);
+    }
   };
+
+  const handleSave = async () => {
+    if (!selectedClient) return;
+
+    try {
+      await axios.put(`${UPDATE_CLIENT_API_URL}/${selectedClient.clientId}`, selectedClient);
+      fetchClients();
+      setShowDetails(null);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const handleError = (err: any) => {
+    setError('Error fetching or updating data. Please try again later.');
+    console.error(err);
+  };
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
 
   const closeDetails = () => setShowDetails(null);
 
@@ -137,10 +159,16 @@ const Clients: React.FC = () => {
                   <td>{client.clientName}</td>
                   <td>{client.agency}</td>
                   <td>{client.clientOnBoardingDate}</td>
-
                   <td>{client.clientManager}</td>
-                  
-                  <td>{client.clientStatus}</td>
+                  <td>
+                    <select 
+                      value={client.clientStatus} 
+                      onChange={(e) => handleStatusChange(client.clientId, e.target.value)}
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -150,7 +178,7 @@ const Clients: React.FC = () => {
       {showDetails && selectedClient && (
         <ClientDetails 
           client={selectedClient} 
-          onChange={updatedClient => setSelectedClient(updatedClient)} 
+          onChange={setSelectedClient} 
           onSave={handleSave} 
           onClose={closeDetails} 
         />
