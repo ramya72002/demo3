@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 'use client';
 import React, { useState, useEffect } from 'react';
 import './postcandidate.scss';
@@ -31,6 +30,18 @@ const PostCandidate = () => {
   const [postingTitles, setPostingTitles] = useState<string[]>([]);
 
   useEffect(() => {
+    // Extract query parameters and update state
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientName = decodeURIComponent(urlParams.get('clientName') || '');
+    const postingTitle = decodeURIComponent(urlParams.get('postingTitle') || '');
+
+    setCandidateInfo(prevState => ({
+      ...prevState,
+      clientName,
+      postingTitle
+    }));
+
+    // Fetch job data and update client names and posting titles
     const fetchJobs = async () => {
       try {
         const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');
@@ -39,10 +50,11 @@ const PostCandidate = () => {
         const uniqueClientNames = Array.from(new Set(jobs.map((job) => job.clientName)));
         setClientNames(uniqueClientNames);
 
-        const initialClientName = uniqueClientNames[0];
-        const filteredJobs = jobs.filter((job) => job.clientName === initialClientName);
-        const uniquePostingTitles = Array.from(new Set(filteredJobs.map((job) => job.postingTitle)));
-        setPostingTitles(uniquePostingTitles);
+        if (clientName) {
+          const filteredJobs = jobs.filter((job) => job.clientName === clientName);
+          const uniquePostingTitles = Array.from(new Set(filteredJobs.map((job) => job.postingTitle)));
+          setPostingTitles(uniquePostingTitles);
+        }
       } catch (error) {
         console.error('Error fetching jobs:', error);
       }

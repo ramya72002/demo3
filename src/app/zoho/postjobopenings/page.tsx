@@ -3,6 +3,8 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import './postjobopenings.scss';
 import ZohoHeader from '@/app/zohoheader/page';
+import { useRouter } from 'next/navigation'; // Import useRouter for redirection
+
 
 interface JobFormData {
   postingTitle: string;
@@ -27,7 +29,9 @@ interface JobFormData {
   description?: string;
 }
 
+
 const JobOpenings: React.FC = () => {
+  const router = useRouter(); // Use useRouter for navigation
   const [formData, setFormData] = useState<JobFormData>({
     postingTitle: '',
     clientName: '',
@@ -40,6 +44,8 @@ const JobOpenings: React.FC = () => {
   const [clients, setClients] = useState<{ clientName: string }[]>([]);
 
   const requiredFields: Array<keyof JobFormData> = ['postingTitle', 'clientName', 'targetDate', 'industry', 'description'];
+  const [showModal, setShowModal] = useState<boolean>(false); // State to control modal visibility
+
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -105,10 +111,23 @@ const JobOpenings: React.FC = () => {
 
     try {
       const response = await axios.post('https://demo4-backendurl.vercel.app/zoho/postjob', formData);
-      alert('Job added successfully!');
+      if(response.status==201||response.status==200){
+        setShowModal(true);
+    }
     } catch (error) {
       alert(`Error: ${error}`);
     }
+  };
+  const handleYes = () => {
+    setShowModal(false); // Close modal
+    router.push(`/zoho/postcandidate?clientName=${encodeURIComponent(formData.clientName)}&postingTitle=${encodeURIComponent(formData.postingTitle)}`); // Redirect to the "Yes" page with query parameters
+  };
+  
+
+  // Function to handle "No" button click
+  const handleNo = () => {
+    setShowModal(false); // Close modal
+    router.push('/zoho/candidates'); // Redirect to the "No" page
   };
 
   return (
@@ -411,7 +430,19 @@ const JobOpenings: React.FC = () => {
           </div>
         </div>
       </div>
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>Job saved successfully! Would you like to create Candidates?</p>
+            <div className="modal-buttons">
+              <button onClick={handleYes}>Yes</button>
+              <button onClick={handleNo}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+    
   );
 };
 

@@ -73,3 +73,65 @@ select {
 option {
   color: #333;
 }
+/* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); // Dark semi-transparent background
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    flex: 1;
+    margin: 0 10px;
+
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+
+  button:nth-child(2) {
+    background-color: #f44336;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .modal-content {
+    padding: 15px;
+  }
+
+  .modal-buttons button {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+}
