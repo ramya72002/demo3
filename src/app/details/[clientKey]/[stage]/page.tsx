@@ -188,7 +188,7 @@ const JobStageDetails = () => {
               <td>{candidate['Professional Details']['Highest Qualification Held']}</td>
               <td>{candidate['Professional Details']['Skill Set'].join(', ')}</td>
               <td>
-                {candidate['Address Information']['Street']}, {candidate['Address Information']['City']}, {candidate['Address Information']['Province']}, {candidate['Address Information']['Country']} - {candidate['Address Information']['Postal Code']}
+                {candidate['Address Information']['Street']}, {candidate['Address Information']['location']}, {candidate['Address Information']['Province']}, {candidate['Address Information']['Country']} - {candidate['Address Information']['Postal Code']}
               </td>
               <td>
                 {candidate['Additional Info']['Candidate Owner']}<br />

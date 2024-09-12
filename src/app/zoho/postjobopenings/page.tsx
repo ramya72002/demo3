@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'; // Import useRouter for redirection
 
 
 interface JobFormData {
-  postingTitle: string;
+  jobOpening: string;
   clientName: string;
   contactName?: string;
   Recruiter?: string;
@@ -20,30 +20,31 @@ interface JobFormData {
   industry: string;
   requiredSkills?: string;
   salary?: string;
-  city?: string;
+  location?: string;
   country?: string;
   province?: string;
   postalCode?: string;
-  revenuePerPosition?: number;
   numberOfPositions?: number;
-  description?: string;
+  jobDescription?: string;
 }
 
 
 const JobOpenings: React.FC = () => {
   const router = useRouter(); // Use useRouter for navigation
   const [formData, setFormData] = useState<JobFormData>({
-    postingTitle: '',
+    jobOpening: '',
     clientName: '',
     targetDate: '',
     industry: '',
     numberOfPositions: 1,
-    description: '',
+    jobDescription: '',
+    dateOpened: new Date().toISOString().split('T')[0],
+    jobOpeningStatus: 'Open',
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [clients, setClients] = useState<{ clientName: string }[]>([]);
 
-  const requiredFields: Array<keyof JobFormData> = ['postingTitle', 'clientName', 'targetDate', 'industry', 'description'];
+  const requiredFields: Array<keyof JobFormData> = ['jobOpening', 'clientName', 'targetDate', 'industry', 'jobDescription'];
   const [showModal, setShowModal] = useState<boolean>(false); // State to control modal visibility
 
 
@@ -68,7 +69,7 @@ const JobOpenings: React.FC = () => {
       const value = queryParams.get(field);
       if (value !== null) {
         // Cast value according to field type
-        if (field === 'revenuePerPosition' || field === 'numberOfPositions') {
+        if (field === 'numberOfPositions') {
           initialData[field] = Number(value) as JobFormData[typeof field];
         } else {
           initialData[field] = value as JobFormData[typeof field];
@@ -120,7 +121,7 @@ const JobOpenings: React.FC = () => {
   };
   const handleYes = () => {
     setShowModal(false); // Close modal
-    router.push(`/zoho/postcandidate?clientName=${encodeURIComponent(formData.clientName)}&postingTitle=${encodeURIComponent(formData.postingTitle)}`); // Redirect to the "Yes" page with query parameters
+    router.push(`/zoho/postcandidate?clientName=${encodeURIComponent(formData.clientName)}&jobOpening=${encodeURIComponent(formData.jobOpening)}`); // Redirect to the "Yes" page with query parameters
   };
   
 
@@ -138,13 +139,13 @@ const JobOpenings: React.FC = () => {
         <h2>Job Opening Information</h2>
         <div className="form-section">
           <div className="form-group">
-            <label className={errors.includes('postingTitle') ? 'required' : ''}>
-              Posting Title *
+            <label className={errors.includes('jobOpening') ? 'required' : ''}>
+              Job Opening *
             </label>
             <input
               type="text"
-              name="postingTitle"
-              value={formData.postingTitle}
+              name="jobOpening"
+              value={formData.jobOpening}
               onChange={handleInputChange}
             />
           </div>
@@ -297,39 +298,48 @@ const JobOpenings: React.FC = () => {
             />
           </div>
           <div className="form-group">
-            <label>Salary</label>
+            <label>Salary Per Position</label>
             <select
-              name="salary"
-              value={formData.salary || ''}
-              onChange={handleInputChange}
-            >
-              <option value="">Select</option>
-              <option>$0 - $25,000</option>
-<option>$25,001 - $50,000</option>
-<option>$50,001 - $75,000</option>
-<option>$75,001 - $100,000</option>
-<option>$100,001 - $125,000</option>
-<option>$125,001 - $150,000</option>
-<option>$150,001 - $175,000</option>
-<option>$175,001 - $200,000</option>
-<option>$200,001 - $250,000</option>
-<option>$250,001 - $300,000</option>
-<option>$300,001 - $400,000</option>
-<option>$400,001 - $500,000</option>
-<option>$500,001 and above</option>
+  name="salary"
+  value={formData.salary || ''}
+  onChange={handleInputChange}
+>
+  <option value="">Select</option>
+  <option>₹0 - ₹2,00,000</option>
+  <option>₹2,00,001 - ₹5,00,000</option>
+  <option>₹5,00,001 - ₹7,50,000</option>
+  <option>₹7,50,001 - ₹10,00,000</option>
+  <option>₹10,00,001 - ₹15,00,000</option>
+  <option>₹15,00,001 - ₹20,00,000</option>
+  <option>₹20,00,001 - ₹25,00,000</option>
+  <option>₹25,00,001 - ₹30,00,000</option>
+  <option>₹30,00,001 - ₹40,00,000</option>
+  <option>₹40,00,001 - ₹50,00,000</option>
+  <option>₹50,00,001 and above</option>
+</select>
 
-            </select>
+          </div>
+          <div className="form-group">
+          <label className={errors.includes('numberOfPositions') ? 'required' : ''}>
+            Number of Positions *
+          </label>
+            <input
+              type="number"
+              name="numberOfPositions"
+              value={formData.numberOfPositions || ''}
+              onChange={handleInputChange}
+            />
           </div>
         </div>
 
         <h2>Address Information</h2>
         <div className="form-section">
           <div className="form-group">
-            <label>City</label>
+            <label>location</label>
             <input
               type="text"
-              name="city"
-              value={formData.city || ''}
+              name="location"
+              value={formData.location || ''}
               onChange={handleInputChange}
             />
           </div>
@@ -395,35 +405,17 @@ const JobOpenings: React.FC = () => {
           </div>
         </div>
 
-        <h2>Revenue Information</h2>
+        <h2>Job Information</h2>
         <div className="form-section">
+          
+          
           <div className="form-group">
-            <label>Revenue per Position</label>
-            <input
-              type="number"
-              name="revenuePerPosition"
-              value={formData.revenuePerPosition || ''}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-          <label className={errors.includes('numberOfPositions') ? 'required' : ''}>
-            Number of Positions *
-          </label>
-            <input
-              type="number"
-              name="numberOfPositions"
-              value={formData.numberOfPositions || ''}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className={errors.includes('description') ? 'required' : ''}>
-              Description *
+            <label className={errors.includes('jobDescription') ? 'required' : ''}>
+            jobDescription *
             </label>
             <textarea
-              name="description"
-              value={formData.description || ''}
+              name="jobDescription"
+              value={formData.jobDescription || ''}
               placeholder="Enter job description here..."
               onChange={handleInputChange}
             />

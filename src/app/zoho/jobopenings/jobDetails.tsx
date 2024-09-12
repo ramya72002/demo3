@@ -28,15 +28,15 @@ const JobDetails: React.FC<JobDetailsProps> = ({ job, onClose, onSave }) => {
     <span className="close-btn" onClick={onClose}>&times;</span>
     <h3>Job Details</h3>
     <form>
-      <p><strong>Posting Title:</strong> <input id="postingTitle" name="postingTitle" value={formData.postingTitle || ''} onChange={handleInputChange} /></p>
+      <p><strong>Posting Title:</strong> <input id="jobOpening" name="jobOpening" value={formData.jobOpening || ''} onChange={handleInputChange} /></p>
       <p><strong>Client Name:</strong> <input id="clientName" name="clientName" value={formData.clientName || ''} onChange={handleInputChange} /></p>
       <p><strong>Target Date:</strong> <input id="targetDate" name="targetDate" type="date" value={formData.targetDate || ''} onChange={handleInputChange} /></p>
       <p><strong>Industry:</strong> <input id="industry" name="industry" value={formData.industry || ''} onChange={handleInputChange} /></p>
       <p><strong>Number of Positions:</strong> <input id="numberOfPositions" name="numberOfPositions" type="number" value={formData.numberOfPositions || ''} onChange={handleInputChange} /></p>
-      <p><strong>Description:</strong> <textarea id="description" name="description" value={formData.description || ''} onChange={handleInputChange} /></p>
+      <p><strong>jobDescription:</strong> <textarea id="jobDescription" name="jobDescription" value={formData.jobDescription || ''} onChange={handleInputChange} /></p>
       <p><strong>Client Manager:</strong> <input id="clientManager" name="clientManager" value={formData.clientManager || ''} onChange={handleInputChange} /></p>
       <p><strong>Contact Name:</strong> <input id="contactName" name="contactName" value={formData.contactName || ''} onChange={handleInputChange} /></p>
-      <p><strong>City:</strong> <input id="city" name="city" value={formData.city || ''} onChange={handleInputChange} /></p>
+      <p><strong>location:</strong> <input id="location" name="location" value={formData.location || ''} onChange={handleInputChange} /></p>
       <p><strong>Province:</strong> <input id="province" name="province" value={formData.province || ''} onChange={handleInputChange} /></p>
       <p><strong>Postal Code:</strong> <input id="postalCode" name="postalCode" value={formData.postalCode || ''} onChange={handleInputChange} /></p>
       <p><strong>Account Manager:</strong> <input id="accountManager" name="accountManager" value={formData.accountManager || ''} onChange={handleInputChange} /></p>

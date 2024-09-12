@@ -9,7 +9,7 @@ interface Candidate {
   email: string;
   phone: string;
   gender: string;
-  city: string;
+  location: string;
   state: string;
   experience: string;
   currentCTC: string;
@@ -37,7 +37,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({ candidate, onClose, fetchCand
       email: selectedCandidate.email,
       phone: selectedCandidate.phone,
       gender: selectedCandidate.gender,
-      city: selectedCandidate.city,
+      location: selectedCandidate.location,
       state: selectedCandidate.state,
       experience: selectedCandidate.experience,
       currentCTC: selectedCandidate.currentCTC,
@@ -65,7 +65,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({ candidate, onClose, fetchCand
         <p><strong>Email:</strong> <input type="email" value={selectedCandidate.email} onChange={e => setSelectedCandidate({ ...selectedCandidate, email: e.target.value })} /></p>
         <p><strong>Phone:</strong> <input type="tel" value={selectedCandidate.phone} onChange={e => setSelectedCandidate({ ...selectedCandidate, phone: e.target.value })} /></p>
         <p><strong>Gender:</strong> <input type="text" value={selectedCandidate.gender} onChange={e => setSelectedCandidate({ ...selectedCandidate, gender: e.target.value })} /></p>
-        <p><strong>City:</strong> <input type="text" value={selectedCandidate.city} onChange={e => setSelectedCandidate({ ...selectedCandidate, city: e.target.value })} /></p>
+        <p><strong>location:</strong> <input type="text" value={selectedCandidate.location} onChange={e => setSelectedCandidate({ ...selectedCandidate, location: e.target.value })} /></p>
         <p><strong>State:</strong> <input type="text" value={selectedCandidate.state} onChange={e => setSelectedCandidate({ ...selectedCandidate, state: e.target.value })} /></p>
         <p><strong>Experience:</strong> <input type="text" value={selectedCandidate.experience} onChange={e => setSelectedCandidate({ ...selectedCandidate, experience: e.target.value })} /></p>
         <p><strong>Current CTC:</strong> <input type="text" value={selectedCandidate.currentCTC} onChange={e => setSelectedCandidate({ ...selectedCandidate, currentCTC: e.target.value })} /></p>

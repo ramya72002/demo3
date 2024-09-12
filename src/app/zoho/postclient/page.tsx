@@ -12,7 +12,6 @@ const PostClient: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [address, setAddress] = useState<string>('');
-  const [website, setWebsite] = useState<string>('');
   const [industry, setIndustry] = useState<string>('');
   const [contactPerson1Name, setContactPerson1Name] = useState<string>('');
   const [contactPerson1Email, setContactPerson1Email] = useState<string>('');
@@ -20,14 +19,15 @@ const PostClient: React.FC = () => {
   const [contactPerson2Name, setContactPerson2Name] = useState<string>('');
   const [contactPerson2Email, setContactPerson2Email] = useState<string>('');
   const [contactPerson2Phone, setContactPerson2Phone] = useState<string>('');
-  const [clientDate, setClientDate] = useState<string>('');
+  const [clientOnBoardingDate, setClientOnBoardingDate] = useState<string>('');
+  const [clientStatus, setClientStatus] = useState<string>('Active'); // New state for client status
   const [showModal, setShowModal] = useState<boolean>(false); // State to control modal visibility
   const router = useRouter(); // Use useRouter for navigation
 
   // Set today's date on component load
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
-    setClientDate(today);
+    setClientOnBoardingDate(today);
   }, []);
 
   // Save handler
@@ -45,9 +45,9 @@ const PostClient: React.FC = () => {
         email,
         phone,
         address,
-        website,
         industry,
-        clientDate,
+        clientOnBoardingDate,
+        clientStatus, // Pass clientStatus in the request
         contactPerson1: {
           name: contactPerson1Name,
           email: contactPerson1Email,
@@ -76,7 +76,6 @@ const PostClient: React.FC = () => {
     setShowModal(false); // Close modal
     router.push(`/zoho/postjobopenings?clientName=${encodeURIComponent(clientName)}&clientManager=${encodeURIComponent(clientManager)}`); // Redirect to the "Yes" page with query parameters
   };
-  
 
   // Function to handle "No" button click
   const handleNo = () => {
@@ -151,12 +150,30 @@ const PostClient: React.FC = () => {
             </div>
             <div className="form-group">
               <label htmlFor="industry">Industry</label>
-              <input
-                type="text"
+              <select
                 id="industry"
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
-              />
+              >
+                <option value="">Select Industry</option>
+                <option value="technology">Technology</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="finance">Finance</option>
+                <option value="education">Education</option>
+                <option value="manufacturing">Manufacturing</option>
+                <option value="retail">Retail</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="clientStatus">Client Status</label>
+              <select
+                id="clientStatus"
+                value={clientStatus}
+                onChange={(e) => setClientStatus(e.target.value)}
+              >
+                <option value="Active">Active</option>
+                <option value="Close">Close</option>
+              </select>
             </div>
           </div>
           <div className="form-section">
@@ -170,22 +187,12 @@ const PostClient: React.FC = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="website">Website</label>
-              <input
-                type="text"
-                id="website"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="clientDate">Client Date</label>
+              <label htmlFor="clientOnBoardingDate">Client Onboarding Date</label>
               <input
                 type="date"
-                id="clientDate"
-                value={clientDate}
-                onChange={(e) => setClientDate(e.target.value)}
-                disabled
+                id="clientOnBoardingDate"
+                value={clientOnBoardingDate}
+                onChange={(e) => setClientOnBoardingDate(e.target.value)} // Allow user to change date
               />
             </div>
             <div className="form-group">
@@ -216,7 +223,7 @@ const PostClient: React.FC = () => {
               />
             </div>
             <div className="form-group">
-              <h3>Contact Person 2 (Optional)</h3>
+              <h3>Contact Person 2</h3>
               <label htmlFor="contactPerson2Name">Name</label>
               <input
                 type="text"
@@ -243,14 +250,13 @@ const PostClient: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal Component */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <p>Client data saved successfully! Would you like to create a job opening?</p>
             <div className="modal-buttons">
-              <button onClick={handleYes}>Yes</button>
-              <button onClick={handleNo}>No</button>
+              <button className="modal-yes" onClick={handleYes}>Yes</button>
+              <button className="modal-no" onClick={handleNo}>No</button>
             </div>
           </div>
         </div>

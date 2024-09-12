@@ -16,7 +16,7 @@ interface Candidate {
 
 interface JobPosting {
     clientName: string;
-    postingTitle: string;
+    jobOpening: string;
 }
 
 const Interviews = () => {
@@ -27,7 +27,7 @@ const Interviews = () => {
       interviewers: '',
       location: '',
       candidateName: '',
-      postingTitle: '',
+      jobOpening: '',
       to: '09/05/2024 05:00 PM',
       interviewOwner: 'NALLAMSETTY SRI RAMYA',
       scheduleComments: '',
@@ -146,16 +146,16 @@ const Interviews = () => {
                     <div className="form-group">
                         <label>Posting Title *</label>
                         <select
-    name="postingTitle"  // Added name attribute
-    className="postingTitle"
-    value={formData.postingTitle}
+    name="jobOpening"  // Added name attribute
+    className="jobOpening"
+    value={formData.jobOpening}
     onChange={handleChange}
     required
 >
     <option value="">Select Posting Title</option>
     {jobPostings.map((job, index) => (
-        <option key={index} value={job.postingTitle}>
-            {job.postingTitle}
+        <option key={index} value={job.jobOpening}>
+            {job.jobOpening}
         </option>
     ))}
 </select>

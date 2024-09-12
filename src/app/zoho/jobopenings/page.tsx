@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation'; // Import useSearchParams for query parameters
 import ZohoHeader from '@/app/zohoheader/page';
 import axios from 'axios';
 import JobDetails from './jobDetails'; // Import the new JobDetails component
@@ -11,7 +10,6 @@ const JobOpenings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>(''); // For filtering jobs by status
-  const searchParams = useSearchParams(); // Access searchParams object
 
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
@@ -26,12 +24,16 @@ const JobOpenings = () => {
   useEffect(() => {
     fetchJobs();
 
-    // Extract query parameter for jobOpeningStatus
-    const queryStatus = searchParams.get('jobOpeningStatus');
-    if (queryStatus) {
-      setFilterStatus(queryStatus);
+    // Ensure window is defined before accessing it
+    if (typeof window !== 'undefined') {
+      // Extract query parameter for jobOpeningStatus using URLSearchParams
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryStatus = urlParams.get('jobOpeningStatus');
+      if (queryStatus) {
+        setFilterStatus(queryStatus);
+      }
     }
-  }, [searchParams]);
+  }, []);
 
   // Function to handle job ID click
   const handleJobClick = async (jobId: string) => {
@@ -94,7 +96,7 @@ const JobOpenings = () => {
               <th>Posting Title</th>
               <th>Client Manager</th>
               <th>Target Date</th>
-              <th>City</th>
+              <th>location</th>
               <th>Client Name</th>
               <th>Account Manager</th>
               <th>Job Opening Status</th>
@@ -106,10 +108,10 @@ const JobOpenings = () => {
                 <td className="clickable-jobId" onClick={() => handleJobClick(job.jobId)}>
                   {job.jobId}
                 </td>
-                <td>{job.postingTitle}</td>
+                <td>{job.jobOpening}</td>
                 <td>{job.clientManager}</td>
                 <td>{job.targetDate}</td>
-                <td>{job.city}</td>
+                <td>{job.location}</td>
                 <td>{job.clientName}</td>
                 <td>{job.accountManager || 'N/A'}</td>
                 <td>

@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // For navigation
 import './zoho.scss';
 import ZohoHeader from '../zohoheader/page';
-import PerformanceBarChart from '../barchart/page';
-import LineChart from '../linechart/page';
+// import PerformanceBarChart from '../barchart/page';
+// import LineChart from '../linechart/page';
 
 // Define interface for Candidate Data
 interface CandidateData {
@@ -15,14 +15,14 @@ interface CandidateData {
 }
 interface JobData {
   jobId:string;
-  city:string;
+  location:string;
   accountManager: string;
   clientName: string;
   contactName: string;
   industry: string;
   jobType: string;
   numberOfPositions: number;
-  postingTitle: string;
+  jobOpening: string;
   targetDate: string;
   jobOpeningStatus:string;
 }
@@ -178,7 +178,7 @@ const stageCounts = getCandidateStageCounts(candidates);
     return difference >= 0 ? difference : 0;
   };
   const processJobData = (jobs: JobData[]) => {
-    const clientJobs: { [key: string]: { postingTitle: string; jobOpeningStatus: string }[] } = {};
+    const clientJobs: { [key: string]: { jobOpening: string; jobOpeningStatus: string }[] } = {};
     const clientStatus: { [key: string]: boolean } = {}; // Track if a client is active
   
     jobs.forEach(job => {
@@ -186,7 +186,7 @@ const stageCounts = getCandidateStageCounts(candidates);
         clientJobs[job.clientName] = [];
       }
       clientJobs[job.clientName].push({
-        postingTitle: job.postingTitle,
+        jobOpening: job.jobOpening,
         jobOpeningStatus: job.jobOpeningStatus,
       });
   
@@ -322,7 +322,7 @@ const stageCounts = getCandidateStageCounts(candidates);
                     <tbody>
                       {jobData.map((job, index) => (
                         <tr key={index}>
-                          <td>{job.postingTitle || 'N/A'}</td>
+                          <td>{job.jobOpening || 'N/A'}</td>
                           <td>{job.numberOfPositions}</td>
                           <td>{calculateJobAge(job.targetDate)}</td>
                           <td>0</td>
@@ -383,7 +383,7 @@ const stageCounts = getCandidateStageCounts(candidates);
                       clientJobs[clientName].map((job, index) => (
                         <tr key={`${clientName}-${index}`}>
                           <td>{clientName}</td>
-                          <td>{job.postingTitle}</td>
+                          <td>{job.jobOpening}</td>
                           <td>{job.jobOpeningStatus}</td>
                         </tr>
                       ))
@@ -439,7 +439,7 @@ const stageCounts = getCandidateStageCounts(candidates);
             <th>Client Name</th>
             <th>Target Date</th>
             <th>Job Opening Status</th>
-            <th>City</th>
+            <th>location</th>
             <th>Client Manager</th>
             <th>Status</th>
           </tr>
@@ -448,11 +448,11 @@ const stageCounts = getCandidateStageCounts(candidates);
           {jobData.map(job => (
             <tr key={job.jobId}>
               <td>{job.jobId}</td>
-              <td>{job.postingTitle}</td>
+              <td>{job.jobOpening}</td>
               <td>{job.clientName}</td>
               <td>{job.targetDate}</td>
               <td>{job.jobOpeningStatus}</td>
-              <td>{job.city || 'N/A'}</td>
+              <td>{job.location || 'N/A'}</td>
               <td>{job.accountManager || 'N/A'}</td>
               <td>{job.jobOpeningStatus === 'Open' ? 'Active' : 'Inactive'}</td>
             </tr>
@@ -500,13 +500,14 @@ const stageCounts = getCandidateStageCounts(candidates);
                   {isExpanded.newSection ? '↘' : '↗'}
                 </button>
               </div>
-                    <div className='bar'>
+                    {/* <div className='bar'>
                       <PerformanceBarChart /> 
                     </div>
                     
-            </div><LineChart />
+            <LineChart /> */}
 
             {/* Upcoming Section */}
+            </div>
             <div className={`box ${isExpanded.upcoming ? 'expanded' : ''}`}>
               <div className="timeToHireHeader">
                 <h2>Upcoming</h2>
