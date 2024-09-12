@@ -44,6 +44,7 @@ const Page = () => {
   const [activeCount, setActiveCount] = useState(0);
   const [inactiveCount, setInactiveCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [filterType, setFilterType] = useState<'active' | 'inactive' | 'all'>('all'); // State to track filter type
   const router = useRouter(); // Use Next.js router for navigation
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -63,8 +64,9 @@ const Page = () => {
         setJobData(data);
 
         // Calculate counts
-        const activeJobs = data.filter((job: JobData) => job.jobOpeningStatus === 'Open').length;
-        const inactiveJobs = data.filter((job: JobData) => job.jobOpeningStatus === 'Close').length;
+        const { clientJobs, clientStatus } = processJobData(data);
+        const activeJobs = Object.values(clientStatus).filter(isActive => isActive).length;
+        const inactiveJobs = Object.keys(clientStatus).filter(clientName => !clientStatus[clientName]).length;
         const totalJobs = data.length;
 
         setActiveCount(activeJobs);
@@ -161,6 +163,42 @@ const stageCounts = getCandidateStageCounts(candidates);
     const difference = Math.floor((today - target) / (1000 * 3600 * 24));
     return difference >= 0 ? difference : 0;
   };
+  const processJobData = (jobs: JobData[]) => {
+    const clientJobs: { [key: string]: { postingTitle: string; jobOpeningStatus: string }[] } = {};
+    const clientStatus: { [key: string]: boolean } = {}; // Track if a client is active
+  
+    jobs.forEach(job => {
+      if (!clientJobs[job.clientName]) {
+        clientJobs[job.clientName] = [];
+      }
+      clientJobs[job.clientName].push({
+        postingTitle: job.postingTitle,
+        jobOpeningStatus: job.jobOpeningStatus,
+      });
+  
+      // Determine if the client is active
+      if (job.jobOpeningStatus === 'Open') {
+        clientStatus[job.clientName] = true;
+      } else {
+        clientStatus[job.clientName] = clientStatus[job.clientName] || false;
+      }
+    });
+  
+    return { clientJobs, clientStatus };
+  };
+  const handleClientFilter = (filter: 'active' | 'inactive' | 'all') => {
+    setFilterType(filter);
+  };
+
+  const { clientJobs, clientStatus } = processJobData(jobData);
+  
+  const filteredClientNames = filterType === 'all' 
+    ? Object.keys(clientJobs)
+    : Object.keys(clientStatus).filter(clientName =>
+        filterType === 'active' ? clientStatus[clientName] : !clientStatus[clientName]
+    );
+
+
 
   return (
     <div>
@@ -293,77 +331,53 @@ const stageCounts = getCandidateStageCounts(candidates);
                 </button>
               </div>
               <div className="client-summary">
-                  <div className="client-card">
-                      <div className="client-info-box">
-                          <span className="client-number3">50</span>
-                          <span className="client-label">Active Clients</span>
-                      </div>
+                <div className="client-card" onClick={() => handleClientFilter('all')}>
+                  <div className="client-info-box">
+                    <span className="client-number2">{totalCount}</span>
+                    <span className="client-label">All Clients</span>
                   </div>
-                  <div className="client-card">
-                      <div className="client-info-box">
-                          <span className="client-number1">20</span>
-                          <span className="client-label">Inactive Clients</span>
-                      </div>
+                </div>
+                <div className="client-card" onClick={() => handleClientFilter('active')}>
+                  <div className="client-info-box">
+                    <span className="client-number3">{activeCount}</span>
+                    <span className="client-label">Active Clients</span>
                   </div>
-                  <div className="client-card">
-                      <div className="client-info-box">
-                          <span className="client-number2">70</span>
-                          <span className="client-label">Total Clients</span>
-                      </div>
+                </div>
+                <div className="client-card" onClick={() => handleClientFilter('inactive')}>
+                  <div className="client-info-box">
+                    <span className="client-number1">{inactiveCount}</span>
+                    <span className="client-label">Inactive Clients</span>
                   </div>
+                </div>
               </div>
-
-              {/* <!-- Table for Data --> */}
-                <table className="client-data">
-                    <thead>
-                        <tr>
-                            <th>Client ID</th>
-                            <th>Agency</th>
-                            <th>Client Manager</th>
-                            <th>Client Name</th>
-                            <th>Contact Person 1</th>
+              <table className="client-data">
+                <thead>
+                  <tr>
+                    <th>Client Name</th>
+                    <th>Posting Title</th>
+                    <th>Job Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredClientNames.length === 0 ? (
+                    <tr>
+                      <td colSpan={3}>No data available</td>
+                    </tr>
+                  ) : (
+                    filteredClientNames.map(clientName => 
+                      clientJobs[clientName].map((job, index) => (
+                        <tr key={`${clientName}-${index}`}>
+                          <td>{clientName}</td>
+                          <td>{job.postingTitle}</td>
+                          <td>{job.jobOpeningStatus}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>001</td>
-                            <td>Agency A</td>
-                            <td>John Doe</td>
-                            <td>Client A</td>
-                            <td>Jane Smith</td>
-                        </tr>
-                        <tr>
-                            <td>002</td>
-                            <td>Agency B</td>
-                            <td>Emily Davis</td>
-                            <td>Client B</td>
-                            <td>Robert Johnson</td>
-                        </tr>
-                        <tr>
-                            <td>003</td>
-                            <td>Agency C</td>
-                            <td>Michael Lee</td>
-                            <td>Client C</td>
-                            <td>Alice White</td>
-                        </tr>
-                        <tr>
-                            <td>004</td>
-                            <td>Agency D</td>
-                            <td>Sarah Green</td>
-                            <td>Client D</td>
-                            <td>David Brown</td>
-                        </tr>
-                        <tr>
-                            <td>005</td>
-                            <td>Agency E</td>
-                            <td>Chris Black</td>
-                            <td>Client E</td>
-                            <td>Linda Blue</td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                      ))
+                    )
+                  )}
+                </tbody>
+              </table>
             </div>
+
 
             {/* New Section Two */}
             <div className={`box ${isExpanded.sectionTwo ? 'expanded' : ''}`}>
