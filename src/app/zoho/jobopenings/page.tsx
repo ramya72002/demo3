@@ -10,6 +10,7 @@ const JobOpenings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [jobOpeningStatus, setJobOpeningStatus] = useState<string>(''); // For dropdown status handling
+  const [filterStatus, setFilterStatus] = useState<string>(''); // For filtering jobs by status
 
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
@@ -55,10 +56,30 @@ const JobOpenings = () => {
     }
   };
 
+  // Filter jobs based on selected status
+  const filteredJobs = filterStatus
+    ? jobs.filter(job => job.jobOpeningStatus === filterStatus)
+    : jobs;
+
   return (
     <div>
       <ZohoHeader />
       <h1>Job Openings</h1>
+
+      {/* Filter Dropdown */}
+      <div className="filter-container">
+        <label htmlFor="statusFilter">Filter by Status:</label>
+        <select
+          id="statusFilter"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="Open">Open</option>
+          <option value="Close">Close</option>
+        </select>
+      </div>
+
       <div className="jobTable">
         <table>
           <thead>
@@ -74,7 +95,7 @@ const JobOpenings = () => {
             </tr>
           </thead>
           <tbody>
-            {jobs.map((job, index) => (
+            {filteredJobs.map((job, index) => (
               <tr key={index}>
                 <td className="clickable-jobId" onClick={() => handleJobClick(job.jobId)}>
                   {job.jobId}
@@ -86,14 +107,13 @@ const JobOpenings = () => {
                 <td>{job.clientName}</td>
                 <td>{job.accountManager || 'N/A'}</td>
                 <td>
-                <select
-  value={job.jobOpeningStatus ?? ''} // Default to an empty string if undefined
-  onChange={(e) => handleStatusChange(job.jobId, e.target.value)}
->
-  <option value="Open">Open</option>
-  <option value="Close">Close</option>
-</select>
-
+                  <select
+                    value={job.jobOpeningStatus ?? ''} // Default to an empty string if undefined
+                    onChange={(e) => handleStatusChange(job.jobId, e.target.value)}
+                  >
+                    <option value="Open">Open</option>
+                    <option value="Close">Close</option>
+                  </select>
                 </td>
               </tr>
             ))}
@@ -105,9 +125,7 @@ const JobOpenings = () => {
         <JobDetails
           job={selectedJob}
           onClose={() => setSelectedJob(null)}
-         // Ensure jobOpeningStatus has a fallback value if undefined
-onSave={(updatedJob) => handleStatusChange(selectedJob.jobId, updatedJob.jobOpeningStatus ?? 'Open')}
-
+          onSave={(updatedJob) => handleStatusChange(selectedJob.jobId, updatedJob.jobOpeningStatus ?? 'Open')}
         />
       )}
     </div>

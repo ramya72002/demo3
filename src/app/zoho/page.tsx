@@ -14,6 +14,8 @@ interface CandidateData {
   [key: string]: any; // You can expand this with more fields if needed
 }
 interface JobData {
+  jobId:string;
+  city:string;
   accountManager: string;
   clientName: string;
   contactName: string;
@@ -22,6 +24,7 @@ interface JobData {
   numberOfPositions: number;
   postingTitle: string;
   targetDate: string;
+  jobOpeningStatus:string;
 }
 
 const Page = () => {
@@ -38,8 +41,10 @@ const Page = () => {
   });
   const [jobData, setJobData] = useState<JobData[]>([]);
   const [candidateData, setCandidateData] = useState<{ [key: string]: CandidateData[] }>({});
+  const [activeCount, setActiveCount] = useState(0);
+  const [inactiveCount, setInactiveCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const router = useRouter(); // Use Next.js router for navigation
-
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
@@ -50,11 +55,21 @@ const Page = () => {
         console.error('Error fetching candidate data:', error);
       }
     };
+    
     const fetchJobs = async () => {
       try {
         const response = await fetch('https://demo4-backendurl.vercel.app/jobs/getall');
         const data = await response.json();
         setJobData(data);
+
+        // Calculate counts
+        const activeJobs = data.filter((job: JobData) => job.jobOpeningStatus === 'Open').length;
+        const inactiveJobs = data.filter((job: JobData) => job.jobOpeningStatus === 'Close').length;
+        const totalJobs = data.length;
+
+        setActiveCount(activeJobs);
+        setInactiveCount(inactiveJobs);
+        setTotalCount(totalJobs);
       } catch (error) {
         console.error('Error fetching jobs:', error);
       }
@@ -352,101 +367,61 @@ const stageCounts = getCandidateStageCounts(candidates);
 
             {/* New Section Two */}
             <div className={`box ${isExpanded.sectionTwo ? 'expanded' : ''}`}>
-              <div className="sectionHeader">
-                <h2>Job Opening Summary</h2>
-                <button className="expandButton" onClick={() => toggleExpand('sectionTwo')}>
-                  {isExpanded.sectionTwo ? '↘' : '↗'}
-                </button>
-              </div>
-              <div className="client-summary">
-                    <div className="client-card">
-                        <div className="client-info-box">
-                            <span className="client-number3">16</span>
-                            <span className="client-label">Active Job Oppenings</span>
-                        </div>
-                    </div>
-                    <div className="client-card">
-                        <div className="client-info-box">
-                            <span className="client-number1">4</span>
-                            <span className="client-label">Inactive Job Openings</span>
-                        </div>
-                    </div>
-                    <div className="client-card">
-                        <div className="client-info-box">
-                            <span className="client-number2">20</span>
-                            <span className="client-label">Total job Openings</span>
-                        </div>
-                    </div>
-                </div>
-                <table className="client-data">
-                    <thead>
-                        <tr>
-                            <th>Job ID</th>
-                            <th>Posting Title</th>
-                            <th>Client Name</th>
-                            <th>Target Date</th>
-                            <th>Job Opening Status</th>
-                            <th>City</th>
-                            <th>Client Manager</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                          <tr>
-                              <td>1001</td>
-                              <td>Software Engineer</td>
-                              <td>Client A</td>
-                              <td>2024-09-30</td>
-                              <td>Open</td>
-                              <td>New York</td>
-                              <td>John Doe</td>
-                              <td>Active</td>
-                          </tr>
-                          <tr>
-                              <td>1002</td>
-                              <td>Data Analyst</td>
-                              <td>Client B</td>
-                              <td>2024-10-05</td>
-                              <td>Closed</td>
-                              <td>Chicago</td>
-                              <td>Emily Davis</td>
-                              <td>Inactive</td>
-                          </tr>
-                          <tr>
-                              <td>1003</td>
-                              <td>Project Manager</td>
-                              <td>Client C</td>
-                              <td>2024-09-28</td>
-                              <td>Pending</td>
-                              <td>San Francisco</td>
-                              <td>Michael Lee</td>
-                              <td>Active</td>
-                          </tr>
-                          <tr>
-                              <td>1004</td>
-                              <td>UX Designer</td>
-                              <td>Client D</td>
-                              <td>2024-10-10</td>
-                              <td>Open</td>
-                              <td>Seattle</td>
-                              <td>Sarah Green</td>
-                              <td>Active</td>
-                          </tr>
-                          <tr>
-                              <td>1005</td>
-                              <td>DevOps Engineer</td>
-                              <td>Client E</td>
-                              <td>2024-09-25</td>
-                              <td>Open</td>
-                              <td>Boston</td>
-                              <td>Chris Black</td>
-                              <td>Active</td>
-                          </tr>
-                      </tbody>
-
-                </table>
-
-            </div>
+      <div className="sectionHeader">
+        <h2>Job Opening Summary</h2>
+        <button className="expandButton" onClick={() => setIsExpanded(prev => ({ ...prev, sectionTwo: !prev.sectionTwo }))}>
+          {isExpanded.sectionTwo ? '↘' : '↗'}
+        </button>
+      </div>
+      <div className="client-summary">
+        <div className="client-card">
+          <div className="client-info-box">
+            <span className="client-number3">{activeCount}</span>
+            <span className="client-label">Active Job Openings</span>
+          </div>
+        </div>
+        <div className="client-card">
+          <div className="client-info-box">
+            <span className="client-number1">{inactiveCount}</span>
+            <span className="client-label">Inactive Job Openings</span>
+          </div>
+        </div>
+        <div className="client-card">
+          <div className="client-info-box">
+            <span className="client-number2">{totalCount}</span>
+            <span className="client-label">Total Job Openings</span>
+          </div>
+        </div>
+      </div>
+      <table className="client-data">
+        <thead>
+          <tr>
+            <th>Job ID</th>
+            <th>Posting Title</th>
+            <th>Client Name</th>
+            <th>Target Date</th>
+            <th>Job Opening Status</th>
+            <th>City</th>
+            <th>Client Manager</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jobData.map(job => (
+            <tr key={job.jobId}>
+              <td>{job.jobId}</td>
+              <td>{job.postingTitle}</td>
+              <td>{job.clientName}</td>
+              <td>{job.targetDate}</td>
+              <td>{job.jobOpeningStatus}</td>
+              <td>{job.city || 'N/A'}</td>
+              <td>{job.accountManager || 'N/A'}</td>
+              <td>{job.jobOpeningStatus === 'Open' ? 'Active' : 'Inactive'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
 
             {/* New Section Three */}
     <div className={`box ${isExpanded.sectionThree ? 'expanded' : ''}`}>
