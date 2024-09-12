@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // For navigation
 import './zoho.scss';
 import ZohoHeader from '../zohoheader/page';
-import PerformanceBarChart from '../barchart/page';
-import LineChart from '../linechart/page';
+// import PerformanceBarChart from '../barchart/page';
+// import LineChart from '../linechart/page';
 
 // Define interface for Candidate Data
 interface CandidateData {
@@ -500,13 +500,14 @@ const stageCounts = getCandidateStageCounts(candidates);
                   {isExpanded.newSection ? '↘' : '↗'}
                 </button>
               </div>
-                    <div className='bar'>
+                    {/* <div className='bar'>
                       <PerformanceBarChart /> 
                     </div>
                     
-            </div><LineChart />
+            <LineChart /> */}
 
             {/* Upcoming Section */}
+            </div>
             <div className={`box ${isExpanded.upcoming ? 'expanded' : ''}`}>
               <div className="timeToHireHeader">
                 <h2>Upcoming</h2>
