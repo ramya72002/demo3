@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 'use client'
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
@@ -25,8 +24,7 @@ interface JobFormData {
   postalCode?: string;
   revenuePerPosition?: number;
   numberOfPositions?: number;
-  description?: string;  // Add description field here
-
+  description?: string;
 }
 
 const JobOpenings: React.FC = () => {
@@ -36,15 +34,14 @@ const JobOpenings: React.FC = () => {
     targetDate: '',
     industry: '',
     numberOfPositions: 1,
-    description:'',
+    description: '',
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [clients, setClients] = useState<{ clientName: string }[]>([]);
 
-  const requiredFields: Array<keyof JobFormData> = ['postingTitle', 'clientName', 'targetDate', 'industry','description'];
+  const requiredFields: Array<keyof JobFormData> = ['postingTitle', 'clientName', 'targetDate', 'industry', 'description'];
 
   useEffect(() => {
-    // Function to fetch clients
     const fetchClients = async () => {
       try {
         const response = await axios.get('https://demo4-backendurl.vercel.app/clients/getall');
@@ -55,7 +52,37 @@ const JobOpenings: React.FC = () => {
     };
 
     fetchClients();
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const initialData: Partial<JobFormData> = {};
+
+    requiredFields.forEach((field) => {
+      const value = queryParams.get(field);
+      if (value !== null) {
+        // Cast value according to field type
+        if (field === 'revenuePerPosition' || field === 'numberOfPositions') {
+          initialData[field] = Number(value) as JobFormData[typeof field];
+        } else {
+          initialData[field] = value as JobFormData[typeof field];
+        }
+      }
+    });
+
+    // Handling clientManager field separately if needed
+    const clientManager = queryParams.get('clientManager');
+    if (clientManager !== null) {
+      initialData.clientManager = clientManager;
+    }
+
+    if (Object.keys(initialData).length > 0) {
+      setFormData((prevData) => ({
+        ...prevData,
+        ...initialData,
+      }));
+    }
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -135,27 +162,26 @@ const JobOpenings: React.FC = () => {
               value={formData.Recruiter || ''}
               onChange={handleInputChange}
             >
-             <option value="">Select Recruiter</option>
-                <option value="ayesha">Ayesha</option>
-                <option value="ramya">Ritika</option>
-                <option value="ayesha">Rashika</option>
-                <option value="ramya">Varsha</option>
-              </select>
+              <option value="">Select Recruiter</option>
+              <option value="ayesha">Ayesha</option>
+              <option value="ramya">Ritika</option>
+              <option value="rashika">Rashika</option>
+              <option value="varsha">Varsha</option>
+            </select>
           </div>
           <div className="form-group">
             <label>Client Manager</label>
-    
-             <select
+            <select
               name="clientManager"
               value={formData.clientManager || ''}
               onChange={handleInputChange}
             >
-            <option value="">Select Client Manager</option>
-                <option value="ayesha">Ayesha</option>
-                <option value="ramya">Ritika</option>
-                <option value="ayesha">Rashika</option>
-                <option value="ramya">Varsha</option>
-              </select>
+              <option value="">Select Client Manager</option>
+              <option value="ayesha">Ayesha</option>
+              <option value="ramya">Ritika</option>
+              <option value="rashika">Rashika</option>
+              <option value="varsha">Varsha</option>
+            </select>
           </div>
           <div className="form-group">
             <label>Date Opened</label>
@@ -200,7 +226,7 @@ const JobOpenings: React.FC = () => {
             >
               <option value="">Select</option>
               <option>Open</option>
-                  <option>Close</option>
+              <option>Close</option>
             </select>
           </div>
           <div className="form-group">
@@ -212,11 +238,11 @@ const JobOpenings: React.FC = () => {
             >
               <option value="">Select</option>
               <option>None</option>
-                  <option>Less than 1 year</option>
-                  <option>1-2 years</option>
-                  <option>3-5 years</option>
-                  <option>6-10 years</option>
-                  <option>More than 10 years</option>         
+              <option>Less than 1 year</option>
+              <option>1-2 years</option>
+              <option>3-5 years</option>
+              <option>6-10 years</option>
+              <option>More than 10 years</option>
             </select>
           </div>
           <div className="form-group">
@@ -229,13 +255,13 @@ const JobOpenings: React.FC = () => {
               onChange={handleInputChange}
             >
               <option value="">Select</option>
-                  <option>Technology</option>
-                  <option>Healthcare</option>
-                  <option>Finance</option>
-                  <option>E-commerce</option>
-                  <option>Education</option>
-                  <option>Entertainment</option>
-                  <option>Manufacturing</option>
+              <option>Technology</option>
+              <option>Healthcare</option>
+              <option>Finance</option>
+              <option>E-commerce</option>
+              <option>Education</option>
+              <option>Entertainment</option>
+              <option>Manufacturing</option>
                   <option>Energy</option>
                   <option>Transportation</option>
                   <option>None</option>
@@ -288,12 +314,12 @@ const JobOpenings: React.FC = () => {
               onChange={handleInputChange}
             />
           </div>
-                    <div className="form-group">
-                      <label>Country</label>
+          <div className="form-group">
+            <label>Country</label>
                       <select
-                        name="country"
-                        value={formData.country || ''}
-                        onChange={handleInputChange}
+              name="country"
+              value={formData.country || ''}
+              onChange={handleInputChange}
                       >
                         <option value="">Select</option>
           <option>Afghanistan</option>
@@ -329,7 +355,7 @@ const JobOpenings: React.FC = () => {
     
 
                       </select>
-                    </div>
+          </div>
           <div className="form-group">
             <label>Province</label>
             <input
@@ -361,29 +387,29 @@ const JobOpenings: React.FC = () => {
               onChange={handleInputChange}
             />
           </div>
-         </div>
-        <div className="form-group">
+          <div className="form-group">
           <label className={errors.includes('numberOfPositions') ? 'required' : ''}>
             Number of Positions *
           </label>
-          <input
-            type="number"
-            name="numberOfPositions"
-            value={formData.numberOfPositions || ''}
-            onChange={handleInputChange}
-          />
+            <input
+              type="number"
+              name="numberOfPositions"
+              value={formData.numberOfPositions || ''}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label className={errors.includes('description') ? 'required' : ''}>
+              Description *
+            </label>
+            <textarea
+              name="description"
+              value={formData.description || ''}
+              placeholder="Enter job description here..."
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-        <div className="form-group">
-    <label className={errors.includes('description') ? 'required' : ''}>
-      Description *
-    </label>
-    <textarea
-      name="description"
-      value={formData.description || ''}
-      placeholder="Enter job description here..."
-      onChange={handleInputChange}
-    />
-  </div>
       </div>
     </div>
   );

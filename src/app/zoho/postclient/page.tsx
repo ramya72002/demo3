@@ -74,8 +74,9 @@ const PostClient: React.FC = () => {
   // Function to handle "Yes" button click
   const handleYes = () => {
     setShowModal(false); // Close modal
-    router.push('/zoho/postjobopenings'); // Redirect to the "Yes" page
+    router.push(`/zoho/postjobopenings?clientName=${encodeURIComponent(clientName)}&clientManager=${encodeURIComponent(clientManager)}`); // Redirect to the "Yes" page with query parameters
   };
+  
 
   // Function to handle "No" button click
   const handleNo = () => {
