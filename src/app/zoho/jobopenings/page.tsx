@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation'; // Import useSearchParams for query parameters
 import ZohoHeader from '@/app/zohoheader/page';
 import axios from 'axios';
 import JobDetails from './jobDetails'; // Import the new JobDetails component
@@ -9,8 +10,8 @@ import { Job } from '../../types';
 const JobOpenings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [jobOpeningStatus, setJobOpeningStatus] = useState<string>(''); // For dropdown status handling
   const [filterStatus, setFilterStatus] = useState<string>(''); // For filtering jobs by status
+  const searchParams = useSearchParams(); // Access searchParams object
 
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
@@ -24,7 +25,13 @@ const JobOpenings = () => {
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+
+    // Extract query parameter for jobOpeningStatus
+    const queryStatus = searchParams.get('jobOpeningStatus');
+    if (queryStatus) {
+      setFilterStatus(queryStatus);
+    }
+  }, [searchParams]);
 
   // Function to handle job ID click
   const handleJobClick = async (jobId: string) => {
@@ -32,7 +39,6 @@ const JobOpenings = () => {
       const response = await axios.get<Job[]>(`https://demo4-backendurl.vercel.app/zoho/getjob_id?jobId=${jobId}`);
       const job = response.data[0]; // Access the first element of the array
       setSelectedJob(job);
-      setJobOpeningStatus(job.jobOpeningStatus); // Set current status in state
     } catch (error) {
       console.error('Error fetching job details:', error);
     }

@@ -376,19 +376,28 @@ const stageCounts = getCandidateStageCounts(candidates);
       <div className="client-summary">
         <div className="client-card">
           <div className="client-info-box">
-            <span className="client-number3">{activeCount}</span>
+          <span
+  className="client-number3"
+  onClick={() => window.location.href = '/zoho/jobopenings?jobOpeningStatus=Open'}
+>
+  {activeCount}
+</span>
+
             <span className="client-label">Active Job Openings</span>
           </div>
         </div>
         <div className="client-card">
           <div className="client-info-box">
-            <span className="client-number1">{inactiveCount}</span>
+            <span className="client-number1"
+            onClick={() => window.location.href = '/zoho/jobopenings?jobOpeningStatus=Close'}>{inactiveCount} </span>
             <span className="client-label">Inactive Job Openings</span>
           </div>
         </div>
         <div className="client-card">
           <div className="client-info-box">
-            <span className="client-number2">{totalCount}</span>
+            <span className="client-number2"
+                        onClick={() => window.location.href = '/zoho/jobopenings'}>
+ {totalCount}</span>
             <span className="client-label">Total Job Openings</span>
           </div>
         </div>
