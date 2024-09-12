@@ -1,16 +1,15 @@
-'use client'; // This ensures the entire component is client-side
-import React, { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation'; // Client-side hook
+'use client';
+import React, { useState, useEffect } from 'react';
 import ZohoHeader from '@/app/zohoheader/page';
 import axios from 'axios';
-import JobDetails from './jobDetails';
+import JobDetails from './jobDetails'; // Import the new JobDetails component
 import './jobopenings.scss';
 import { Job } from '../../types';
 
-const JobOpeningsContent = () => {
+const JobOpenings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [filterStatus, setFilterStatus] = useState<string>('');
+  const [filterStatus, setFilterStatus] = useState<string>(''); // For filtering jobs by status
 
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
@@ -22,25 +21,42 @@ const JobOpeningsContent = () => {
     }
   };
 
+  useEffect(() => {
+    fetchJobs();
+
+    // Ensure window is defined before accessing it
+    if (typeof window !== 'undefined') {
+      // Extract query parameter for jobOpeningStatus using URLSearchParams
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryStatus = urlParams.get('jobOpeningStatus');
+      if (queryStatus) {
+        setFilterStatus(queryStatus);
+      }
+    }
+  }, []);
+
+  // Function to handle job ID click
   const handleJobClick = async (jobId: string) => {
     try {
       const response = await axios.get<Job[]>(`https://demo4-backendurl.vercel.app/zoho/getjob_id?jobId=${jobId}`);
-      const job = response.data[0];
+      const job = response.data[0]; // Access the first element of the array
       setSelectedJob(job);
     } catch (error) {
       console.error('Error fetching job details:', error);
     }
   };
 
+  // Function to handle status change
   const handleStatusChange = async (jobId: string, newStatus: string) => {
     try {
       const response = await axios.put(
         `https://demo4-backendurl.vercel.app/job/update_job_opening_status/${jobId}`,
         { jobOpeningStatus: newStatus }
       );
+
       if (response.status === 200) {
         alert('Job status updated successfully');
-        await fetchJobs();
+        await fetchJobs(); // Refresh the table with updated data
       }
     } catch (error) {
       console.error('Error updating job status:', error);
@@ -48,6 +64,7 @@ const JobOpeningsContent = () => {
     }
   };
 
+  // Filter jobs based on selected status
   const filteredJobs = filterStatus
     ? jobs.filter(job => job.jobOpeningStatus === filterStatus)
     : jobs;
@@ -57,6 +74,7 @@ const JobOpeningsContent = () => {
       <ZohoHeader />
       <h1>Job Openings</h1>
 
+      {/* Filter Dropdown */}
       <div className="filter-container">
         <label htmlFor="statusFilter">Filter by Status:</label>
         <select
@@ -98,7 +116,7 @@ const JobOpeningsContent = () => {
                 <td>{job.accountManager || 'N/A'}</td>
                 <td>
                   <select
-                    value={job.jobOpeningStatus ?? ''}
+                    value={job.jobOpeningStatus ?? ''} // Default to an empty string if undefined
                     onChange={(e) => handleStatusChange(job.jobId, e.target.value)}
                   >
                     <option value="Open">Open</option>
@@ -119,24 +137,6 @@ const JobOpeningsContent = () => {
         />
       )}
     </div>
-  );
-};
-
-const JobOpenings = () => {
-  const searchParams = useSearchParams();
-  const [filterStatus, setFilterStatus] = useState<string>('');
-
-  useEffect(() => {
-    const queryStatus = searchParams.get('jobOpeningStatus');
-    if (queryStatus) {
-      setFilterStatus(queryStatus);
-    }
-  }, [searchParams]);
-
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <JobOpeningsContent />
-    </Suspense>
   );
 };
 
