@@ -43,6 +43,9 @@ const Page = () => {
   const [candidateData, setCandidateData] = useState<{ [key: string]: CandidateData[] }>({});
   const [activeCount, setActiveCount] = useState(0);
   const [inactiveCount, setInactiveCount] = useState(0);
+  const [activeJobCount, setActiveJobCount] = useState(0);
+  const [inactiveJobCount, setInactiveJobCount] = useState(0);
+  const [totalJobCount, setTotalJobCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [filterType, setFilterType] = useState<'active' | 'inactive' | 'all'>('all'); // State to track filter type
   const router = useRouter(); // Use Next.js router for navigation
@@ -63,15 +66,24 @@ const Page = () => {
         const data = await response.json();
         setJobData(data);
 
-        // Calculate counts
         const { clientJobs, clientStatus } = processJobData(data);
+
         const activeJobs = Object.values(clientStatus).filter(isActive => isActive).length;
         const inactiveJobs = Object.keys(clientStatus).filter(clientName => !clientStatus[clientName]).length;
-        const totalJobs = data.length;
+        const totalJobs = activeJobs+inactiveJobs;
+
+        // Calculate job status counts
+        const activeJobCount = data.filter((job: JobData) => job.jobOpeningStatus === 'Open').length;
+        const inactiveJobCount = data.filter((job: JobData) => job.jobOpeningStatus === 'Close').length;
+        const totalJobscount = activeJobCount+inactiveJobCount;
+
 
         setActiveCount(activeJobs);
         setInactiveCount(inactiveJobs);
         setTotalCount(totalJobs);
+        setActiveJobCount(activeJobCount);
+        setInactiveJobCount(inactiveJobCount);
+        setTotalJobCount(totalJobscount)
       } catch (error) {
         console.error('Error fetching jobs:', error);
       }
@@ -80,6 +92,8 @@ const Page = () => {
     fetchCandidates();
     fetchJobs();
   }, []);
+
+   
 
   const getCandidateStageCounts = (candidates: CandidateData[]) => {
     const stageCounts = {
@@ -331,12 +345,7 @@ const stageCounts = getCandidateStageCounts(candidates);
                 </button>
               </div>
               <div className="client-summary">
-                <div className="client-card" onClick={() => handleClientFilter('all')}>
-                  <div className="client-info-box">
-                    <span className="client-number2">{totalCount}</span>
-                    <span className="client-label">All Clients</span>
-                  </div>
-                </div>
+                
                 <div className="client-card" onClick={() => handleClientFilter('active')}>
                   <div className="client-info-box">
                     <span className="client-number3">{activeCount}</span>
@@ -347,6 +356,12 @@ const stageCounts = getCandidateStageCounts(candidates);
                   <div className="client-info-box">
                     <span className="client-number1">{inactiveCount}</span>
                     <span className="client-label">Inactive Clients</span>
+                  </div>
+                </div>
+                <div className="client-card" onClick={() => handleClientFilter('all')}>
+                  <div className="client-info-box">
+                    <span className="client-number2">{totalCount}</span>
+                    <span className="client-label">All Clients</span>
                   </div>
                 </div>
               </div>
@@ -394,7 +409,7 @@ const stageCounts = getCandidateStageCounts(candidates);
   className="client-number3"
   onClick={() => window.location.href = '/zoho/jobopenings?jobOpeningStatus=Open'}
 >
-  {activeCount}
+  {activeJobCount}
 </span>
 
             <span className="client-label">Active Job Openings</span>
@@ -403,7 +418,7 @@ const stageCounts = getCandidateStageCounts(candidates);
         <div className="client-card">
           <div className="client-info-box">
             <span className="client-number1"
-            onClick={() => window.location.href = '/zoho/jobopenings?jobOpeningStatus=Close'}>{inactiveCount} </span>
+            onClick={() => window.location.href = '/zoho/jobopenings?jobOpeningStatus=Close'}>{inactiveJobCount} </span>
             <span className="client-label">Inactive Job Openings</span>
           </div>
         </div>
@@ -411,7 +426,7 @@ const stageCounts = getCandidateStageCounts(candidates);
           <div className="client-info-box">
             <span className="client-number2"
                         onClick={() => window.location.href = '/zoho/jobopenings'}>
- {totalCount}</span>
+ {totalJobCount}</span>
             <span className="client-label">Total Job Openings</span>
           </div>
         </div>
