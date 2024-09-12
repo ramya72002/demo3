@@ -1,15 +1,17 @@
+import dynamic from 'next/dynamic';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+const PerformanceBarChart = dynamic(() => import('recharts').then((mod) => mod.BarChart), { ssr: false });
 
-const data = [
-  { name: 'Ayesha', candidates: 6 },
-  { name: 'John', candidates: 4 },
-  { name: 'Sara', candidates: 3 },
-  { name: 'Doe', candidates: 5 },
-];
+const ChartComponent: React.FC = () => {
+  const data = [
+    { name: 'Ayesha', candidates: 6 },
+    { name: 'John', candidates: 4 },
+    { name: 'Sara', candidates: 3 },
+    { name: 'Doe', candidates: 5 },
+  ];
 
-const PerformanceBarChart: React.FC = () => {
   return (
     <div className="performance-summary">
       <h2></h2>
@@ -34,4 +36,4 @@ const PerformanceBarChart: React.FC = () => {
   );
 };
 
-export default PerformanceBarChart;
+export default ChartComponent;
