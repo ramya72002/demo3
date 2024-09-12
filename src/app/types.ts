@@ -87,4 +87,5 @@ export interface Client {
   contactPerson2: ContactPerson;
   clientId: string;
   clientOnBoardingDate: string;
+  clientStatus:string;
 }

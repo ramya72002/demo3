@@ -28,6 +28,7 @@ interface Client {
   contactPerson2: ContactPerson;
   clientId: string;
   clientOnBoardingDate: string; // Add this line
+  clientStatus: string; // Add this line
 }
 
 const Clients: React.FC = () => {
@@ -78,7 +79,8 @@ const Clients: React.FC = () => {
         email: selectedClient.contactPerson2?.email,
         phone: selectedClient.contactPerson2?.phone
       },
-      clientOnBoardingDate: selectedClient.clientOnBoardingDate // Ensure this is included if needed
+      clientOnBoardingDate: selectedClient.clientOnBoardingDate,
+      clientStatus: selectedClient.clientStatus // Ensure this is included if needed
     };
 
     axios.put(`${UPDATE_Client_API_URL}/${selectedClient.clientId}`, updateData)
@@ -118,11 +120,12 @@ const Clients: React.FC = () => {
           <table className="clients-table">
             <thead>
               <tr>
-                <th>Client ID</th>
-                <th>Agency</th>
-                <th>Client Manager</th>
+                <th>ID</th>
                 <th>Client Name</th>
-                <th>Contact Person 1</th>
+                <th>Agency</th>
+                <th>OnBoarding Date</th>
+                <th>Client Manager</th>
+                <th>Client Status</th>
               </tr>
             </thead>
             <tbody>
@@ -131,10 +134,13 @@ const Clients: React.FC = () => {
                   <td className="client-id" onClick={() => handleClientIdClick(client.clientId)}>
                     {client.clientId}
                   </td>
-                  <td>{client.agency}</td>
-                  <td>{client.clientManager}</td>
                   <td>{client.clientName}</td>
-                  <td>{client.contactPerson1.name}</td>
+                  <td>{client.agency}</td>
+                  <td>{client.clientOnBoardingDate}</td>
+
+                  <td>{client.clientManager}</td>
+                  
+                  <td>{client.clientStatus}</td>
                 </tr>
               ))}
             </tbody>
