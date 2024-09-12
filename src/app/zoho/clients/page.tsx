@@ -47,6 +47,15 @@ const Clients: React.FC = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [jobs, setJobs] = useState<Job[]>([]);
 
+  // Filter states
+  const [filter, setFilter] = useState({
+    clientId: '',
+    clientName: '',
+    agency: '',
+    clientManager: '',
+    clientStatus: '',
+  });
+
   const fetchClients = async () => {
     try {
       const { data } = await axios.get<Client[]>(FETCH_CLIENTS_API_URL);
@@ -129,11 +138,59 @@ const Clients: React.FC = () => {
 
   const closeDetails = () => setShowDetails(null);
 
+  // Filtered clients data
+  const filteredClients = clientsData.filter(client => {
+    return (
+      (filter.clientId === '' || client.clientId.includes(filter.clientId)) &&
+      (filter.clientName === '' || client.clientName.toLowerCase().includes(filter.clientName.toLowerCase())) &&
+      (filter.agency === '' || client.agency.toLowerCase().includes(filter.agency.toLowerCase())) &&
+      (filter.clientManager === '' || client.clientManager.toLowerCase().includes(filter.clientManager.toLowerCase())) &&
+      (filter.clientStatus === '' || client.clientStatus === filter.clientStatus)
+    );
+  });
+
   return (
     <div>
       <ZohoHeader />
       <div className="clients-container">
         <h2>Clients List</h2>
+
+        {/* Filter Section */}
+        <div className="filters">
+          <input
+            type="text"
+            placeholder="Filter by ID"
+            value={filter.clientId}
+            onChange={(e) => setFilter({ ...filter, clientId: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Name"
+            value={filter.clientName}
+            onChange={(e) => setFilter({ ...filter, clientName: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Agency"
+            value={filter.agency}
+            onChange={(e) => setFilter({ ...filter, agency: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Manager"
+            value={filter.clientManager}
+            onChange={(e) => setFilter({ ...filter, clientManager: e.target.value })}
+          />
+          <select
+            value={filter.clientStatus}
+            onChange={(e) => setFilter({ ...filter, clientStatus: e.target.value })}
+          >
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+
         {loading ? (
           <p>Loading clients data...</p>
         ) : error ? (
@@ -151,7 +208,7 @@ const Clients: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {clientsData.map((client) => (
+              {filteredClients.map((client) => (
                 <tr key={client.clientId}>
                   <td className="client-id" onClick={() => handleClientIdClick(client.clientId)}>
                     {client.clientId}
