@@ -96,7 +96,7 @@ const JobOpenings = () => {
               <th>Posting Title</th>
               <th>Client Manager</th>
               <th>Target Date</th>
-              <th>City</th>
+              <th>location</th>
               <th>Client Name</th>
               <th>Account Manager</th>
               <th>Job Opening Status</th>
@@ -108,10 +108,10 @@ const JobOpenings = () => {
                 <td className="clickable-jobId" onClick={() => handleJobClick(job.jobId)}>
                   {job.jobId}
                 </td>
-                <td>{job.postingTitle}</td>
+                <td>{job.jobOpening}</td>
                 <td>{job.clientManager}</td>
                 <td>{job.targetDate}</td>
-                <td>{job.city}</td>
+                <td>{job.location}</td>
                 <td>{job.clientName}</td>
                 <td>{job.accountManager || 'N/A'}</td>
                 <td>

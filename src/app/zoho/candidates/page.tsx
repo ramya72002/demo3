@@ -117,9 +117,9 @@ const Candidates: React.FC = () => {
             <th>Email</th>
             <th>Phone</th>
             <th>Gender</th>
-            <th>City</th>
+            <th>location</th>
             <th>ClientName</th>
-            <th>PostingTitle</th>
+            <th>jobOpening</th>
             <th>Stage</th>
           </tr>
         </thead>
@@ -133,9 +133,9 @@ const Candidates: React.FC = () => {
               <td>{candidate.email}</td>
               <td>{candidate.phone}</td>
               <td>{candidate.gender}</td>
-              <td>{candidate.city}</td>
+              <td>{candidate.location}</td>
               <td>{candidate.clientName}</td>
-              <td>{candidate.postingTitle}</td>
+              <td>{candidate.jobOpening}</td>
               <td>
                 <select value={candidate.candidateStage} onChange={(e) => handleCandidateStageChange(candidate.candidateId, e.target.value)}>
                   <option value="new">New</option>

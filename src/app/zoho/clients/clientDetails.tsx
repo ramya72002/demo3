@@ -28,7 +28,6 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client, onChange, onSave,
           <p><strong>Address:</strong> <input type="text" value={client.address} onChange={e => onChange({ ...client, address: e.target.value })} /></p>
         </div>
         <div className="details-row">
-          <p><strong>Website:</strong> <input type="text" value={client.website} onChange={e => onChange({ ...client, website: e.target.value })} /></p>
           <p><strong>Industry:</strong> <input type="text" value={client.industry} onChange={e => onChange({ ...client, industry: e.target.value })} /></p>
         </div>
         <div className="details-row">

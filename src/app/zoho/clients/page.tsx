@@ -23,12 +23,11 @@ interface Client {
   email: string;
   phone: string;
   address: string;
-  website: string;
   industry: string;
   contactPerson1: ContactPerson;
   contactPerson2: ContactPerson;
   clientId: string;
-  clientDate: string; // Add this line
+  clientOnBoardingDate: string; // Add this line
 }
 
 const Clients: React.FC = () => {
@@ -68,7 +67,6 @@ const Clients: React.FC = () => {
       email: selectedClient.email,
       phone: selectedClient.phone,
       address: selectedClient.address,
-      website: selectedClient.website,
       industry: selectedClient.industry,
       contactPerson1: {
         name: selectedClient.contactPerson1?.name,
@@ -80,7 +78,7 @@ const Clients: React.FC = () => {
         email: selectedClient.contactPerson2?.email,
         phone: selectedClient.contactPerson2?.phone
       },
-      clientDate: selectedClient.clientDate // Ensure this is included if needed
+      clientOnBoardingDate: selectedClient.clientOnBoardingDate // Ensure this is included if needed
     };
 
     axios.put(`${UPDATE_Client_API_URL}/${selectedClient.clientId}`, updateData)

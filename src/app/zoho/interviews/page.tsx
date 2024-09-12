@@ -12,7 +12,7 @@ interface Interview {
   to: string;
   candidateName: string;
   clientName: string;
-  postingTitle: string;
+  jobOpening: string;
   interviewStatus: string;
   interviewOwner: string;
 }
@@ -62,7 +62,7 @@ const Interviews = () => {
               <td>{interview.to}</td>
               <td>{interview.candidateName}</td>
               <td>{interview.clientName}</td>
-              <td>{interview.postingTitle}</td>
+              <td>{interview.jobOpening}</td>
               <td>{interview.interviewStatus}</td>
               <td>{interview.interviewOwner}</td>
             </tr>

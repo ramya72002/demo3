@@ -12,7 +12,7 @@ const PostCandidate = () => {
     email: '',
     phone: '',
     gender: '',
-    city: '',
+    location: '',
     state: '',
     experience: '',
     currentCTC: '',
@@ -22,23 +22,23 @@ const PostCandidate = () => {
     skills: '',
     linkedIn: '',
     clientName: '',
-    postingTitle: '',
+    jobOpening: '',
     candidateDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD format
   });
 
   const [clientNames, setClientNames] = useState<string[]>([]);
-  const [postingTitles, setPostingTitles] = useState<string[]>([]);
+  const [jobOpenings, setjobOpenings] = useState<string[]>([]);
 
   useEffect(() => {
     // Extract query parameters and update state
     const urlParams = new URLSearchParams(window.location.search);
     const clientName = decodeURIComponent(urlParams.get('clientName') || '');
-    const postingTitle = decodeURIComponent(urlParams.get('postingTitle') || '');
+    const jobOpening = decodeURIComponent(urlParams.get('jobOpening') || '');
 
     setCandidateInfo(prevState => ({
       ...prevState,
       clientName,
-      postingTitle
+      jobOpening
     }));
 
     // Fetch job data and update client names and posting titles
@@ -52,8 +52,8 @@ const PostCandidate = () => {
 
         if (clientName) {
           const filteredJobs = jobs.filter((job) => job.clientName === clientName);
-          const uniquePostingTitles = Array.from(new Set(filteredJobs.map((job) => job.postingTitle)));
-          setPostingTitles(uniquePostingTitles);
+          const uniquejobOpenings = Array.from(new Set(filteredJobs.map((job) => job.jobOpening)));
+          setjobOpenings(uniquejobOpenings);
         }
       } catch (error) {
         console.error('Error fetching jobs:', error);
@@ -75,22 +75,22 @@ const PostCandidate = () => {
       setCandidateInfo(prevState => ({
         ...prevState,
         clientName: selectedClientName,
-        postingTitle: ''
+        jobOpening: ''
       }));
 
-      const fetchPostingTitles = async () => {
+      const fetchjobOpenings = async () => {
         try {
           const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');
           const jobs = response.data;
           const filteredJobs = jobs.filter((job) => job.clientName === selectedClientName);
-          const uniquePostingTitles = Array.from(new Set(filteredJobs.map((job) => job.postingTitle)));
-          setPostingTitles(uniquePostingTitles);
+          const uniquejobOpenings = Array.from(new Set(filteredJobs.map((job) => job.jobOpening)));
+          setjobOpenings(uniquejobOpenings);
         } catch (error) {
           console.error('Error fetching posting titles:', error);
         }
       };
 
-      fetchPostingTitles();
+      fetchjobOpenings();
     }
   };
 
@@ -119,7 +119,7 @@ const PostCandidate = () => {
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <h2>Basic Info</h2>
-          {['name', 'email', 'phone', 'city', 'state', 'experience', 'currentCTC', 'expectedCTC', 'noticePeriod', 'domain', 'skills', 'linkedIn'].map((field) => (
+          {['name', 'email', 'phone', 'location', 'state', 'experience', 'currentCTC', 'expectedCTC', 'noticePeriod', 'domain', 'skills', 'linkedIn'].map((field) => (
             <div className="form-group" key={field}>
               <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
               <input
@@ -153,11 +153,11 @@ const PostCandidate = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="postingTitle">Posting Title</label>
-            <select name="postingTitle" id="postingTitle" value={candidateInfo.postingTitle} onChange={handleChange}>
+            <label htmlFor="jobOpening">Posting Title</label>
+            <select name="jobOpening" id="jobOpening" value={candidateInfo.jobOpening} onChange={handleChange}>
               <option value="">Select Posting Title</option>
-              {postingTitles.map((postingTitle) => (
-                <option key={postingTitle} value={postingTitle}>{postingTitle}</option>
+              {jobOpenings.map((jobOpening) => (
+                <option key={jobOpening} value={jobOpening}>{jobOpening}</option>
               ))}
             </select>
           </div>

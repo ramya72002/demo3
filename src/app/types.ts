@@ -21,15 +21,15 @@ export interface EmployeeRecord {
   export interface Job {
     _id: string;
     jobId: string;
-    postingTitle: string;
+    jobOpening: string;
     clientName: string;
     targetDate: string;
     industry: string;
     numberOfPositions: number;
-    description: string;
+    jobDescription: string;
     clientManger: string;
     contactName: string;
-    city: string;
+    location: string;
     province: string;
     postalCode: string;
     accountManager?: string;
@@ -44,7 +44,7 @@ export interface EmployeeRecord {
   }
   export interface JobPosting {
     id: string;
-    postingTitle: string;
+    jobOpening: string;
   }
   export type CandidateStage = 'new' | 'inreview' | 'available' | 'engaged' | 'offered' | 'hired' | 'rejected';
 
@@ -54,7 +54,7 @@ export interface EmployeeRecord {
   email: string;
   phone: string;
   gender: string;
-  city: string;
+  location: string;
   state: string;
   experience: string;
   currentCTC: string;
@@ -64,7 +64,7 @@ export interface EmployeeRecord {
   skills: string[];
   linkedIn: string;
   candidateStage: CandidateStage;
-  postingTitle:string;
+  jobOpening:string;
   clientName:string;
   candidateDate:string;
 }
@@ -82,10 +82,9 @@ export interface Client {
   email: string;
   phone: string;
   address: string;
-  website: string;
   industry: string;
   contactPerson1: ContactPerson;
   contactPerson2: ContactPerson;
   clientId: string;
-  clientDate: string;
+  clientOnBoardingDate: string;
 }
