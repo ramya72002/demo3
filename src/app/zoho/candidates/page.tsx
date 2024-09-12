@@ -112,14 +112,11 @@ const Candidates: React.FC = () => {
       <table className="candidate-table">
         <thead>
           <tr>
-            <th>Candidate ID</th>
+            <th>ID</th>
             <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Gender</th>
-            <th>location</th>
             <th>ClientName</th>
-            <th>jobOpening</th>
+            <th>Job Opening</th>
+            <th>Phone</th>
             <th>Stage</th>
           </tr>
         </thead>
@@ -130,12 +127,11 @@ const Candidates: React.FC = () => {
                 {candidate.candidateId}
               </td>
               <td>{candidate.name}</td>
-              <td>{candidate.email}</td>
-              <td>{candidate.phone}</td>
-              <td>{candidate.gender}</td>
-              <td>{candidate.location}</td>
               <td>{candidate.clientName}</td>
               <td>{candidate.jobOpening}</td>
+              <td>{candidate.phone}</td>
+              
+              
               <td>
                 <select value={candidate.candidateStage} onChange={(e) => handleCandidateStageChange(candidate.candidateId, e.target.value)}>
                   <option value="new">New</option>

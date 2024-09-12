@@ -92,14 +92,14 @@ const JobOpenings = () => {
         <table>
           <thead>
             <tr>
-              <th>Job ID</th>
-              <th>Posting Title</th>
-              <th>Client Manager</th>
-              <th>Target Date</th>
-              <th>location</th>
+              <th>ID</th>
+              <th>Job Opening</th>
               <th>Client Name</th>
+              <th>location</th>
+              <th>Client Manager</th>
               <th>Account Manager</th>
-              <th>Job Opening Status</th>
+              <th>Target Date</th> 
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -109,11 +109,11 @@ const JobOpenings = () => {
                   {job.jobId}
                 </td>
                 <td>{job.jobOpening}</td>
-                <td>{job.clientManager}</td>
-                <td>{job.targetDate}</td>
-                <td>{job.location}</td>
                 <td>{job.clientName}</td>
+                <td>{job.location}</td>
+                <td>{job.clientManager}</td>
                 <td>{job.accountManager || 'N/A'}</td>
+                <td>{job.targetDate}</td>
                 <td>
                   <select
                     value={job.jobOpeningStatus ?? ''} // Default to an empty string if undefined
