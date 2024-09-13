@@ -87,7 +87,9 @@ const Clients: React.FC = () => {
       await fetchJobs();
       
       const client = clientsData.find(client => client.clientId === clientId);
+      console.log(areAllJobsClosed(clientId))
       if (client && !areAllJobsClosed(client.clientName)) {
+        
         alert('Cannot set status to Inactive. Some job openings are still open.');
         return;
       }
