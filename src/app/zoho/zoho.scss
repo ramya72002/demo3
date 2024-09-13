@@ -14,7 +14,8 @@ $bg-hover: #f1f1f1;
 
 // Container for the entire page
 .container {
-  width: 197vh;
+  width: 100vw;
+  max-width: 100%;
   padding: 20px;
   display: block;
   overflow: hidden; // Hide any scrollbars
@@ -85,7 +86,7 @@ $bg-hover: #f1f1f1;
 .stages {
   display: flex;
   justify-content: space-between;  // Distribute space evenly between stage labels
-  flex: 3;  // Ensures that stages take up remaining space
+  flex: 5.1;  // Ensures that stages take up remaining space
 }
 
 

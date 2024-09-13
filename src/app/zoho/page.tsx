@@ -240,8 +240,9 @@ const Page = () => {
 
           return (
             <div key={jobKey} className="jobSection">
-              <h3>{clientKey}/{jobKey}</h3>
+             
               <div className="stages">
+                <h3>{clientKey}/{jobKey}</h3>
                 <span className="stageCount new">{stageCounts.new}</span>
                 <span className="stageCount inreview">{stageCounts.inreview}</span>
                 <span className="stageCount available">{stageCounts.available}</span>
