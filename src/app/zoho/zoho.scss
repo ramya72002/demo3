@@ -30,6 +30,99 @@ $bg-hover: #f1f1f1;
     display: none; // Hide scrollbar for WebKit-based browsers
   }
 }
+.container {
+  width: 100%; // Ensure the container takes full width
+  padding: 20px;
+  overflow: hidden; // Hide any scrollbars
+}
+
+.box {
+  border: 1px solid $border-color;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  @include box-shadow;
+  transition: height 0.3s ease;
+  height: 200px;
+  overflow: hidden;
+
+  &.expanded {
+    height: 600px;
+  }
+}
+
+.pipelineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.pipeline {
+  margin-top: 10px;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;  // Align items vertically centered
+  font-weight: bold;
+  padding-bottom: 10px;
+  border-bottom: 2px solid $border-color;
+}
+
+.title {
+  flex: 1;  // Ensures that title takes available space
+  padding-right: 10px;
+  text-align: left;  // Align text to the left
+}
+
+.stages {
+  display: flex;
+  justify-content: space-between;  // Distribute space evenly between stage labels
+  flex: 3;  // Ensures that stages take up remaining space
+}
+
+
+.clientSection {
+  margin-top: 20px;
+}
+
+.jobSection {
+  margin-top: 10px;
+}
+
+.stageCount {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  text-align: center;
+  line-height: 50px;
+  color: white;
+  font-weight: bold;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: $hover-darken;
+    transform: scale(1.05);
+  }
+
+  &.new { background-color: $primary-color; }
+  &.inreview { background-color: $secondary-color; }
+  &.available { background-color: #FFC107; } // Yellow
+  &.engaged { background-color: #FF5722; } // Orange
+  &.offered { background-color: #009688; } // Teal
+  &.hired { background-color: #4CAF50; } // Green
+  &.rejected { background-color: #F44336; } // Red
+}
 
 // Common box styling for all sections
 .box-container {
@@ -78,27 +171,6 @@ $bg-hover: #f1f1f1;
   margin-top: 10px;
 }
 
-// Aligns the header row in the pipeline section
-.headerRow {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  padding-bottom: 10px;
-  border-bottom: 2px solid $border-color;
-}
-
-// Pipeline section title
-.title {
-  flex: 1;
-  padding-right: 10px;
-}
-
-// Stages in the pipeline
-.stages {
-  display: flex;
-  justify-content: space-between;
-  flex: 3;
-}
 .client-summary {
   display: flex;
   gap: 20px; // Adjust spacing between cards

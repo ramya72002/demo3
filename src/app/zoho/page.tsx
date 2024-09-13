@@ -40,8 +40,8 @@ const Page = () => {
     upcoming: false,
   });
   const [jobData, setJobData] = useState<JobData[]>([]);
-  const [candidateData, setCandidateData] = useState<{ [key: string]: CandidateData[] }>({});
-  const [activeCount, setActiveCount] = useState(0);
+  const [candidateData, setCandidateData] = useState<{ [key: string]: any }>({});
+    const [activeCount, setActiveCount] = useState(0);
   const [inactiveCount, setInactiveCount] = useState(0);
   const [activeJobCount, setActiveJobCount] = useState(0);
   const [inactiveJobCount, setInactiveJobCount] = useState(0);
@@ -52,13 +52,15 @@ const Page = () => {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const response = await fetch('https://demo4-backendurl.vercel.app/hiringpipeline/details');
+        const response = await fetch('https://demo4-backendurl.vercel.app/zoho/getclient_jobs');
         const data = await response.json();
-        setCandidateData(data); // Store the fetched data
+        console.log(data); // Check the structure of the fetched data
+        setCandidateData(data);
       } catch (error) {
         console.error('Error fetching candidate data:', error);
       }
     };
+ 
     
     const fetchJobs = async () => {
       try {
@@ -95,40 +97,39 @@ const Page = () => {
 
    
 
-  const getCandidateStageCounts = (candidates: CandidateData[]) => {
+  const getCandidateStageCounts = (candidates: { candidateStage: string }[]) => {
     const stageCounts = {
-      screening: 0,
-      submissions: 0,
-      interview: 0,
+      new: 0,
+      inreview: 0,
+      available: 0,
+      engaged: 0,
       offered: 0,
       hired: 0,
       rejected: 0,
-      archived: 0,
-      total: candidates.length, // Total count of candidates
     };
   
-    candidates.forEach((candidate: CandidateData) => {
-      switch (candidate.job_stage) {
-        case 1:
-          stageCounts.screening += 1;
+    candidates.forEach((candidate) => {
+      switch (candidate.candidateStage) {
+        case 'new':
+          stageCounts.new += 1;
           break;
-        case 2:
-          stageCounts.submissions += 1;
+        case 'inreview':
+          stageCounts.inreview += 1;
           break;
-        case 3:
-          stageCounts.interview += 1;
+        case 'available':
+          stageCounts.available += 1;
           break;
-        case 4:
+        case 'engaged':
+          stageCounts.engaged += 1;
+          break;
+        case 'offered':
           stageCounts.offered += 1;
           break;
-        case 5:
+        case 'hired':
           stageCounts.hired += 1;
           break;
-        case 6:
+        case 'rejected':
           stageCounts.rejected += 1;
-          break;
-        case 7:
-          stageCounts.archived += 1;
           break;
         default:
           break;
@@ -137,6 +138,7 @@ const Page = () => {
   
     return stageCounts;
   };
+  
   interface CandidateData {
     job_stage: number;
     name: string;
@@ -147,23 +149,9 @@ const Page = () => {
     { name: 'Alice Smith', job_stage: 1 }, // Screening
     { name: 'Bob Johnson', job_stage: 2 }, // Submissions
     { name: 'Carol Williams', job_stage: 3 }, // Interview
-    { name: 'David Brown', job_stage: 4 }, // Offered
-    { name: 'Eva Davis', job_stage: 5 }, // Hired
-    { name: 'Frank Miller', job_stage: 6 }, // Rejected
-    { name: 'Grace Wilson', job_stage: 7 }, // Archived
-    { name: 'Henry Moore', job_stage: 1 }, // Screening
-    { name: 'Ivy Taylor', job_stage: 2 }, // Submissions
-    { name: 'Jack Anderson', job_stage: 3 }, // Interview
   ];
 // Get the stage counts
-const stageCounts = getCandidateStageCounts(candidates);
-
-  const handleStageClick = (clientKey: string, stage: string) => {
-    const encodedClientKey = encodeURIComponent(clientKey);
-    const encodedStage = encodeURIComponent(stage);
-    router.push(`/details/${encodedClientKey}/${encodedStage}`);
-  };
-
+ 
   const toggleExpand = (section: Section) => {
     setIsExpanded((prevState) => ({
       ...prevState,
@@ -222,79 +210,54 @@ const stageCounts = getCandidateStageCounts(candidates);
           <div className="box-container">
 
             {/* Hiring Pipeline Section */}
-            <div className={`box ${isExpanded.pipeline ? 'expanded' : ''}`}>
-              <div className="pipelineHeader">
-                <h1>Hiring Pipeline</h1>
-                <button className="expandButton" onClick={() => toggleExpand('pipeline')}>
-                  {isExpanded.pipeline ? '↘' : '↗'}
-                </button>
-              </div>
-              <div className="pipeline">
-                <div className="headerRow">
-                  <span className="title">Posting Title / Client Name</span>
-                  <div className="stages">
-                    <span>New</span>
-                    <span>Interview</span>
-                    <span>Available</span>
-                    <span>Engaged</span>
-                    <span>Offered</span>
-                    <span>Hired</span>
-                    <span>Rejected</span>
-                  </div>
-                </div>
+            {/* Hiring Pipeline Section */}
+<div className={`box ${isExpanded.pipeline ? 'expanded' : ''}`}>
+  <div className="pipelineHeader">
+    <h1>Hiring Pipeline</h1>
+    <button className="expandButton" onClick={() => toggleExpand('pipeline')}>
+      {isExpanded.pipeline ? '↘' : '↗'}
+    </button>
+  </div>
+  <div className="pipeline">
+    <div className="headerRow">
+      <span className="title">Job Opening / Client Name</span>
+      <div className="stages">
+        <span>New</span>
+        <span>In Review</span>
+        <span>Available</span>
+        <span>Engaged</span>
+        <span>Offered</span>
+        <span>Hired</span>
+        <span>Rejected</span>
+      </div>
+    </div>
 
-                {Object.keys(candidateData).map((clientKey, index) => {
-                  const stageCounts = getCandidateStageCounts(candidateData[clientKey]);
+    {Object.keys(candidateData).map((clientKey) => (
+      <div key={clientKey} className="clientSection">
+        {Object.keys(candidateData[clientKey]).map((jobKey) => {
+          const candidates = candidateData[clientKey][jobKey];
+          const stageCounts = getCandidateStageCounts(candidates);
 
-                  return (
-                    <div className="pipelineRow" key={index}>
-                      <div className="clientInfo">
-                        <span className="recruiter">{clientKey}</span>
-                      </div>
-                      <div className="stages">
-                        <span
-                          className={`stageCount screening`}
-                          onClick={() => handleStageClick(clientKey, 'screening')}
-                        >
-                          {stageCounts.screening}
-                        </span>
-                        <span
-                          className={`stageCount submissions`}
-                          onClick={() => handleStageClick(clientKey, 'submissions')}
-                        >
-                          {stageCounts.submissions}
-                        </span>
-                        <span
-                          className={`stageCount interview`}
-                          onClick={() => handleStageClick(clientKey, 'interview')}
-                        >
-                          {stageCounts.interview}
-                        </span>
-                        <span
-                          className={`stageCount offered`}
-                          onClick={() => handleStageClick(clientKey, 'offered')}
-                        >
-                          {stageCounts.offered}
-                        </span>
-                        <span
-                          className={`stageCount hired`}
-                          onClick={() => handleStageClick(clientKey, 'hired')}
-                        >
-                          {stageCounts.hired}
-                        </span>
-                        <span
-                          className={`stageCount rejected`}
-                          onClick={() => handleStageClick(clientKey, 'rejected')}
-                        >
-                          {stageCounts.rejected}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-
+          return (
+            <div key={jobKey} className="jobSection">
+              <h3>{clientKey}/{jobKey}</h3>
+              <div className="stages">
+                <span className="stageCount new">{stageCounts.new}</span>
+                <span className="stageCount inreview">{stageCounts.inreview}</span>
+                <span className="stageCount available">{stageCounts.available}</span>
+                <span className="stageCount engaged">{stageCounts.engaged}</span>
+                <span className="stageCount offered">{stageCounts.offered}</span>
+                <span className="stageCount hired">{stageCounts.hired}</span>
+                <span className="stageCount rejected">{stageCounts.rejected}</span>
               </div>
             </div>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+</div>
+
 
             {/* Age of Job Section */}
             <div className={`box ${isExpanded.ageOfJob ? 'expanded' : ''}`}>
@@ -469,29 +432,29 @@ const stageCounts = getCandidateStageCounts(candidates);
             {isExpanded.sectionThree ? '↘' : '↗'}
           </button>
         </div>
-        <div className="sectionContent">
-          <div className="summary-grid">
-            {['Screening', 'Submissions', 'Interview', 'Offered', 'Hired', 'Rejected', 'Total'].map((header, index) => (
-              <div className="summary-item" key={index}>
-                <p className="header-text">{header}</p>
-                <div className="summary-box">
-                  <span>
-                  {
-                        header === 'Screening' ? stageCounts.screening ?? 0 :
-                        header === 'Submissions' ? stageCounts.submissions ?? 0 :
-                        header === 'Interview' ? stageCounts.interview ?? 0 :
-                        header === 'Offered' ? stageCounts.offered ?? 0 :
-                        header === 'Hired' ? stageCounts.hired ?? 0 :
-                        header === 'Rejected' ? stageCounts.rejected ?? 0 :
-                        header === 'Total' ? stageCounts.total ?? 0 : ''
-                      }
-
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* <div className="sectionContent">
+  <div className="summary-grid">
+    {['new', 'inreview', 'available', 'engaged', 'Offered', 'Hired', 'Rejected'].map((header, index) => (
+      <div className="summary-item" key={index}>
+        <p className="header-text">{header}</p>
+        <div className="summary-box">
+          <span>
+            {
+              header === 'new' ? stageCounts.new ?? 0 :
+              header === 'inreview' ? stageCounts.inreview ?? 0 :
+              header === 'available' ? stageCounts.available ?? 0 :
+              header === 'engaged' ? stageCounts.engaged ?? 0 :
+              header === 'offered' ? stageCounts.offered ?? 0 : // Ensure capitalization matches
+              header === 'hired' ? stageCounts.hired ?? 0 :    // Ensure capitalization matches
+              header === 'rejected' ? stageCounts.rejected ?? 0 : 0 // Ensure capitalization matches
+            }
+          </span>
         </div>
+      </div>
+    ))}
+  </div>
+</div> */}
+
     </div>
                 <div className={`box ${isExpanded.newSection ? 'expanded' : ''}`}>
               <div className="sectionHeader">
