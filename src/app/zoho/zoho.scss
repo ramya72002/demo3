@@ -12,32 +12,8 @@ $bg-hover: #f1f1f1;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-// Container for the entire page
-.container {
-  width: 100vw;
-  max-width: 100%;
-  padding: 20px;
-  display: block;
-  overflow: hidden; // Hide any scrollbars
-}
-
-// Scrollable content inside the container
-.scrollable-content {
-  overflow-y: scroll; // Allows scrolling but hides scrollbar
-  scrollbar-width: none; // For Firefox
-  -ms-overflow-style: none; // For IE and Edge
-
-  &::-webkit-scrollbar {
-    display: none; // Hide scrollbar for WebKit-based browsers
-  }
-}
-.container {
-  width: 100%; // Ensure the container takes full width
-  padding: 20px;
-  overflow: hidden; // Hide any scrollbars
-}
-
-.box {
+// General styling for the container box
+.box1 {
   border: 1px solid $border-color;
   padding: 20px;
   border-radius: 8px;
@@ -52,52 +28,43 @@ $bg-hover: #f1f1f1;
   }
 }
 
+// Header section styling
 .pipelineHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.expandButton {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
+// Pipeline section styling
 .pipeline {
   margin-top: 10px;
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th, td {
+      border: 1px solid $border-color;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: $bg-light;
+      font-weight: bold;
+    }
+
+    td {
+      background-color: $bg-lighter;
+    }
+    
+    tr:nth-child(even) td {
+      background-color: $bg-hover;
+    }
+  }
 }
 
-.headerRow {
-  display: flex;
-  align-items: center;  // Align items vertically centered
-  font-weight: bold;
-  padding-bottom: 10px;
-  border-bottom: 2px solid $border-color;
-}
-
-.title {
-  flex: 1;  // Ensures that title takes available space
-  padding-right: 10px;
-  text-align: left;  // Align text to the left
-}
-
-.stages {
-  display: flex;
-  justify-content: space-between;  // Distribute space evenly between stage labels
-  flex: 5.1;  // Ensures that stages take up remaining space
-}
-
-
-.clientSection {
-  margin-top: 20px;
-}
-
-.jobSection {
-  margin-top: 10px;
-}
-
+// Styling for each stage count
 .stageCount {
   display: inline-block;
   width: 50px;
@@ -124,6 +91,9 @@ $bg-hover: #f1f1f1;
   &.hired { background-color: #4CAF50; } // Green
   &.rejected { background-color: #F44336; } // Red
 }
+
+
+
 
 // Common box styling for all sections
 .box-container {
@@ -341,11 +311,11 @@ $bg-hover: #f1f1f1;
   margin: 20px 0;
   font-size: 1rem;
   text-align: left;
-  @include box-shadow;
 
   th, td {
     padding: 12px 15px;
     border: 1px solid $border-color;
+    text-align: center; /* Center text alignment if needed */
   }
 
   th {
@@ -362,54 +332,6 @@ $bg-hover: #f1f1f1;
   }
 }
 
-// Stage count box styles
-.stageCount {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
-  text-align: center;
-  line-height: 50px;
-  color: white;
-  font-weight: bold;
-  margin: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-
-  &:hover {
-    background-color: $hover-darken;
-    transform: scale(1.05);
-  }
-
-  // Stage colors
-  &.screening {
-    background-color: $primary-color;
-  }
-
-  &.submissions {
-    background-color: $secondary-color;
-  }
-
-  &.interview {
-    background-color: #FFC107; // Yellow
-  }
-
-  &.offered {
-    background-color: #FF5722; // Orange
-  }
-
-  &.hired {
-    background-color: #009688; // Teal
-  }
-
-  &.rejected {
-    background-color: #F44336; // Red
-  }
-
-  &.archived {
-    background-color: #9E9E9E; // Grey
-  }
-}
 .client-summary {
   display: flex;
   justify-content: center;
