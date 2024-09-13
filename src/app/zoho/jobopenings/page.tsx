@@ -68,14 +68,16 @@ const JobOpenings = () => {
   };
 
   // Filter jobs based on selected status, job opening, client name, and location
-  const filteredJobs = jobs.filter((job) => {
-    return (
-      (filterStatus === '' || job.jobOpeningStatus === filterStatus) &&
-      (filterJobOpening === '' || job.jobOpening.toLowerCase().includes(filterJobOpening.toLowerCase())) &&
-      (filterClientName === '' || job.clientName.toLowerCase().includes(filterClientName.toLowerCase())) &&
-      (filterLocation === '' || job.location.toLowerCase().includes(filterLocation.toLowerCase()))
-    );
-  });
+     const filteredJobs = jobs.filter((job) => {
+      return (
+        (filterStatus === '' || job.jobOpeningStatus === filterStatus) &&
+        (filterJobOpening === '' || (job.jobOpening && job.jobOpening.toLowerCase().includes(filterJobOpening.toLowerCase()))) &&
+        (filterClientName === '' || (job.clientName && job.clientName.toLowerCase().includes(filterClientName.toLowerCase()))) &&
+        (filterLocation === '' || (job.location && job.location.toLowerCase().includes(filterLocation.toLowerCase())))
+      );
+    });
+    
+   
 
   return (
     <div>
