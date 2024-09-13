@@ -73,6 +73,7 @@ select {
 option {
   color: #333;
 }
+
 /* Modal Styling */
 .modal-overlay {
   position: fixed;
@@ -125,6 +126,7 @@ option {
   }
 }
 
+/* Responsive Modal Adjustments */
 @media (max-width: 500px) {
   .modal-content {
     padding: 15px;
@@ -133,5 +135,75 @@ option {
   .modal-buttons button {
     padding: 8px 10px;
     font-size: 0.9rem;
+  }
+}
+
+.form-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  gap: 20px; /* Space between the columns */
+  align-items: start; /* Align content at the top */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.required {
+  color: #e74c3c; /* Red color for required fields */
+}
+
+textarea, input[type="file"] {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea:focus, input[type="file"]:focus {
+  border-color: #f39c12; /* Orange for focus state */
+  outline: none;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 10px; /* Space between the buttons */
+  margin-bottom: 15px;
+
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .form-section {
+    grid-template-columns: 1fr; /* Stack on smaller screens */
   }
 }

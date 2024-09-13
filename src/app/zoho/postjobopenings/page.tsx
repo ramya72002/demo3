@@ -1,10 +1,9 @@
-'use client'
+'use client';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import './postjobopenings.scss';
 import ZohoHeader from '@/app/zohoheader/page';
-import { useRouter } from 'next/navigation'; // Import useRouter for redirection
-
+import { useRouter } from 'next/navigation';
 
 interface JobFormData {
   jobOpening: string;
@@ -26,11 +25,11 @@ interface JobFormData {
   postalCode?: string;
   numberOfPositions?: number;
   jobDescription?: string;
+  uploadedFile?: File | null; // Add field for file upload
 }
 
-
 const JobOpenings: React.FC = () => {
-  const router = useRouter(); // Use useRouter for navigation
+  const router = useRouter();
   const [formData, setFormData] = useState<JobFormData>({
     jobOpening: '',
     clientName: '',
@@ -40,13 +39,15 @@ const JobOpenings: React.FC = () => {
     jobDescription: '',
     dateOpened: new Date().toISOString().split('T')[0],
     jobOpeningStatus: 'Open',
+    uploadedFile: null, // Initialize file upload field
   });
+
   const [errors, setErrors] = useState<string[]>([]);
   const [clients, setClients] = useState<{ clientName: string }[]>([]);
+  const [descriptionOrFile, setDescriptionOrFile] = useState<'description' | 'file'>('description'); // Toggle between description or file
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const requiredFields: Array<keyof JobFormData> = ['jobOpening', 'clientName', 'targetDate', 'industry', 'jobDescription'];
-  const [showModal, setShowModal] = useState<boolean>(false); // State to control modal visibility
-
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -61,36 +62,6 @@ const JobOpenings: React.FC = () => {
     fetchClients();
   }, []);
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const initialData: Partial<JobFormData> = {};
-
-    requiredFields.forEach((field) => {
-      const value = queryParams.get(field);
-      if (value !== null) {
-        // Cast value according to field type
-        if (field === 'numberOfPositions') {
-          initialData[field] = Number(value) as JobFormData[typeof field];
-        } else {
-          initialData[field] = value as JobFormData[typeof field];
-        }
-      }
-    });
-
-    // Handling clientManager field separately if needed
-    const clientManager = queryParams.get('clientManager');
-    if (clientManager !== null) {
-      initialData.clientManager = clientManager;
-    }
-
-    if (Object.keys(initialData).length > 0) {
-      setFormData((prevData) => ({
-        ...prevData,
-        ...initialData,
-      }));
-    }
-  }, []);
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -98,6 +69,17 @@ const JobOpenings: React.FC = () => {
       [name]: value,
     }));
   };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setFormData((prevData) => ({
+        ...prevData,
+        uploadedFile: files[0], // Set uploaded file
+      }));
+    }
+  };
+  
 
   const validateFields = (): boolean => {
     const missingFields = requiredFields.filter((field) => !formData[field]);
@@ -110,27 +92,39 @@ const JobOpenings: React.FC = () => {
       return;
     }
 
+    const formDataToSend = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === 'uploadedFile' && value) {
+        formDataToSend.append(key, value as Blob); // Add file to FormData if it's set
+      } else {
+        formDataToSend.append(key, value as string);
+      }
+    });
+
     try {
-      const response = await axios.post('https://demo4-backendurl.vercel.app/zoho/postjob', formData);
-      if(response.status==201||response.status==200){
+      const response = await axios.post('https://demo4-backendurl.vercel.app/zoho/postjob', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 201 || response.status === 200) {
         setShowModal(true);
-    }
+      }
     } catch (error) {
       alert(`Error: ${error}`);
     }
   };
+
   const handleYes = () => {
-    setShowModal(false); // Close modal
-    router.push(`/zoho/postcandidate?clientName=${encodeURIComponent(formData.clientName)}&jobOpening=${encodeURIComponent(formData.jobOpening)}`); // Redirect to the "Yes" page with query parameters
+    setShowModal(false);
+    router.push(`/zoho/postcandidate?clientName=${encodeURIComponent(formData.clientName)}&jobOpening=${encodeURIComponent(formData.jobOpening)}`);
   };
-  
 
-  // Function to handle "No" button click
   const handleNo = () => {
-    setShowModal(false); // Close modal
-    router.push('/zoho/candidates'); // Redirect to the "No" page
+    setShowModal(false);
+    router.push('/zoho/candidates');
   };
-
   return (
     <div>
       <ZohoHeader />
@@ -419,6 +413,34 @@ const JobOpenings: React.FC = () => {
               placeholder="Enter job description here..."
               onChange={handleInputChange}
             />
+          </div>
+          <div className="form-group">
+            <label>
+              Upload Description or File
+            </label>
+            
+            {descriptionOrFile === 'description' ? (
+              <textarea
+                name="jobDescription"
+                value={formData.jobDescription || ''}
+                placeholder="Enter job description here..."
+                onChange={handleInputChange}
+              />
+            ) : (
+              <input
+                type="file"
+                name="uploadedFile"
+                onChange={handleFileChange}
+              />
+            )}
+            <div className="toggle-buttons">
+              <button type="button" onClick={() => setDescriptionOrFile('description')}>
+                Description
+              </button>
+              <button type="button" onClick={() => setDescriptionOrFile('file')}>
+                Upload File
+              </button>
+            </div>
           </div>
         </div>
       </div>
