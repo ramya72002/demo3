@@ -5,6 +5,7 @@ import axios from 'axios';
 import ShowDetails from './ShowDetails';
 import './candidates.scss';
 import ZohoHeader from '@/app/zohoheader/page';
+import CandidateStage from './CandidateStage';
 
 const API_URL = 'https://demo4-backendurl.vercel.app/candidate/getall';
 const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getcandidate_id';
@@ -118,56 +119,12 @@ const Candidates: React.FC = () => {
       <ZohoHeader />
 
       <div className="table-container">
-        <h2>Candidate Stage</h2>
-        <div className="candidate-stages">
-          {Object.keys(stageCounts).map(stage => (
-            <div key={stage} className="stage">
-              <span>{stage.charAt(0).toUpperCase() + stage.slice(1)}</span>
-              <span>{stageCounts[stage as keyof typeof stageCounts]}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Filter Section */}
-        <div className="filters">
-          <input
-            type="text"
-            placeholder="Filter by ID"
-            value={filter.candidateId}
-            onChange={(e) => setFilter({ ...filter, candidateId: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Filter by Name"
-            value={filter.name}
-            onChange={(e) => setFilter({ ...filter, name: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Filter by Client Name"
-            value={filter.clientName}
-            onChange={(e) => setFilter({ ...filter, clientName: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Filter by Job Opening"
-            value={filter.jobOpening}
-            onChange={(e) => setFilter({ ...filter, jobOpening: e.target.value })}
-          />
-          <select
-            value={filter.candidateStage}
-            onChange={(e) => setFilter({ ...filter, candidateStage: e.target.value })}
-          >
-            <option value="">All Stages</option>
-            <option value="new">New</option>
-            <option value="inreview">In Review</option>
-            <option value="available">Available</option>
-            <option value="engaged">Engaged</option>
-            <option value="offered">Offered</option>
-            <option value="hired">Hired</option>
-            <option value="rejected">Rejected</option>
-          </select>
-        </div>
+      <CandidateStage
+          stageCounts={stageCounts}
+          onFilterChange={setFilter}
+          filter={filter}
+          onCandidateStageChange={handleCandidateStageChange}
+        />
 
         <h2>Candidate List</h2>
         <table className="candidate-table">
