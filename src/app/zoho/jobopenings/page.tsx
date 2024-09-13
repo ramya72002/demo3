@@ -10,6 +10,9 @@ const JobOpenings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>(''); // For filtering jobs by status
+  const [filterJobOpening, setFilterJobOpening] = useState<string>(''); // For filtering jobs by job opening
+  const [filterClientName, setFilterClientName] = useState<string>(''); // For filtering jobs by client name
+  const [filterLocation, setFilterLocation] = useState<string>(''); // For filtering jobs by location
 
   // Fetch all jobs from the backend
   const fetchJobs = async () => {
@@ -64,28 +67,69 @@ const JobOpenings = () => {
     }
   };
 
-  // Filter jobs based on selected status
-  const filteredJobs = filterStatus
-    ? jobs.filter(job => job.jobOpeningStatus === filterStatus)
-    : jobs;
+  // Filter jobs based on selected status, job opening, client name, and location
+  const filteredJobs = jobs.filter((job) => {
+    return (
+      (filterStatus === '' || job.jobOpeningStatus === filterStatus) &&
+      (filterJobOpening === '' || job.jobOpening.toLowerCase().includes(filterJobOpening.toLowerCase())) &&
+      (filterClientName === '' || job.clientName.toLowerCase().includes(filterClientName.toLowerCase())) &&
+      (filterLocation === '' || job.location.toLowerCase().includes(filterLocation.toLowerCase()))
+    );
+  });
 
   return (
     <div>
       <ZohoHeader />
       <h1>Job Openings</h1>
 
-      {/* Filter Dropdown */}
+      {/* Filter Section */}
       <div className="filter-container">
-        <label htmlFor="statusFilter">Filter by Status:</label>
-        <select
-          id="statusFilter"
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="Open">Open</option>
-          <option value="Close">Close</option>
-        </select>
+        
+
+        <div>
+          <label htmlFor="jobOpeningFilter">Filter by Job Opening:</label>
+          <input
+            id="jobOpeningFilter"
+            type="text"
+            placeholder="Job Opening"
+            value={filterJobOpening}
+            onChange={(e) => setFilterJobOpening(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="clientNameFilter">Filter by Client Name:</label>
+          <input
+            id="clientNameFilter"
+            type="text"
+            placeholder="Client Name"
+            value={filterClientName}
+            onChange={(e) => setFilterClientName(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="locationFilter">Filter by Location:</label>
+          <input
+            id="locationFilter"
+            type="text"
+            placeholder="Location"
+            value={filterLocation}
+            onChange={(e) => setFilterLocation(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="statusFilter">Filter by Status:</label>
+          <select
+            id="statusFilter"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="Open">Open</option>
+            <option value="Close">Close</option>
+          </select>
+        </div>
       </div>
 
       <div className="jobTable">
@@ -95,7 +139,7 @@ const JobOpenings = () => {
               <th>ID</th>
               <th>Job Opening</th>
               <th>Client Name</th>
-              <th>location</th>
+              <th>Location</th>
               <th>Client Manager</th>
               <th>Account Manager</th>
               <th>Target Date</th> 

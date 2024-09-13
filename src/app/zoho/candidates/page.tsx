@@ -1,15 +1,15 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Candidate,JobPosting } from '@/app/types';
+import { Candidate, JobPosting } from '@/app/types';
 import axios from 'axios';
 import ShowDetails from './ShowDetails';
 import './candidates.scss';
 import ZohoHeader from '@/app/zohoheader/page';
+
 const API_URL = 'https://demo4-backendurl.vercel.app/candidate/getall';
 const DETAILS_API_URL = 'https://demo4-backendurl.vercel.app/zoho/getcandidate_id';
 const API_JOB_POSTINGS_URL = 'https://demo4-backendurl.vercel.app/jobs/getall';
 const UPDATE_CANDIDATE_STAGE_API_URL = 'https://demo4-backendurl.vercel.app/candidate/update_stage';
-
 
 const Candidates: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -25,6 +25,15 @@ const Candidates: React.FC = () => {
   });
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
   const [showDetails, setShowDetails] = useState<string | null>(null);
+
+  // Filter state
+  const [filter, setFilter] = useState({
+    candidateId: '',
+    name: '',
+    clientName: '',
+    jobOpening: '',
+    candidateStage: '',
+  });
 
   const fetchCandidates = () => {
     axios.get(API_URL)
@@ -93,65 +102,115 @@ const Candidates: React.FC = () => {
     }
   };
 
+  // Filter the candidates based on filter inputs
+  const filteredCandidates = candidates.filter(candidate => {
+    return (
+      (filter.candidateId === '' || candidate.candidateId.includes(filter.candidateId)) &&
+      (filter.name === '' || candidate.name.toLowerCase().includes(filter.name.toLowerCase())) &&
+      (filter.clientName === '' || candidate.clientName.toLowerCase().includes(filter.clientName.toLowerCase())) &&
+      (filter.jobOpening === '' || candidate.jobOpening.toLowerCase().includes(filter.jobOpening.toLowerCase())) &&
+      (filter.candidateStage === '' || candidate.candidateStage === filter.candidateStage)
+    );
+  });
+
   return (
     <div>
       <ZohoHeader />
- 
-    <div className="table-container">
-      <h2>Candidate Stage</h2>
-      <div className="candidate-stages">
-        {Object.keys(stageCounts).map(stage => (
-          <div key={stage} className="stage">
-            <span>{stage.charAt(0).toUpperCase() + stage.slice(1)}</span>
-            <span>{stageCounts[stage as keyof typeof stageCounts]}</span>
-          </div>
-        ))}
-      </div>
 
-      <h2>Candidate List</h2>
-      <table className="candidate-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>ClientName</th>
-            <th>Job Opening</th>
-            <th>Phone</th>
-            <th>Stage</th>
-          </tr>
-        </thead>
-        <tbody>
-          {candidates.map(candidate => (
-            <tr key={candidate.candidateId}>
-              <td onClick={() => handleCandidateIdClick(candidate.candidateId)} style={{ cursor: 'pointer', color: 'blue' }}>
-                {candidate.candidateId}
-              </td>
-              <td>{candidate.name}</td>
-              <td>{candidate.clientName}</td>
-              <td>{candidate.jobOpening}</td>
-              <td>{candidate.phone}</td>
-              
-              
-              <td>
-                <select value={candidate.candidateStage} onChange={(e) => handleCandidateStageChange(candidate.candidateId, e.target.value)}>
-                  <option value="new">New</option>
-                  <option value="inreview">In Review</option>
-                  <option value="available">Available</option>
-                  <option value="engaged">Engaged</option>
-                  <option value="offered">Offered</option>
-                  <option value="hired">Hired</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </td>
-            </tr>
+      <div className="table-container">
+        <h2>Candidate Stage</h2>
+        <div className="candidate-stages">
+          {Object.keys(stageCounts).map(stage => (
+            <div key={stage} className="stage">
+              <span>{stage.charAt(0).toUpperCase() + stage.slice(1)}</span>
+              <span>{stageCounts[stage as keyof typeof stageCounts]}</span>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
 
-      {showDetails && selectedCandidate && (
-        <ShowDetails candidate={selectedCandidate} onClose={closeDetails} fetchCandidates={fetchCandidates} />
-      )}
-    </div>
+        {/* Filter Section */}
+        <div className="filters">
+          <input
+            type="text"
+            placeholder="Filter by ID"
+            value={filter.candidateId}
+            onChange={(e) => setFilter({ ...filter, candidateId: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Name"
+            value={filter.name}
+            onChange={(e) => setFilter({ ...filter, name: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Client Name"
+            value={filter.clientName}
+            onChange={(e) => setFilter({ ...filter, clientName: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Filter by Job Opening"
+            value={filter.jobOpening}
+            onChange={(e) => setFilter({ ...filter, jobOpening: e.target.value })}
+          />
+          <select
+            value={filter.candidateStage}
+            onChange={(e) => setFilter({ ...filter, candidateStage: e.target.value })}
+          >
+            <option value="">All Stages</option>
+            <option value="new">New</option>
+            <option value="inreview">In Review</option>
+            <option value="available">Available</option>
+            <option value="engaged">Engaged</option>
+            <option value="offered">Offered</option>
+            <option value="hired">Hired</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+
+        <h2>Candidate List</h2>
+        <table className="candidate-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Client Name</th>
+              <th>Job Opening</th>
+              <th>Phone</th>
+              <th>Stage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredCandidates.map(candidate => (
+              <tr key={candidate.candidateId}>
+                <td onClick={() => handleCandidateIdClick(candidate.candidateId)} style={{ cursor: 'pointer', color: 'blue' }}>
+                  {candidate.candidateId}
+                </td>
+                <td>{candidate.name}</td>
+                <td>{candidate.clientName}</td>
+                <td>{candidate.jobOpening}</td>
+                <td>{candidate.phone}</td>
+                <td>
+                  <select value={candidate.candidateStage} onChange={(e) => handleCandidateStageChange(candidate.candidateId, e.target.value)}>
+                    <option value="new">New</option>
+                    <option value="inreview">In Review</option>
+                    <option value="available">Available</option>
+                    <option value="engaged">Engaged</option>
+                    <option value="offered">Offered</option>
+                    <option value="hired">Hired</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {showDetails && selectedCandidate && (
+          <ShowDetails candidate={selectedCandidate} onClose={closeDetails} fetchCandidates={fetchCandidates} />
+        )}
+      </div>
     </div>
   );
 };
