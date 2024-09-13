@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // For navigation
 import './zoho.scss';
 import ZohoHeader from '../zohoheader/page';
+import HiringPipeline from './HiringPipeline';
+import ClientSummary from './ClientSummary';
+import JobOpeningSummary from './JobOpeningSummary';
 // import PerformanceBarChart from '../barchart/page';
 // import LineChart from '../linechart/page';
 
@@ -95,63 +98,8 @@ const Page = () => {
     fetchJobs();
   }, []);
 
-   
 
-  const getCandidateStageCounts = (candidates: { candidateStage: string }[]) => {
-    const stageCounts = {
-      new: 0,
-      inreview: 0,
-      available: 0,
-      engaged: 0,
-      offered: 0,
-      hired: 0,
-      rejected: 0,
-    };
   
-    candidates.forEach((candidate) => {
-      switch (candidate.candidateStage) {
-        case 'new':
-          stageCounts.new += 1;
-          break;
-        case 'inreview':
-          stageCounts.inreview += 1;
-          break;
-        case 'available':
-          stageCounts.available += 1;
-          break;
-        case 'engaged':
-          stageCounts.engaged += 1;
-          break;
-        case 'offered':
-          stageCounts.offered += 1;
-          break;
-        case 'hired':
-          stageCounts.hired += 1;
-          break;
-        case 'rejected':
-          stageCounts.rejected += 1;
-          break;
-        default:
-          break;
-      }
-    });
-  
-    return stageCounts;
-  };
-  
-  interface CandidateData {
-    job_stage: number;
-    name: string;
-    // Add other properties if necessary
-  }
-  // Sample candidates array
-  const candidates: CandidateData[] = [
-    { name: 'Alice Smith', job_stage: 1 }, // Screening
-    { name: 'Bob Johnson', job_stage: 2 }, // Submissions
-    { name: 'Carol Williams', job_stage: 3 }, // Interview
-  ];
-// Get the stage counts
- 
   const toggleExpand = (section: Section) => {
     setIsExpanded((prevState) => ({
       ...prevState,
@@ -209,56 +157,11 @@ const Page = () => {
         <div className="scrollable-content">
           <div className="box-container">
 
-            {/* Hiring Pipeline Section */}
-            {/* Hiring Pipeline Section */}
-<div className={`box ${isExpanded.pipeline ? 'expanded' : ''}`}>
-  <div className="pipelineHeader">
-    <h1>Hiring Pipeline</h1>
-    <button className="expandButton" onClick={() => toggleExpand('pipeline')}>
-      {isExpanded.pipeline ? '↘' : '↗'}
-    </button>
-  </div>
-  <div className="pipeline">
-    <div className="headerRow">
-      <span className="title">Job Opening / Client Name</span>
-      <div className="stages">
-        <span>New</span>
-        <span>In Review</span>
-        <span>Available</span>
-        <span>Engaged</span>
-        <span>Offered</span>
-        <span>Hired</span>
-        <span>Rejected</span>
-      </div>
-    </div>
-
-    {Object.keys(candidateData).map((clientKey) => (
-      <div key={clientKey} className="clientSection">
-        {Object.keys(candidateData[clientKey]).map((jobKey) => {
-          const candidates = candidateData[clientKey][jobKey];
-          const stageCounts = getCandidateStageCounts(candidates);
-
-          return (
-            <div key={jobKey} className="jobSection">
-             
-              <div className="stages">
-                <h3>{clientKey}/{jobKey}</h3>
-                <span className="stageCount new">{stageCounts.new}</span>
-                <span className="stageCount inreview">{stageCounts.inreview}</span>
-                <span className="stageCount available">{stageCounts.available}</span>
-                <span className="stageCount engaged">{stageCounts.engaged}</span>
-                <span className="stageCount offered">{stageCounts.offered}</span>
-                <span className="stageCount hired">{stageCounts.hired}</span>
-                <span className="stageCount rejected">{stageCounts.rejected}</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    ))}
-  </div>
-</div>
-
+          <HiringPipeline
+              isExpanded={isExpanded.pipeline}
+              toggleExpand={toggleExpand}
+              candidateData={candidateData}
+            />
 
             {/* Age of Job Section */}
             <div className={`box ${isExpanded.ageOfJob ? 'expanded' : ''}`}>
@@ -300,130 +203,27 @@ const Page = () => {
               </div>
             </div>
 
-            {/* New Section One */}
-            <div className={`box ${isExpanded.sectionOne ? 'expanded' : ''}`}>
-              <div className="sectionHeader">
-                <h2>Client Summary</h2>
-                <button className="expandButton" onClick={() => toggleExpand('sectionOne')}>
-                  {isExpanded.sectionOne ? '↘' : '↗'}
-                </button>
-              </div>
-              <div className="client-summary">
-                
-                <div className="client-card" onClick={() => handleClientFilter('active')}>
-                  <div className="client-info-box">
-                    <span className="client-number3">{activeCount}</span>
-                    <span className="client-label">Active Clients</span>
-                  </div>
-                </div>
-                <div className="client-card" onClick={() => handleClientFilter('inactive')}>
-                  <div className="client-info-box">
-                    <span className="client-number1">{inactiveCount}</span>
-                    <span className="client-label">Inactive Clients</span>
-                  </div>
-                </div>
-                <div className="client-card" onClick={() => handleClientFilter('all')}>
-                  <div className="client-info-box">
-                    <span className="client-number2">{totalCount}</span>
-                    <span className="client-label">All Clients</span>
-                  </div>
-                </div>
-              </div>
-              <table className="client-data">
-                <thead>
-                  <tr>
-                    <th>Client Name</th>
-                    <th>Posting Title</th>
-                    <th>Job Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredClientNames.length === 0 ? (
-                    <tr>
-                      <td colSpan={3}>No data available</td>
-                    </tr>
-                  ) : (
-                    filteredClientNames.map(clientName => 
-                      clientJobs[clientName].map((job, index) => (
-                        <tr key={`${clientName}-${index}`}>
-                          <td>{clientName}</td>
-                          <td>{job.jobOpening}</td>
-                          <td>{job.jobOpeningStatus}</td>
-                        </tr>
-                      ))
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-
-            {/* New Section Two */}
-            <div className={`box ${isExpanded.sectionTwo ? 'expanded' : ''}`}>
-      <div className="sectionHeader">
-        <h2>Job Opening Summary</h2>
-        <button className="expandButton" onClick={() => setIsExpanded(prev => ({ ...prev, sectionTwo: !prev.sectionTwo }))}>
-          {isExpanded.sectionTwo ? '↘' : '↗'}
-        </button>
+            <ClientSummary
+          isExpanded={isExpanded.sectionOne}
+          toggleExpand={toggleExpand}
+          activeCount={activeCount}
+          inactiveCount={inactiveCount}
+          totalCount={totalCount}
+          filteredClientNames={filteredClientNames}
+          clientJobs={clientJobs}
+          handleClientFilter={handleClientFilter}
+        />
       </div>
-      <div className="client-summary">
-        <div className="client-card">
-          <div className="client-info-box">
-          <span
-  className="client-number3"
-  onClick={() => window.location.href = '/zoho/jobopenings?jobOpeningStatus=Open'}
->
-  {activeJobCount}
-</span>
 
-            <span className="client-label">Active Job Openings</span>
-          </div>
-        </div>
-        <div className="client-card">
-          <div className="client-info-box">
-            <span className="client-number1"
-            onClick={() => window.location.href = '/zoho/jobopenings?jobOpeningStatus=Close'}>{inactiveJobCount} </span>
-            <span className="client-label">Inactive Job Openings</span>
-          </div>
-        </div>
-        <div className="client-card">
-          <div className="client-info-box">
-            <span className="client-number2"
-                        onClick={() => window.location.href = '/zoho/jobopenings'}>
- {totalJobCount}</span>
-            <span className="client-label">Total Job Openings</span>
-          </div>
-        </div>
-      </div>
-      <table className="client-data">
-        <thead>
-          <tr>
-            <th>Job ID</th>
-            <th>Posting Title</th>
-            <th>Client Name</th>
-            <th>Target Date</th>
-            <th>Job Opening Status</th>
-            <th>location</th>
-            <th>Client Manager</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {jobData.map(job => (
-            <tr key={job.jobId}>
-              <td>{job.jobId}</td>
-              <td>{job.jobOpening}</td>
-              <td>{job.clientName}</td>
-              <td>{job.targetDate}</td>
-              <td>{job.jobOpeningStatus}</td>
-              <td>{job.location || 'N/A'}</td>
-              <td>{job.accountManager || 'N/A'}</td>
-              <td>{job.jobOpeningStatus === 'Open' ? 'Active' : 'Inactive'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <JobOpeningSummary
+  jobData={jobData}
+  activeJobCount={activeJobCount}
+  inactiveJobCount={inactiveJobCount}
+  totalJobCount={totalJobCount}
+  isExpanded={isExpanded.pipeline}
+  toggleExpand={() => toggleExpand('pipeline')}
+/>
+
 
             {/* New Section Three */}
     <div className={`box ${isExpanded.sectionThree ? 'expanded' : ''}`}>
@@ -491,7 +291,6 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
