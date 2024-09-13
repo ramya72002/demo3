@@ -56,17 +56,20 @@ const Clients: React.FC = () => {
     clientStatus: '',
   });
 
+  // Fetch clients
   const fetchClients = async () => {
     try {
+      setLoading(true); // Set loading state
       const { data } = await axios.get<Client[]>(FETCH_CLIENTS_API_URL);
       setClientsData(data);
     } catch (err) {
       handleError(err);
     } finally {
-      setLoading(false);
+      setLoading(false); // Ensure loading stops after fetch
     }
   };
 
+  // Fetch jobs
   const fetchJobs = async () => {
     try {
       const { data } = await axios.get<Job[]>(FETCH_JOBS_API_URL);
@@ -76,72 +79,82 @@ const Clients: React.FC = () => {
     }
   };
 
+  // Check if all jobs are closed
   const areAllJobsClosed = (clientName: string): boolean => {
-    const clientJobs = jobs.filter(job => job.clientName === clientName);
-    return clientJobs.every(job => job.jobOpeningStatus === 'Close');
+    fetchJobs();
+    const clientJobs = jobs.filter((job) => job.clientName === clientName);
+    console.log(jobs,clientJobs)
+    return clientJobs.every((job) => job.jobOpeningStatus === 'Close');
   };
 
+  // Handle status change
   const handleStatusChange = async (clientId: string, newStatus: string) => {
-    if (newStatus === 'Inactive') {
-      // Fetch jobs before proceeding
-      await fetchJobs();
-      
-      const client = clientsData.find(client => client.clientId === clientId);
-      console.log(areAllJobsClosed(clientId))
-      if (client && !areAllJobsClosed(client.clientName)) {
-        
-        alert('Cannot set status to Inactive. Some job openings are still open.');
-        return;
-      }
-    }
-
     try {
+      // If setting to inactive, first ensure all jobs are closed
+      if (newStatus === 'Inactive') {
+        await fetchJobs(); // Ensure jobs are fetched
+
+        const client = clientsData.find((client) => client.clientId === clientId);
+        console.log(client)
+        if (client && !areAllJobsClosed(client.clientName)) {
+          alert('Cannot set status to Inactive. Some job openings are still open.');
+          return;
+        }
+      }
+
+      // Update the client status
       await axios.put(`${UPDATE_CLIENT_API_URL}/${clientId}`, { clientStatus: newStatus });
-      fetchClients();
+      fetchClients(); // Refresh client list after update
     } catch (err) {
       handleError(err);
     }
   };
 
+  // Handle client ID click to show details
   const handleClientIdClick = async (clientId: string) => {
     if (showDetails === clientId) {
-      setShowDetails(null);
+      setShowDetails(null); // Close details if already open
       return;
     }
+
     try {
       const { data } = await axios.get<Client[]>(`${DETAILS_API_URL}?clientId=${clientId}`);
       setSelectedClient(data[0]);
-      setShowDetails(clientId);
+      setShowDetails(clientId); // Show details for selected client
     } catch (err) {
       handleError(err);
     }
   };
 
+  // Handle saving client details
   const handleSave = async () => {
     if (!selectedClient) return;
 
     try {
       await axios.put(`${UPDATE_CLIENT_API_URL}/${selectedClient.clientId}`, selectedClient);
-      fetchClients();
-      setShowDetails(null);
+      fetchClients(); // Refresh client list after save
+      setShowDetails(null); // Close details
     } catch (err) {
       handleError(err);
     }
   };
 
+  // Handle errors
   const handleError = (err: any) => {
     setError('Error fetching or updating data. Please try again later.');
     console.error(err);
   };
 
+  // Fetch clients on component mount
   useEffect(() => {
     fetchClients();
+    fetchJobs();
   }, []);
 
   const closeDetails = () => setShowDetails(null);
 
   // Filtered clients data
-  const filteredClients = clientsData.filter(client => {
+  const filteredClients = clientsData.filter((client) => {
     return (
       (filter.clientId === '' || client.clientId.includes(filter.clientId)) &&
       (filter.clientName === '' || client.clientName.toLowerCase().includes(filter.clientName.toLowerCase())) &&
@@ -220,8 +233,8 @@ const Clients: React.FC = () => {
                   <td>{client.clientOnBoardingDate}</td>
                   <td>{client.clientManager}</td>
                   <td>
-                    <select 
-                      value={client.clientStatus} 
+                    <select
+                      value={client.clientStatus}
                       onChange={(e) => handleStatusChange(client.clientId, e.target.value)}
                     >
                       <option value="Active">Active</option>
@@ -235,11 +248,11 @@ const Clients: React.FC = () => {
         )}
       </div>
       {showDetails && selectedClient && (
-        <ClientDetails 
-          client={selectedClient} 
-          onChange={setSelectedClient} 
-          onSave={handleSave} 
-          onClose={closeDetails} 
+        <ClientDetails
+          client={selectedClient}
+          onChange={setSelectedClient}
+          onSave={handleSave}
+          onClose={closeDetails}
         />
       )}
     </div>
