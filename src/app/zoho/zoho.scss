@@ -2,29 +2,34 @@
 $primary-color: #4CAF50;
 $secondary-color: #2196F3;
 $hover-darken: #333;
-$border-color: #ddd;
-$bg-light: #f4f4f4;
-$bg-lighter: #f9f9f9;
+$border-color: #c0c0c0;
+$bg-light: #00a380;
+$bg-lighter: #f7f7f7;
 $bg-hover: #f1f1f1;
+
+body{
+  background-color: #f1f1f1;
+}
 
 // Mixin for box shadow
 @mixin box-shadow {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(175, 174, 174, 0.1);
 }
 
 // General styling for the container box
 .box1 {
+  margin-top: 10px;
   border: 1px solid $border-color;
   padding: 20px;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #ffffff;
   @include box-shadow;
   transition: height 0.3s ease;
   height: 200px;
   overflow: hidden;
 
   &.expanded {
-    height: 600px;
+    height: 400px;
   }
 }
 
@@ -44,17 +49,21 @@ $bg-hover: #f1f1f1;
     border-collapse: collapse;
     
     th, td {
-      border: 1px solid $border-color;
+      border-radius: 10px;
+      border: 1px solid rgb(255, 255, 255);
       padding: 10px;
       text-align: center;
     }
 
     th {
       background-color: $bg-light;
-      font-weight: bold;
+      font-weight: normal;
+      color: white;
+      font-size: 15px;
     }
 
     td {
+      
       background-color: $bg-lighter;
     }
     
@@ -83,15 +92,30 @@ $bg-hover: #f1f1f1;
     transform: scale(1.05);
   }
 
-  &.new { background-color: $primary-color; }
+  &.new { background-color: rgb(178, 88, 196); }
   &.inreview { background-color: $secondary-color; }
   &.available { background-color: #FFC107; } // Yellow
   &.engaged { background-color: #FF5722; } // Orange
   &.offered { background-color: #009688; } // Teal
-  &.hired { background-color: #4CAF50; } // Green
+  &.hired { background-color: #c79256; } // Green
   &.rejected { background-color: #F44336; } // Red
 }
 
+.client-job-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; // Add spacing between the two sections
+  margin-top: 15px; // Adjust the top margin if needed
+}
+
+.client-summary,
+.job-summary {
+  flex: 1; // Ensures both components take equal width
+  background-color: #f0f0f0;
+  padding: 40px;
+  border-radius: 10px;
+  @include box-shadow;
+}
 
 
 
@@ -99,7 +123,7 @@ $bg-hover: #f1f1f1;
 .box-container {
   display: flex;
   flex-direction: column;
-  gap: 20px; // Space between the boxes
+  gap: 15px; // Space between the boxes
 }
 
 .box {
@@ -165,14 +189,14 @@ $bg-hover: #f1f1f1;
 
     .client-number3 {
       font-size: 2rem; // Size of the number
-      font-weight: bold;
+      font-weight: normal;
       color: #ffffff; // Darker color for the client number
       background-color: #ee6211; // Light grey background for the number box
       padding: 10px;
       border: 2px solid #9c9c9c; // Light grey border around the number box
       border-radius: 15px; // Rounded corners for the number box
-      width: 70px;
-      height: 60px; // Set a fixed height for the number box
+      width: 50px;
+      height: 50px; // Set a fixed height for the number box
       display: flex;
       align-items: center; // Center vertically
       justify-content: center; // Center horizontally
@@ -181,14 +205,14 @@ $bg-hover: #f1f1f1;
 
     .client-number1 {
       font-size: 2rem; // Size of the number
-      font-weight: bold;
+      font-weight: normal;
       color: #ffffff; // Darker color for the client number
       background-color: #1281e9; // Light grey background for the number box
       padding: 10px;
       border: 2px solid #9c9c9c; // Light grey border around the number box
       border-radius: 15px; // Rounded corners for the number box
-      width: 70px;
-      height: 60px; // Set a fixed height for the number box
+      width: 50px;
+      height: 50px; // Set a fixed height for the number box
       display: flex;
       align-items: center; // Center vertically
       justify-content: center; // Center horizontally
@@ -197,14 +221,14 @@ $bg-hover: #f1f1f1;
 
     .client-number2 {
       font-size: 2rem; // Size of the number
-      font-weight: bold;
+      font-weight: normal;
       color: #ffffff; // Darker color for the client number
       background-color: #1cdb35; // Light grey background for the number box
       padding: 10px;
       border: 2px solid #9c9c9c; // Light grey border around the number box
       border-radius: 15px; // Rounded corners for the number box
-      width: 70px;
-      height: 60px; // Set a fixed height for the number box
+      width: 50px;
+      height: 50px; // Set a fixed height for the number box
       display: flex;
       align-items: center; // Center vertically
       justify-content: center; // Center horizontally
@@ -236,7 +260,7 @@ $bg-hover: #f1f1f1;
 }
 
 .recruiter {
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .clientName {
@@ -314,13 +338,18 @@ $bg-hover: #f1f1f1;
 
   th, td {
     padding: 12px 15px;
-    border: 1px solid $border-color;
+    border: 1px solid white;
     text-align: center; /* Center text alignment if needed */
   }
 
   th {
     background-color: $bg-light;
-    font-weight: bold;
+    border-radius: 5px;
+    color: white;
+    font-weight: normal;
+  }
+  td{
+    border: 1px solid $border-color;
   }
 
   tr:nth-child(even) {
@@ -339,9 +368,9 @@ $bg-hover: #f1f1f1;
 
   .client-card {
       width: 20%;
-      background-color: #613c1e;
+      background-color: #774710;
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 3px;
       border-radius: 10px;
       text-align: center;
 
@@ -353,7 +382,7 @@ $bg-hover: #f1f1f1;
           background-color: #fff;
           border-radius: 5px;
           padding: 10px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
           min-height: 100px;
 
           .client-number {
@@ -388,7 +417,7 @@ $bg-hover: #f1f1f1;
   th {
     background-color: #1f41b3; /* Adding a color to header */
     color: white;
-    font-weight: bold;
+    font-weight: normal;
     text-transform: uppercase;
     letter-spacing: 1px;
     

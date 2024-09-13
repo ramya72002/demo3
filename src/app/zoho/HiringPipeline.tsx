@@ -68,7 +68,7 @@ const HiringPipeline: React.FC<HiringPipelineProps> = ({ isExpanded, toggleExpan
   return (
     <div className={`box1 ${isExpanded ? 'expanded' : ''}`}>
       <div className="pipelineHeader">
-        <h1>Hiring Pipeline</h1>
+        <h2>Hiring Pipeline</h2>
         <button className="expandButton" onClick={() => toggleExpand('pipeline')}>
           {isExpanded ? '↘' : '↗'}
         </button>

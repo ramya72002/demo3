@@ -1,4 +1,3 @@
-// Page.tsx
 'use client'; // Add this if you're using Next.js with the app directory
 
 import React, { useState, useEffect } from 'react';
@@ -12,11 +11,10 @@ import AgeOfJobSection from './AgeOfJobSection';
 // import PerformanceBarChart from '../barchart/page';
 // import LineChart from '../linechart/page';
 
-// Define interface for Candidate Data
 interface CandidateData {
   Add_Job: string;
   job_stage: number;
-  [key: string]: any; // You can expand this with more fields if needed
+  [key: string]: any;
 }
 interface JobData {
   jobId: string;
@@ -52,15 +50,15 @@ const Page = () => {
   const [inactiveJobCount, setInactiveJobCount] = useState(0);
   const [totalJobCount, setTotalJobCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-  const [filterType, setFilterType] = useState<'active' | 'inactive' | 'all'>('all'); // State to track filter type
-  const router = useRouter(); // Use Next.js router for navigation
+  const [filterType, setFilterType] = useState<'active' | 'inactive' | 'all'>('all');
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
         const response = await fetch('https://demo4-backendurl.vercel.app/zoho/getclient_jobs');
         const data = await response.json();
-        console.log(data); // Check the structure of the fetched data
+        console.log(data);
         setCandidateData(data);
       } catch (error) {
         console.error('Error fetching candidate data:', error);
@@ -79,7 +77,6 @@ const Page = () => {
         const inactiveJobs = Object.keys(clientStatus).filter(clientName => !clientStatus[clientName]).length;
         const totalJobs = activeJobs + inactiveJobs;
 
-        // Calculate job status counts
         const activeJobCount = data.filter((job: JobData) => job.jobOpeningStatus === 'Open').length;
         const inactiveJobCount = data.filter((job: JobData) => job.jobOpeningStatus === 'Close').length;
         const totalJobscount = activeJobCount + inactiveJobCount;
@@ -100,7 +97,7 @@ const Page = () => {
   }, []);
 
   const toggleExpand = (section: Section) => {
-    setIsExpanded((prevState) => ({
+    setIsExpanded(prevState => ({
       ...prevState,
       [section]: !prevState[section],
     }));
@@ -115,7 +112,7 @@ const Page = () => {
 
   const processJobData = (jobs: JobData[]) => {
     const clientJobs: { [key: string]: { jobOpening: string; jobOpeningStatus: string }[] } = {};
-    const clientStatus: { [key: string]: boolean } = {}; // Track if a client is active
+    const clientStatus: { [key: string]: boolean } = {};
 
     jobs.forEach(job => {
       if (!clientJobs[job.clientName]) {
@@ -126,7 +123,6 @@ const Page = () => {
         jobOpeningStatus: job.jobOpeningStatus,
       });
 
-      // Determine if the client is active
       if (job.jobOpeningStatus === 'Open') {
         clientStatus[job.clientName] = true;
       } else {
@@ -155,14 +151,12 @@ const Page = () => {
       <div className="container">
         <div className="scrollable-content">
           <div className="box-container">
-
             <HiringPipeline
               isExpanded={isExpanded.pipeline}
               toggleExpand={toggleExpand}
               candidateData={candidateData}
             />
 
-            {/* Use AgeOfJobSection component */}
             <AgeOfJobSection
               jobData={jobData}
               isExpanded={isExpanded.ageOfJob}
@@ -170,75 +164,46 @@ const Page = () => {
               calculateJobAge={calculateJobAge}
             />
 
-            <ClientSummary
-              isExpanded={isExpanded.sectionOne}
-          toggleExpand={toggleExpand}
-              activeCount={activeCount}
-              inactiveCount={inactiveCount}
-              totalCount={totalCount}
-              filteredClientNames={filteredClientNames}
-              clientJobs={clientJobs}
-              handleClientFilter={handleClientFilter}
-            />
-      </div>
+            <div className="client-job-summary">
+              <ClientSummary
+                isExpanded={isExpanded.sectionOne}
+                toggleExpand={toggleExpand}
+                activeCount={activeCount}
+                inactiveCount={inactiveCount}
+                totalCount={totalCount}
+                filteredClientNames={filteredClientNames}
+                clientJobs={clientJobs}
+                handleClientFilter={handleClientFilter}
+              />
 
-            <JobOpeningSummary
-  jobData={jobData}
-              activeJobCount={activeJobCount}
-              inactiveJobCount={inactiveJobCount}
-              totalJobCount={totalJobCount}
-  isExpanded={isExpanded.pipeline}
-  toggleExpand={() => toggleExpand('pipeline')}
-/>
+              <JobOpeningSummary
+                jobData={jobData}
+                activeJobCount={activeJobCount}
+                inactiveJobCount={inactiveJobCount}
+                totalJobCount={totalJobCount}
+                isExpanded={isExpanded.pipeline}
+                toggleExpand={() => toggleExpand('pipeline')}
+              />
+            </div>
 
-
-            {/* New Section Three */}
-    <div className={`box ${isExpanded.sectionThree ? 'expanded' : ''}`}>
-        <div className="sectionHeader">
-          <h2>Candidate Summary</h2>
-          <button className="expandButton" onClick={() => toggleExpand('sectionThree')}>
-            {isExpanded.sectionThree ? '↘' : '↗'}
-          </button>
-        </div>
-        {/* <div className="sectionContent">
-  <div className="summary-grid">
-    {['new', 'inreview', 'available', 'engaged', 'Offered', 'Hired', 'Rejected'].map((header, index) => (
-      <div className="summary-item" key={index}>
-        <p className="header-text">{header}</p>
-        <div className="summary-box">
-          <span>
-            {
-              header === 'new' ? stageCounts.new ?? 0 :
-              header === 'inreview' ? stageCounts.inreview ?? 0 :
-              header === 'available' ? stageCounts.available ?? 0 :
-              header === 'engaged' ? stageCounts.engaged ?? 0 :
-              header === 'offered' ? stageCounts.offered ?? 0 : // Ensure capitalization matches
-              header === 'hired' ? stageCounts.hired ?? 0 :    // Ensure capitalization matches
-              header === 'rejected' ? stageCounts.rejected ?? 0 : 0 // Ensure capitalization matches
-            }
-          </span>
-        </div>
-      </div>
-    ))}
-  </div>
-</div> */}
-
-    </div>
-                <div className={`box ${isExpanded.newSection ? 'expanded' : ''}`}>
+            <div className={`box ${isExpanded.sectionThree ? 'expanded' : ''}`}>
               <div className="sectionHeader">
-                <h2>Weekly Performance</h2> {/* Replace with your section title */}
+                <h2>Candidate Summary</h2>
+                <button className="expandButton" onClick={() => toggleExpand('sectionThree')}>
+                  {isExpanded.sectionThree ? '↘' : '↗'}
+                </button>
+              </div>
+            </div>
+
+            <div className={`box ${isExpanded.newSection ? 'expanded' : ''}`}>
+              <div className="sectionHeader">
+                <h2>Weekly Performance</h2>
                 <button className="expandButton" onClick={() => toggleExpand('newSection')}>
                   {isExpanded.newSection ? '↘' : '↗'}
                 </button>
               </div>
-                    {/* <div className='bar'>
-                      <PerformanceBarChart /> 
-                    </div>
-                    
-            <LineChart /> */}
-
-            {/* Upcoming Section */}
             </div>
+
             <div className={`box ${isExpanded.upcoming ? 'expanded' : ''}`}>
               <div className="timeToHireHeader">
                 <h2>Upcoming</h2>
@@ -254,7 +219,7 @@ const Page = () => {
                 <p>No records found</p>
               </div>
             </div>
-
+          </div>
         </div>
       </div>
     </div>
