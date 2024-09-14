@@ -23,8 +23,8 @@
     margin-bottom: 70px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     position: relative;
-    transition: transform 0.3s ease, opalocation 0.3s ease;
-    opalocation: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
     transform: translateY(0);
 
     &:hover {
@@ -42,7 +42,6 @@
       margin-bottom: 25px;
     }
 
-    // Flexbox for side-by-side columns
     .details-row {
       display: flex;
       flex-wrap: wrap;
@@ -50,10 +49,19 @@
       margin-bottom: 15px;
 
       p {
-        flex: 0 0 48%; // Two columns with a little gap
+        flex: 0 0 48%;
         margin: 10px 0;
         font-size: 16px;
         color: #444;
+
+        select {
+          padding: 10px;  // Adjust the padding as needed
+          font-size: 16px; // Optional: Adjust font size for better appearance
+          border-radius: 4px; // Optional: Add border radius for smooth edges
+          border: 1px solid #ccc; // Optional: Define border styling
+          width: 100%; // Ensure the select field spans the full width of its container
+          box-sizing: border-box; // Ensure padding does not affect the width
+        }
 
         input {
           width: calc(100% - 10px);
@@ -72,6 +80,22 @@
         strong {
           font-weight: 600;
           color: #0070f3;
+        }
+      }
+      
+      // Specific styling for industry input
+      p.industry {
+        flex: 0 0 100%;
+        input {
+          width: 100%;
+          padding: 12px; /* Increased padding for Industry */
+          border: 2px solid #0070f3; /* Blue border */
+          border-radius: 8px;
+          font-size: 15px;
+
+          &:focus {
+            border-color: #004bb5;
+          }
         }
       }
     }
@@ -141,13 +165,14 @@
     color: #555;
   }
 }
+
 @keyframes slideDown {
   from {
-    opalocation: 0;
-    transform: translateY(-200px); /* Start from 30px above */
+    opacity: 0;
+    transform: translateY(-200px); /* Start from above */
   }
   to {
-    opalocation: 1;
+    opacity: 1;
     transform: translateY(0); /* End at the original position */
   }
 }
