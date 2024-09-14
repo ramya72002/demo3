@@ -32,7 +32,7 @@ const CandidateStage: React.FC<CandidateStageProps> = ({ stageCounts, onFilterCh
       </div>
 
       {/* Filter Section */}
-      <div className="filters">
+      {/* <div className="filters">
         <input
           type="text"
           placeholder="Filter by ID"
@@ -70,7 +70,7 @@ const CandidateStage: React.FC<CandidateStageProps> = ({ stageCounts, onFilterCh
           <option value="hired">Hired</option>
           <option value="rejected">Rejected</option>
         </select>
-      </div>
+      </div> */}
     </div>
   );
 };

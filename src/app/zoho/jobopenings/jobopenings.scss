@@ -1,85 +1,127 @@
 .jobTable {
+  width: 100%;
+  margin-top: 20px;
+  overflow-x: auto;
+
+  table {
     width: 100%;
-    margin: 20px auto;
     border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  
-    table {
-      width: 100%;
-      border: 1px solid #e0e0e0;
-  
-      th, td {
-        padding: 8px 15px;
-        text-align: center;
-        border-bottom: 1px solid #261ac2;
-        vertical-align: middle;
-        font-family: 'Arial', sans-serif;
-  
-        // Add some subtle text effects
-        font-size: 15px;
-        line-height: 1.6;
+    font-size: 16px;
+    background-color: #f9f9f9;
+
+    th, td {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      text-align: left;
+
+      &:first-child {
+        padding-left: 20px;
       }
-  
-      th {
-        background-color: #5d16e2;
-        border-radius: 5px;
-        font-weight: 400;
-        color: #ffffff;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+
+      &:last-child {
+        padding-right: 20px;
       }
-  
-      td {
-        color: #555;
-      }
-  
-      tr {
-        transition: background-color 0.3s ease-in-out;
-  
-        &:hover {
-          background-color: #fafafa;
-        }
-      }
-  
-      .clickable-jobId {
-        color: #007bff;
+    }
+
+    th {
+      border-radius: 5px;
+      background-color: #4caf50;
+      color: white;
+      position: relative;
+      
+      .filter-icon {
         cursor: pointer;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s, background-color 0.3s;
-  
+        margin-left: 10px;
+        font-size: 14px;
+        vertical-align: middle;
+
         &:hover {
-          color: #0056b3;
-          background-color: #f0f8ff;
+          color: #fff;
         }
       }
     }
-  
-    // Add responsiveness for smaller screens
-    @media (max-width: 768px) {
-      table {
-        th, td {
-          padding: 10px 12px;
-          font-size: 14px;
-        }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    .clickable-jobId {
+      color: #007bff;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
-  }
-  .filter-container {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-  
-    label {
-      margin-right: 10px;
-      font-weight: bold;
-    }
-  
-    select {
+
+    td select {
       padding: 5px;
-      font-size: 16px;
+      border-radius: 4px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      font-size: 14px;
     }
   }
-  
+}
+
+.filter-input {
+  width: 90%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  .filter-icon {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  .filter-icon {
+    font-size: 10px;
+  }
+
+  .filter-input, .filter-select {
+    font-size: 12px;
+  }
+}
