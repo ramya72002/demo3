@@ -11,6 +11,10 @@ const ZohoHeader = () => {
 
   return (
     <div className="header">
+      {/* Add an image to the left side */}
+      <div className="logo">
+        <img src="/images/hrlogo.png" alt="Logo" />
+      </div>
       <div className="menu">
         <a href="/zoho" className="menu-item">Dashboard</a>
         <a href="/zoho/jobopenings" className="menu-item">Job Openings</a>
