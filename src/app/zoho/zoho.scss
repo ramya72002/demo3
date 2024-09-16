@@ -102,10 +102,18 @@ body{
 }
 
 .client-job-summary {
-  display: flex;
-  justify-content: space-between;
+  display: flex; // Use flexbox for layout
+  justify-content: space-between; // Distribute space between the two sections
   gap: 10px; // Add spacing between the two sections
   margin-top: 15px; // Adjust the top margin if needed
+
+  // Optional: Apply styles for expanded state
+  &.expanded {
+    .client-summary,
+    .job-summary {
+      flex: 1; // Both boxes will grow equally to take up available space
+    }
+  }
 }
 
 .client-summary,
@@ -115,7 +123,12 @@ body{
   padding: 40px;
   border-radius: 10px;
   @include box-shadow;
+
+  // Optional: Set a minimum width to ensure the boxes don’t become too narrow
+  min-width: 0;
 }
+
+
 
 
 
@@ -127,6 +140,22 @@ body{
 }
 
 .box {
+  border: 1px solid $border-color;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  @include box-shadow;
+  transition: height 0.3s ease;
+  height: 200px;
+  overflow: hidden;
+
+  &.expanded {
+    height: 600px;
+  }
+}
+
+.box2 {
+  width: 50%;
   border: 1px solid $border-color;
   padding: 20px;
   border-radius: 8px;
@@ -349,6 +378,7 @@ body{
     font-weight: normal;
   }
   td{
+
     border: 1px solid $border-color;
   }
 
@@ -363,6 +393,7 @@ body{
 
 .client-summary {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   margin: 20px 0;
 
@@ -421,7 +452,6 @@ body{
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    
     border-radius: 5px;
   }
 

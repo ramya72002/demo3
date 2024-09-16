@@ -34,7 +34,7 @@ const JobOpeningSummary: React.FC<JobOpeningSummaryProps> = ({
   toggleExpand,
 }) => {
   return (
-    <div className={`box ${isExpanded ? 'expanded' : ''}`}>
+    <div className={`box2 ${isExpanded ? 'expanded' : ''}`}>
       <div className="sectionHeader">
         <h2>Job Opening Summary</h2>
         <button className="expandButton" onClick={toggleExpand}>
