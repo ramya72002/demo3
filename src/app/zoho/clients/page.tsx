@@ -49,7 +49,6 @@ const Clients: React.FC = () => {
 
   // Filter states
   const [filter, setFilter] = useState({
-    clientId: '',
     clientName: '',
     agency: '',
     clientManager: '',
@@ -57,18 +56,19 @@ const Clients: React.FC = () => {
   });
 
   // State for showing filter input fields
-  const [showFilter, setShowFilter] = useState<{ clientId: boolean; clientName: boolean }>({
-    clientId: false,
+  const [showFilter, setShowFilter] = useState<{ [key: string]: boolean }>({
     clientName: false,
+    agency: false,
+    clientManager: false,
+    clientStatus: false,
   });
-  
-  const toggleFilter = (field: 'clientId' | 'clientName') => {
+
+  const toggleFilter = (field: 'clientName' | 'agency' | 'clientManager' | 'clientStatus') => {
     setShowFilter((prev) => ({
       ...prev,
       [field]: !prev[field],
     }));
   };
-  
 
   // Fetch clients
   const fetchClients = async () => {
@@ -97,7 +97,7 @@ const Clients: React.FC = () => {
   const areAllJobsClosed = (clientName: string): boolean => {
     fetchJobs();
     const clientJobs = jobs.filter((job) => job.clientName === clientName);
-    console.log(jobs,clientJobs)
+    console.log(jobs, clientJobs);
     return clientJobs.every((job) => job.jobOpeningStatus === 'Close');
   };
 
@@ -109,7 +109,7 @@ const Clients: React.FC = () => {
         await fetchJobs(); // Ensure jobs are fetched
 
         const client = clientsData.find((client) => client.clientId === clientId);
-        console.log(client)
+        console.log(client);
         if (client && !areAllJobsClosed(client.clientName)) {
           alert('Cannot set status to Inactive. Some job openings are still open.');
           return;
@@ -170,7 +170,6 @@ const Clients: React.FC = () => {
   // Filtered clients data
   const filteredClients = clientsData.filter((client) => {
     return (
-      (filter.clientId === '' || client.clientId.includes(filter.clientId)) &&
       (filter.clientName === '' || client.clientName.toLowerCase().includes(filter.clientName.toLowerCase())) &&
       (filter.agency === '' || client.agency.toLowerCase().includes(filter.agency.toLowerCase())) &&
       (filter.clientManager === '' || client.clientManager.toLowerCase().includes(filter.clientManager.toLowerCase())) &&
@@ -192,23 +191,8 @@ const Clients: React.FC = () => {
           <table className="clients-table">
             <thead>
               <tr>
-                <th>
-                  ID
-                  <span className="filter-icon" onClick={() => toggleFilter('clientId')}>
-                    🔍
-                  </span>
-                  {showFilter.clientId && (
-                    <input
-                      type="text"
-                      placeholder="Filter by ID"
-                      value={filter.clientId}
-                      onChange={(e) => setFilter({ ...filter, clientId: e.target.value })}
-                      className="filter-input"
-                    />
-                  )}
-                </th>
-                <th>
-                  Client Name
+                <th>ID</th>
+                <th>Client Name
                   <span className="filter-icon" onClick={() => toggleFilter('clientName')}>
                     🔍
                   </span>
@@ -222,10 +206,49 @@ const Clients: React.FC = () => {
                     />
                   )}
                 </th>
-                <th>Agency</th>
+                <th>Agency
+                  <span className="filter-icon" onClick={() => toggleFilter('agency')}>
+                    🔍
+                  </span>
+                  {showFilter.agency && (
+                    <input
+                      type="text"
+                      placeholder="Filter by Agency"
+                      value={filter.agency}
+                      onChange={(e) => setFilter({ ...filter, agency: e.target.value })}
+                      className="filter-input"
+                    />
+                  )}
+                </th>
                 <th>OnBoarding Date</th>
-                <th>Client Manager</th>
-                <th>Client Status</th>
+                <th>Client Manager
+                  <span className="filter-icon" onClick={() => toggleFilter('clientManager')}>
+                    🔍
+                  </span>
+                  {showFilter.clientManager && (
+                    <input
+                      type="text"
+                      placeholder="Filter by Manager"
+                      value={filter.clientManager}
+                      onChange={(e) => setFilter({ ...filter, clientManager: e.target.value })}
+                      className="filter-input"
+                    />
+                  )}
+                </th>
+                <th>Client Status
+                  <span className="filter-icon" onClick={() => toggleFilter('clientStatus')}>
+                    🔍
+                  </span>
+                  {showFilter.clientStatus && (
+                    <input
+                      type="text"
+                      placeholder="Filter by Status"
+                      value={filter.clientStatus}
+                      onChange={(e) => setFilter({ ...filter, clientStatus: e.target.value })}
+                      className="filter-input"
+                    />
+                  )}
+                </th>
               </tr>
             </thead>
             <tbody>
