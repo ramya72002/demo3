@@ -57,7 +57,7 @@ const ClientSummary: React.FC<ClientSummaryProps> = ({
         <thead>
           <tr>
             <th>Client Name</th>
-            <th>Posting Title</th>
+            <th>Job Opening</th>
             <th>Job Status</th>
           </tr>
         </thead>

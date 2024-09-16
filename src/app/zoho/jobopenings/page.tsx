@@ -5,7 +5,6 @@ import axios from 'axios';
 import JobDetails from './jobDetails'; // Import the new JobDetails component
 import './jobopenings.scss';
 import { Job } from '../../types';
-import { FaFilter } from 'react-icons/fa'; // Importing filter icon
 
 const JobOpenings = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -91,7 +90,7 @@ const JobOpenings = () => {
               <th>ID</th>
               <th>
                 Job Opening
-                <FaFilter className="filter-icon" onClick={() => toggleFilter('jobOpening')} />
+                <span className="filter-icon" onClick={() => toggleFilter('jobOpening')}>🔍</span>
                 {showFilter.jobOpening && (
                   <input
                     type="text"
@@ -104,7 +103,7 @@ const JobOpenings = () => {
               </th>
               <th>
                 Client Name
-                <FaFilter className="filter-icon" onClick={() => toggleFilter('clientName')} />
+                <span className="filter-icon" onClick={() => toggleFilter('clientName')}>🔍</span>
                 {showFilter.clientName && (
                   <input
                     type="text"
@@ -117,7 +116,7 @@ const JobOpenings = () => {
               </th>
               <th>
                 Location
-                <FaFilter className="filter-icon" onClick={() => toggleFilter('location')} />
+                <span className="filter-icon" onClick={() => toggleFilter('location')}>🔍</span>
                 {showFilter.location && (
                   <input
                     type="text"
@@ -133,7 +132,7 @@ const JobOpenings = () => {
               <th>Target Date</th>
               <th>
                 Status
-                <FaFilter className="filter-icon" onClick={() => toggleFilter('status')} />
+                <span className="filter-icon" onClick={() => toggleFilter('status')}>🔍</span>
                 {showFilter.status && (
                   <select
                     value={filterStatus}

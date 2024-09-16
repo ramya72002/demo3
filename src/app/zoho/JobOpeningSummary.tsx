@@ -80,26 +80,26 @@ const JobOpeningSummary: React.FC<JobOpeningSummaryProps> = ({
         <table className="client-data">
           <thead>
             <tr>
-              <th>Job ID</th>
-              <th>Posting Title</th>
+              {/* <th>Job ID</th> */}
+              <th>Job Opening</th>
               <th>Client Name</th>
-              <th>Target Date</th>
+              {/* <th>Target Date</th>
               <th>Job Opening Status</th>
               <th>Location</th>
-              <th>Client Manager</th>
+              <th>Client Manager</th> */}
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {jobData.map((job) => (
               <tr key={job.jobId}>
-                <td>{job.jobId}</td>
+                {/* <td>{job.jobId}</td> */}
                 <td>{job.jobOpening}</td>
                 <td>{job.clientName}</td>
-                <td>{job.targetDate}</td>
+                {/* <td>{job.targetDate}</td>
                 <td>{job.jobOpeningStatus}</td>
                 <td>{job.location || 'N/A'}</td>
-                <td>{job.accountManager || 'N/A'}</td>
+                <td>{job.accountManager || 'N/A'}</td> */}
                 <td>{job.jobOpeningStatus === 'Open' ? 'Active' : 'Inactive'}</td>
               </tr>
             ))}
