@@ -49,7 +49,7 @@ const ClientSummary: React.FC<ClientSummaryProps> = ({
         <div className="client-card" onClick={() => handleClientFilter('all')}>
           <div className="client-info-box">
             <span className="client-number2">{totalCount}</span>
-            <span className="client-label">All Clients</span>
+            <span className="client-label">Total no. of Clients</span>
           </div>
         </div>
       </div>
