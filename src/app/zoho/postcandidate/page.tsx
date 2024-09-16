@@ -41,7 +41,7 @@ const PostCandidate = () => {
       jobOpening
     }));
 
-    // Fetch job data and update client names and posting titles
+    // Fetch job data and update client names and job openings
     const fetchJobs = async () => {
       try {
         const response = await axios.get<Job[]>('https://demo4-backendurl.vercel.app/jobs/getall');

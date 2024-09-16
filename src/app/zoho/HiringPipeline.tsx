@@ -4,6 +4,7 @@ import './zoho.scss'; // Ensure the styles are imported
 interface CandidateData {
   [key: string]: any;
 }
+
 type Section = 'pipeline' | 'ageOfJob' | 'sectionOne' | 'sectionTwo' | 'sectionThree' | 'newSection' | 'upcoming';
 
 interface HiringPipelineProps {
@@ -90,6 +91,11 @@ const HiringPipeline: React.FC<HiringPipelineProps> = ({ isExpanded, toggleExpan
           <tbody>
             {Object.keys(candidateData).map((clientKey) =>
               Object.keys(candidateData[clientKey]).map((jobKey) => {
+                // Skip the row if either jobKey or clientKey is empty
+                if (!clientKey || !jobKey) {
+                  return null;
+                }
+
                 const candidates = candidateData[clientKey][jobKey];
                 const stageCounts = getCandidateStageCounts(candidates);
 
