@@ -92,3 +92,17 @@
 .clients-container .clients-table th {
   background-color: #4caf50;
 }
+
+.filter-icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.filter-input {
+  display: block;
+  margin-top: 5px;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

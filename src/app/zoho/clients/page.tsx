@@ -56,6 +56,20 @@ const Clients: React.FC = () => {
     clientStatus: '',
   });
 
+  // State for showing filter input fields
+  const [showFilter, setShowFilter] = useState<{ clientId: boolean; clientName: boolean }>({
+    clientId: false,
+    clientName: false,
+  });
+  
+  const toggleFilter = (field: 'clientId' | 'clientName') => {
+    setShowFilter((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+  
+
   // Fetch clients
   const fetchClients = async () => {
     try {
@@ -170,42 +184,6 @@ const Clients: React.FC = () => {
       <div className="clients-container">
         <h2>Clients List</h2>
 
-        {/* Filter Section */}
-        <div className="filters">
-          <input
-            type="text"
-            placeholder="Filter by ID"
-            value={filter.clientId}
-            onChange={(e) => setFilter({ ...filter, clientId: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Filter by Name"
-            value={filter.clientName}
-            onChange={(e) => setFilter({ ...filter, clientName: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Filter by Agency"
-            value={filter.agency}
-            onChange={(e) => setFilter({ ...filter, agency: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Filter by Manager"
-            value={filter.clientManager}
-            onChange={(e) => setFilter({ ...filter, clientManager: e.target.value })}
-          />
-          <select
-            value={filter.clientStatus}
-            onChange={(e) => setFilter({ ...filter, clientStatus: e.target.value })}
-          >
-            <option value="">All Statuses</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-        </div>
-
         {loading ? (
           <p>Loading clients data...</p>
         ) : error ? (
@@ -214,8 +192,36 @@ const Clients: React.FC = () => {
           <table className="clients-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Client Name</th>
+                <th>
+                  ID
+                  <span className="filter-icon" onClick={() => toggleFilter('clientId')}>
+                    🔍
+                  </span>
+                  {showFilter.clientId && (
+                    <input
+                      type="text"
+                      placeholder="Filter by ID"
+                      value={filter.clientId}
+                      onChange={(e) => setFilter({ ...filter, clientId: e.target.value })}
+                      className="filter-input"
+                    />
+                  )}
+                </th>
+                <th>
+                  Client Name
+                  <span className="filter-icon" onClick={() => toggleFilter('clientName')}>
+                    🔍
+                  </span>
+                  {showFilter.clientName && (
+                    <input
+                      type="text"
+                      placeholder="Filter by Name"
+                      value={filter.clientName}
+                      onChange={(e) => setFilter({ ...filter, clientName: e.target.value })}
+                      className="filter-input"
+                    />
+                  )}
+                </th>
                 <th>Agency</th>
                 <th>OnBoarding Date</th>
                 <th>Client Manager</th>
